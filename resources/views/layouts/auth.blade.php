@@ -10,6 +10,7 @@
     <!-- Bootstrap Style -->
     <link href="{{ asset('public/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Fontawesome Style -->
+    <link href="{{ asset('public/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/css/fontawesome.min.css') }}" rel="stylesheet">
     <!-- Datatables -->
     <link href="{{ asset('public/css/datatables.min.css') }}" rel="stylesheet">
@@ -18,25 +19,25 @@
     <!-- Custom Styles -->
     <link href="{{ asset('public/css/styles.css') }}" rel="stylesheet">
     <!-- Custom Styles -->
-    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/css/styles.css') }}" rel="stylesheet">
 </head>
 
 <body>
     <div class="wrapper">
-        <aside id="sidebar" class="bg-theme-primary expand">
+        <aside id="sidebar" class="bg-primary expand">
             <div class="d-flex gap-1 justify-content-center pt-4">
                 <div class="site-log">
-                    <a href="/dashboard">
-                        <img src="{{ asset('img/eggcellent-logo.webp') }}" width="70" alt="pereyras-logo">
+                    <a href="{{ url('/dashboard') }}">
+                        <img src="{{ asset('public/img/jbp-icon.png') }}" width="70" alt="jbp-logo">
                     </a>
                 </div>
                 <div class="sidebar-logo">
-                    <a href="/dashboard">JPB HERITAGE</a>
+                    <a href="{{ url('/dashboard') }}">JPB HERITAGE</a>
                 </div>
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="/dashboard" class="sidebar-link">
+                    <a href="{{ url('/dashboard') }}" class="sidebar-link">
                         <i class="fa fa-home"></i>
                         <span>Dashboard</span>
                     </a>
@@ -113,15 +114,16 @@
     <!-- Datatables -->
     <script src="{{ asset('public/js/datatables.min.js') }}"></script>
     <!-- Fontawesome Script -->
+    <script src="{{ asset('public/js/all.min.js') }}"></script>
     <script src="{{ asset('public/js/fontawesome.min.js') }}"></script>
     <!-- Select2 Script -->
     <script src="{{ asset('public/js/select2.min.js') }}"></script>
 
     <!-- Print.js JS -->
-    <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+    <script src="{{ asset('public/js/print.min.js') }}"></script>
 
     <!--Custom Script -->
-    <script src="{{ asset('js/script.js') }}"></script>
+    <script src="{{ asset('public/js/script.js') }}"></script>
     <script>
         function hideAlerts(delay = 3000) {
             console.log('Hiding alerts');

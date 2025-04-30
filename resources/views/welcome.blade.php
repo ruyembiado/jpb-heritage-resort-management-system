@@ -53,7 +53,7 @@
                     @endforeach
                 </div>
             @endif
-            <form action="" method="post">
+            <form action="{{ route('login') }}" method="post">
                 @csrf
 
                 <div class="mb-2">
