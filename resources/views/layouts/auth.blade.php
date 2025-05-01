@@ -42,6 +42,12 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a href="{{ url('/log-book') }}" class="sidebar-link">
+                        <i class="fa fa-home"></i>
+                        <span>Visitor's Log Book</span>
+                    </a>
+                </li>
             </ul>
         </aside>
         <div class="main bg-gradient">
@@ -60,22 +66,14 @@
                         @endauth
                         <li class="nav-item dropdown">
                             <a href="#" data-bs-toggle="dropdown" class="nav-stat-icon pe-md-0">
-                                <a data-bs-toggle="dropdown" class="nav-stat-icon pe-md-0" href="#">
-                                    <i class="text-dark fas fa-user-circle avatar"></i>
-                                </a>
+                                <i class="text-dark fas fa-user-circle avatar"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end rounded animated--fade-in">
                                 <a class="dropdown-item" href="">
                                     <i class="text-primary fas fa-user fa-sm fa-fw mr-2"></i>
                                     Profile
                                 </a>
-                                {{-- 
-                                <a class="dropdown-item" href="#">
-                                    <i class="text-primary fas fa-cogs fa-sm fa-fw mr-2"></i>
-                                    Settings
-                                </a>
-                                <div class="dropdown-divider"></div> --}}
-                                <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#logoutModal">
                                     <i class="text-primary fas fa-sign-out-alt fa-sm fa-fw mr-2"></i>
                                     Logout
                                 </a>
@@ -115,7 +113,7 @@
     <script src="{{ asset('public/js/datatables.min.js') }}"></script>
     <!-- Fontawesome Script -->
     <script src="{{ asset('public/js/all.min.js') }}"></script>
-    <script src="{{ asset('public/js/fontawesome.min.js') }}"></script>
+    {{-- <script src="{{ asset('public/js/fontawesome.min.js') }}"></script> --}}
     <!-- Select2 Script -->
     <script src="{{ asset('public/js/select2.min.js') }}"></script>
 
