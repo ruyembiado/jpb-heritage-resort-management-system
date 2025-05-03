@@ -38,6 +38,8 @@
                         <tr>
                             <th>No.</th>
                             <th>Name</th>
+                            <th>Gender</th>
+                            <th>Age</th>
                             <th class="text-start">Members</th>
                             <th class="text-start">Contact No.</th>
                             <th>Address</th>
@@ -52,6 +54,8 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $visitor->first_name . ' ' . $visitor->middle_name . ' ' . $visitor->last_name }}
                                 </td>
+                                <td class="text-start">{{ $visitor->gender }}</td>
+                                <td class="text-start">{{ $visitor->age }}</td>
                                 <td class="text-start">{{ $visitor->members }}</td>
                                 <td class="text-start">{{ $visitor->contact_number }}</td>
                                 <td>{{ $visitor->address }}</td>

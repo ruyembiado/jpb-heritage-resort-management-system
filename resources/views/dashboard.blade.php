@@ -92,7 +92,7 @@
                         <div class="row align-items-center justify-content-between">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                                    Request Visitors | This Month</div>
+                                    Visitors | This Month</div>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
@@ -100,6 +100,8 @@
                                         <tr>
                                             <th>No.</th>
                                             <th>Name</th>
+                                            <th>Gender</th>
+                                            <th>Age</th>
                                             <th class="text-start">Members</th>
                                             <th class="text-start">Contact No.</th>
                                             <th>Address</th>
@@ -113,10 +115,13 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $visitor->first_name . ' ' . $visitor->middle_name . ' ' . $visitor->last_name }}
                                                 </td>
+                                                <td class="text-start">{{ $visitor->gender }}</td>
+                                                <td class="text-start">{{ $visitor->age }}</td>
                                                 <td class="text-start">{{ $visitor->members }}</td>
                                                 <td class="text-start">{{ $visitor->contact_number }}</td>
                                                 <td>{{ $visitor->address }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}
+                                                </td>
                                                 {{-- <td>{{ \Carbon\Carbon::parse($visitor->created_at)->format('F j, Y \a\t h:i A') }}</td> --}}
                                             </tr>
                                         @endforeach

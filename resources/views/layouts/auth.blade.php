@@ -122,7 +122,7 @@
                 </div>
             </main>
             <footer class="footer py-3 shadow text-center">
-                <div class="d-flex justify-content-between px-3">
+                <div class="d-flex justify-content-center px-3">
                     <div class="">© 2025 JPB OASIS. All rights reserved.</div>
                 </div>
             </footer>
