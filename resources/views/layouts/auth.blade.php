@@ -38,14 +38,38 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
                     <a href="{{ url('/dashboard') }}" class="sidebar-link">
-                        <i class="fa fa-home"></i>
+                        <i class="fa fa-dashboard"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a href="{{ url('/log-book') }}" class="sidebar-link">
-                        <i class="fa fa-home"></i>
+                        <i class="fa fa-book"></i>
                         <span>Visitor's Log Book</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{{ url('/log-book') }}" class="sidebar-link">
+                        <i class="fa fa-users"></i>
+                        <span>Staff Management</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{{ url('/log-book') }}" class="sidebar-link">
+                        <i class="fa fa-tasks"></i>
+                        <span>Services Management</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{{ url('/log-book') }}" class="sidebar-link">
+                        <i class="fa fa-money-bill"></i>
+                        <span>Visitor's Bill Summary</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{{ url('/log-book') }}" class="sidebar-link">
+                        <i class="fa fa-file"></i>
+                        <span>Reports Management</span>
                     </a>
                 </li>
             </ul>

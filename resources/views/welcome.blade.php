@@ -82,18 +82,11 @@
     </div>
 @endsection
 
-<script>
-    window.addEventListener('DOMContentLoaded', (event) => {
-        @if ($errors->any())
-            @if (old('email') && !old('name'))
-                // Open login offcanvas if email exists but not name (login form)
-                var loginOffcanvas = new bootstrap.Offcanvas(document.getElementById('loginOffcanvas'));
-                loginOffcanvas.show();
-            @else
-                // Open register offcanvas if name exists (register form)
-                var registerOffcanvas = new bootstrap.Offcanvas(document.getElementById('registerOffcanvas'));
-                registerOffcanvas.show();
-            @endif
-        @endif
-    });
-</script>
+@if ($errors->any())
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var loginOffcanvas = new bootstrap.Offcanvas(document.getElementById('loginOffcanvas'));
+            loginOffcanvas.show();
+        });
+    </script>
+@endif

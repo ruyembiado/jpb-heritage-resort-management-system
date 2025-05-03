@@ -25,4 +25,7 @@ Route::middleware(['auth'])->group(function () {
 
     // VisitorController routes
     Route::get('/log-book', [VisitorController::class, 'index'])->name('logbook');
+    Route::post('/add-visitor', [VisitorController::class, 'store'])->name('visitor.store');
+    Route::put('/update-visitor', [VisitorController::class, 'update'])->name('visitor.update');
+    Route::delete('/delete-visitor/{id}', [VisitorController::class, 'destroy'])->name('visitor.destroy');
 });

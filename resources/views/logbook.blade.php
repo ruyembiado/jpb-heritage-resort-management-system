@@ -11,29 +11,75 @@
     <!-- Content Row -->
     <div class="card shadow mb-4">
         <div class="card-body">
+
+            <form method="GET" action="" class="" id="dateRangeForm">
+                <div class="d-flex justify-content-start gap-2 align-items-end mb-4">
+                    <div class="d-flex flex-column align-items-start" style="width: auto;">
+                        <label for="date" class="mb-0">Start Date:</label>
+                        <input type="date" name="start_date" value="{{ $start_date }}"
+                            class="form-control form-control-sm" style="width: auto;" id="start_date" />
+                    </div>
+                    <div class="d-flex flex-column align-items-start" style="width: auto;">
+                        <label for="date" class="mb-0">End Date:</label>
+                        <input type="date" name="end_date" value="{{ $end_date }}"
+                            class="form-control form-control-sm" style="width: auto;" id="end_date" />
+                    </div>
+
+                    <a href="{{ url()->current() }}" class="btn btn-sm btn-danger">
+                        <i class="fas fa-times"></i> Clear
+                    </a>
+                </div>
+            </form>
+
+
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>No.</th>
                             <th>Name</th>
-                            <th>Age</th>
+                            <th class="text-start">Members</th>
+                            <th class="text-start">Contact No.</th>
                             <th>Address</th>
-                            <th>Contact No.</th>
-                            <th>Date Created</th>
+                            <th>Date</th>
+                            {{-- <th>Date Created</th> --}}
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        @foreach ($visitors as $visitor)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $visitor->first_name . ' ' . $visitor->middle_name . ' ' . $visitor->last_name }}
+                                </td>
+                                <td class="text-start">{{ $visitor->members }}</td>
+                                <td class="text-start">{{ $visitor->contact_number }}</td>
+                                <td>{{ $visitor->address }}</td>
+                                <td>{{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}</td>
+                                {{-- <td>{{ \Carbon\Carbon::parse($visitor->created_at)->format('F j, Y \a\t h:i A') }}</td> --}}
+                                <td class="d-flex gap-2">
+                                    <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#editVisitorModal" data-id="{{ $visitor->id }}"
+                                        data-first_name="{{ $visitor->first_name }}"
+                                        data-middle_name="{{ $visitor->middle_name }}"
+                                        data-last_name="{{ $visitor->last_name }}"
+                                        data-contact_number="{{ $visitor->contact_number }}"
+                                        data-gender="{{ $visitor->gender }}" data-age="{{ $visitor->age }}"
+                                        data-members="{{ $visitor->members }}" data-address="{{ $visitor->address }}"
+                                        data-date_visit="{{ $visitor->date_visit }}">
+                                        Edit
+                                    </a>
+                                    <form action="{{ route('visitor.destroy', $visitor->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure you want to delete this visitor?')">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -45,7 +91,7 @@
     <div class="modal fade" id="addVisitorModal" tabindex="-1" role="dialog" aria-labelledby="addVisitorModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <form action="" method="POST">
+            <form action="{{ route('visitor.store') }}" method="POST">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
@@ -56,14 +102,15 @@
                         <!-- Visitor Name -->
 
                         <div class="form-group mb-2 col-3">
-                            <label for="date">Date</label>
-                            <input type="date" name="date" value="{{ now()->toDateString() }}" class="form-control" required />
+                            <label for="date_visit">Date</label>
+                            <input type="date" name="date_visit" value="{{ now()->toDateString() }}"
+                                class="form-control" required />
                         </div>
 
                         <div class="form-group mb-2">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="col-4 first-name">
-                                    <label for="first-name">Name</label>
+                                    <label for="first-name">First Name</label>
                                     <input type="text" name="first_name" class="form-control" required>
                                 </div>
                                 <div class="col-3 middle-name">
@@ -79,9 +126,9 @@
 
                         <div class="form-group mb-2">
                             <div class="d-flex align-items-center gap-3">
-                                <div class="contact-no col-3">
-                                    <label for="contact-no">Contact No.</label>
-                                    <input type="text" name="contact_no" class="form-control" required>
+                                <div class="contact_number col-3">
+                                    <label for="contact_number">Contact No.</label>
+                                    <input type="text" name="contact_number" class="form-control" required>
                                 </div>
 
                                 <div class="gender col-3">
@@ -100,7 +147,7 @@
 
                                 <div class="members col-2">
                                     <label for="members">Members</label>
-                                    <input type="number" name="contact_no" min="1" value="1"
+                                    <input type="number" name="members" min="1" value="1"
                                         class="form-control" required>
                                 </div>
                             </div>
@@ -121,4 +168,153 @@
             </form>
         </div>
     </div>
+
+    <!-- Edit Visitor Modal -->
+    <div class="modal fade" id="editVisitorModal" tabindex="-1" role="dialog" aria-labelledby="editVisitorModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <form action="{{ route('visitor.update') }}" id="editVisitorForm" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editVisitorModalLabel">Edit Visitor</h5>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="visitor_id" id="visitor_id">
+
+                        <div class="form-group mb-2 col-3">
+                            <label for="date_visit">Date Visit</label>
+                            <input type="date" name="date_visit" id="edit_date_visit" class="form-control" required>
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="col-4 first-name">
+                                    <label for="first_name">First Name</label>
+                                    <input type="text" name="first_name" id="edit_first_name" class="form-control"
+                                        required>
+                                </div>
+                                <div class="col-3 middle-name">
+                                    <label for="middle_name">Middle Name</label>
+                                    <input type="text" name="middle_name" id="edit_middle_name" class="form-control">
+                                </div>
+                                <div class="col-4 last-name">
+                                    <label for="last_name">Last Name</label>
+                                    <input type="text" name="last_name" id="edit_last_name" class="form-control"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="contact_number col-3">
+                                    <label for="contact_number">Contact No.</label>
+                                    <input type="text" name="contact_number" id="edit_contact_number"
+                                        class="form-control" required>
+                                </div>
+
+                                <div class="gender col-3">
+                                    <label for="gender">Gender</label>
+                                    <select name="gender" id="edit_gender" class="form-control" required>
+                                        <option value="">Select gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+
+                                <div class="age col-2">
+                                    <label for="age">Age</label>
+                                    <input type="number" name="age" id="edit_age" class="form-control" required>
+                                </div>
+
+                                <div class="members col-2">
+                                    <label for="members">Members</label>
+                                    <input type="number" name="members" id="edit_members" class="form-control"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label for="address">Address</label>
+                            <textarea name="address" id="edit_address" class="form-control" required></textarea>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update Visitor</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 @endsection <!-- End the content section -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Edit Visitor Modal Populating
+        const modal = document.getElementById('editVisitorModal');
+        modal.addEventListener('show.bs.modal', function(e) {
+            var button = e.relatedTarget; // Button that triggered the modal
+
+            // Fetch data-* attributes
+            var id = button.getAttribute('data-id');
+            var first_name = button.getAttribute('data-first_name');
+            var middle_name = button.getAttribute('data-middle_name');
+            var last_name = button.getAttribute('data-last_name');
+            var contact_number = button.getAttribute('data-contact_number');
+            var gender = button.getAttribute('data-gender');
+            var age = button.getAttribute('data-age');
+            var members = button.getAttribute('data-members');
+            var address = button.getAttribute('data-address');
+            var date_visit = button.getAttribute('data-date_visit');
+
+            // Log the data to the console for debugging
+            console.log("Edit Modal Data:", {
+                id,
+                first_name,
+                middle_name,
+                last_name,
+                contact_number,
+                gender,
+                age,
+                members,
+                address,
+                date_visit
+            });
+
+            // Set the values of the modal fields
+            document.getElementById('visitor_id').value = id;
+            document.getElementById('edit_first_name').value = first_name;
+            document.getElementById('edit_middle_name').value = middle_name;
+            document.getElementById('edit_last_name').value = last_name;
+            document.getElementById('edit_contact_number').value = contact_number;
+            document.getElementById('edit_gender').value = gender;
+            document.getElementById('edit_age').value = age;
+            document.getElementById('edit_members').value = members;
+            document.getElementById('edit_address').value = address;
+            document.getElementById('edit_date_visit').value = date_visit;
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add event listeners for input changes
+        document.getElementById('start_date').addEventListener('change', validateAndSubmit);
+        document.getElementById('end_date').addEventListener('change', validateAndSubmit);
+
+        function validateAndSubmit() {
+            var startDate = document.getElementById('start_date').value;
+            var endDate = document.getElementById('end_date').value;
+
+            // Check if both dates are filled out
+            if (startDate && endDate) {
+                document.getElementById('dateRangeForm').submit(); // Submit the form if both dates are provided
+            }
+        }
+    });
+</script>
