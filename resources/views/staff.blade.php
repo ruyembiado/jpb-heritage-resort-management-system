@@ -83,7 +83,7 @@
     </div>
     <!-- Content Row -->
 
-    <!-- Add Visitor Modal -->
+    <!-- Add Staff Modal -->
     <div class="modal fade" id="addStaffModal" tabindex="-1" role="dialog" aria-labelledby="addStaffModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -97,6 +97,15 @@
                     <div class="modal-body">
                         <div class="form-group mb-2">
                             <div class="d-flex align-items-start gap-3">
+                                <div class="form-group">
+                                    <label for="designation">Status</label>
+                                    <select name="designation" class="form-control" id="" required>
+                                        <option value="">Select Status</option>
+                                        <option value="Manager">Hired</option>
+                                        <option value="Staff">Resigned</option>
+                                    </select>
+                                </div>
+
                                 <div class="form-group col-3">
                                     <label for="date_hired">Date Hired</label>
                                     <input type="date" name="date_hired" value="" class="form-control" required />
@@ -107,7 +116,7 @@
                                     <input type="date" name="date_resigned" value="" class="form-control" />
                                 </div>
 
-                                <div class="col-4 staff-id">
+                                <div class="col-3 staff-id">
                                     <label for="staff-id">Staff ID</label>
                                     <input type="text" name="staff_id" class="form-control" required>
                                 </div>
@@ -180,15 +189,6 @@
                                         <option value="Intern">Event Coordinator</option>
                                     </select>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="designation">Status</label>
-                                    <select name="designation" class="form-control" id="" required>
-                                        <option value="">Select Status</option>
-                                        <option value="Manager">Hired</option>
-                                        <option value="Staff">Resigned</option>
-                                    </select>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -196,89 +196,6 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">Add Staff</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edit Visitor Modal -->
-    <div class="modal fade" id="editVisitorModal" tabindex="-1" role="dialog" aria-labelledby="editVisitorModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <form action="{{ route('visitor.update') }}" id="editVisitorForm" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editVisitorModalLabel">Edit Visitor</h5>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" name="visitor_id" id="visitor_id">
-
-                        <div class="form-group mb-2 col-3">
-                            <label for="date_visit">Date Visit</label>
-                            <input type="date" name="date_visit" id="edit_date_visit" class="form-control" required>
-                        </div>
-
-                        <div class="form-group mb-2">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="col-4 first-name">
-                                    <label for="first_name">First Name</label>
-                                    <input type="text" name="first_name" id="edit_first_name" class="form-control"
-                                        required>
-                                </div>
-                                <div class="col-3 middle-name">
-                                    <label for="middle_name">Middle Name</label>
-                                    <input type="text" name="middle_name" id="edit_middle_name" class="form-control">
-                                </div>
-                                <div class="col-4 last-name">
-                                    <label for="last_name">Last Name</label>
-                                    <input type="text" name="last_name" id="edit_last_name" class="form-control"
-                                        required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group mb-2">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="contact_number col-3">
-                                    <label for="contact_number">Contact No.</label>
-                                    <input type="text" name="contact_number" id="edit_contact_number"
-                                        class="form-control" required>
-                                </div>
-
-                                <div class="gender col-3">
-                                    <label for="gender">Gender</label>
-                                    <select name="gender" id="edit_gender" class="form-control" required>
-                                        <option value="">Select gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                </div>
-
-                                <div class="age col-2">
-                                    <label for="age">Age</label>
-                                    <input type="number" name="age" id="edit_age" class="form-control" required>
-                                </div>
-
-                                <div class="members col-2">
-                                    <label for="members">Members</label>
-                                    <input type="number" name="members" id="edit_members" class="form-control"
-                                        required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group mb-2">
-                            <label for="address">Address</label>
-                            <textarea name="address" id="edit_address" class="form-control" required></textarea>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Update Visitor</button>
                     </div>
                 </div>
             </form>
@@ -336,18 +253,23 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Add event listeners for input changes
-        document.getElementById('start_date').addEventListener('change', validateAndSubmit);
-        document.getElementById('end_date').addEventListener('change', validateAndSubmit);
+        const statusSelect = document.querySelector('select[name="designation"]');
+        const dateResignedGroup = document.querySelector('input[name="date_resigned"]').closest('.form-group');
 
-        function validateAndSubmit() {
-            var startDate = document.getElementById('start_date').value;
-            var endDate = document.getElementById('end_date').value;
+        // Initially hide the "Date Resigned" input
+        dateResignedGroup.style.display = 'none';
 
-            // Check if both dates are filled out
-            if (startDate && endDate) {
-                document.getElementById('dateRangeForm').submit(); // Submit the form if both dates are provided
+        statusSelect.addEventListener('change', function() {
+            if (statusSelect.value === 'Staff') { // Assuming "Staff" means "Resigned"
+                dateResignedGroup.style.display = 'block';
+                document.querySelector('input[name="date_resigned"]').setAttribute('required',
+                    'required');
+            } else {
+                dateResignedGroup.style.display = 'none';
+                const dateResignedInput = document.querySelector('input[name="date_resigned"]');
+                dateResignedInput.removeAttribute('required');
+                dateResignedInput.value = '';
             }
-        }
+        });
     });
 </script>

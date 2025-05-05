@@ -97,7 +97,7 @@
                                     <i class="text-primary fas fa-user fa-sm fa-fw mr-2"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="{{ url('/logout') }}" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                                <a class="dropdown-item" href="{{ url('/logout') }}">
                                     <i class="text-primary fas fa-sign-out-alt fa-sm fa-fw mr-2"></i>
                                     Logout
                                 </a>

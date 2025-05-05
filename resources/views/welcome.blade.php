@@ -2,17 +2,17 @@
 
 @section('content')
     <main class="content px-3 py-4 col-12 home-bg d-flex justify-content-start align-items-center" id="page-top">
-        @if (session('success'))
-            <div class="alert alert-success" role="alert">
-                {{ session('success') }}
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger" role="alert">
-                {{ session('error') }}
-            </div>
-        @endif
         <div class="container-fluid col-10 m-auto">
+            @if (session('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger" role="alert">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="row justify-content-center align-items-center gap-3">
                 <div class="title-container">
                     <h6 class="text-light welcome-text m-0">Welcome to</h6>
