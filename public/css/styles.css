@@ -284,3 +284,7 @@ h1.home-title {
     position: relative;
     z-index: 2;
 }
+
+#sidebar {
+    background-color: #557A46 !important;
+}

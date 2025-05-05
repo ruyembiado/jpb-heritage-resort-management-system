@@ -24,7 +24,7 @@
             <nav class="navbar-expand px-4 py-1 shadow-sm">
                 <div class="col-10 m-auto d-flex justify-content-between flex-wrap align-items-center">
                     <div class="d-flex flex-wrap align-items-center">
-                        <img src="{{ asset('public/img/jbp-icon.png') }}" width="70" alt="jbp-logo">
+                        <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
                         <h5 class="ms-2 mb-0 text-dark">JPB OASIS: HERITAGE INLAND RESORT</h5>
                     </div>
                     <div class="d-flex align-items-center gap-5">

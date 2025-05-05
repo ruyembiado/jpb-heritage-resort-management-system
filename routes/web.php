@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StaffController;
 use App\Http\Controllers\VisitorController;
 
 /*
@@ -18,6 +19,7 @@ use App\Http\Controllers\VisitorController;
 Route::get('/', [AuthController::class, 'index']);
 Route::get('/login', [AuthController::class, 'index']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     // AuthController routes
@@ -28,4 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/add-visitor', [VisitorController::class, 'store'])->name('visitor.store');
     Route::put('/update-visitor', [VisitorController::class, 'update'])->name('visitor.update');
     Route::delete('/delete-visitor/{id}', [VisitorController::class, 'destroy'])->name('visitor.destroy');
+
+    // StaffController routes
+    Route::get('/staff', [StaffController::class, 'index'])->name('staff');
 });

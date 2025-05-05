@@ -24,11 +24,11 @@
 
 <body>
     <div class="wrapper">
-        <aside id="sidebar" class="bg-primary expand">
+        <aside id="sidebar" class="bg-primary-theme expand">
             <div class="d-flex gap-1 justify-content-center pt-4">
                 <div class="site-log">
                     <a href="{{ url('/dashboard') }}">
-                        <img src="{{ asset('public/img/jbp-icon.png') }}" width="70" alt="jbp-logo">
+                        <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
                     </a>
                 </div>
                 <div class="sidebar-logo">
@@ -49,7 +49,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{{ url('/log-book') }}" class="sidebar-link">
+                    <a href="{{ url('/staff') }}" class="sidebar-link">
                         <i class="fa fa-users"></i>
                         <span>Staff Management</span>
                     </a>
@@ -97,7 +97,7 @@
                                     <i class="text-primary fas fa-user fa-sm fa-fw mr-2"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                                <a class="dropdown-item" href="{{ url('/logout') }}" data-bs-toggle="modal" data-bs-target="#logoutModal">
                                     <i class="text-primary fas fa-sign-out-alt fa-sm fa-fw mr-2"></i>
                                     Logout
                                 </a>
