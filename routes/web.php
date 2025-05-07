@@ -33,4 +33,7 @@ Route::middleware(['auth'])->group(function () {
 
     // StaffController routes
     Route::get('/staff', [StaffController::class, 'index'])->name('staff');
+    Route::post('/add-staff', [StaffController::class, 'store'])->name('staff.store');
+    Route::post('/update-staff', [StaffController::class, 'update'])->name('staff.update');
+    Route::delete('/delete-staff/{id}', [StaffController::class, 'destroy'])->name('staff.destroy');
 });

@@ -61,26 +61,28 @@
                                 <td>{{ $visitor->address }}</td>
                                 <td>{{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}</td>
                                 {{-- <td>{{ \Carbon\Carbon::parse($visitor->created_at)->format('F j, Y \a\t h:i A') }}</td> --}}
-                                <td class="d-flex gap-2">
-                                    <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#editVisitorModal" data-id="{{ $visitor->id }}"
-                                        data-first_name="{{ $visitor->first_name }}"
-                                        data-middle_name="{{ $visitor->middle_name }}"
-                                        data-last_name="{{ $visitor->last_name }}"
-                                        data-contact_number="{{ $visitor->contact_number }}"
-                                        data-gender="{{ $visitor->gender }}" data-age="{{ $visitor->age }}"
-                                        data-members="{{ $visitor->members }}" data-address="{{ $visitor->address }}"
-                                        data-date_visit="{{ $visitor->date_visit }}">
-                                        Edit
-                                    </a>
-                                    <form action="{{ route('visitor.destroy', $visitor->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Are you sure you want to delete this visitor?')">
-                                            Delete
-                                        </button>
-                                    </form>
+                                <td>
+                                    <div class="d-flex align-items-center justify-c gap-2">
+                                        <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#editVisitorModal" data-id="{{ $visitor->id }}"
+                                            data-first_name="{{ $visitor->first_name }}"
+                                            data-middle_name="{{ $visitor->middle_name }}"
+                                            data-last_name="{{ $visitor->last_name }}"
+                                            data-contact_number="{{ $visitor->contact_number }}"
+                                            data-gender="{{ $visitor->gender }}" data-age="{{ $visitor->age }}"
+                                            data-members="{{ $visitor->members }}" data-address="{{ $visitor->address }}"
+                                            data-date_visit="{{ $visitor->date_visit }}">
+                                            Edit
+                                        </a>
+                                        <form action="{{ route('visitor.destroy', $visitor->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Are you sure you want to delete this visitor?')">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
