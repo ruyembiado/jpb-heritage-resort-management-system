@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VisitorController;
 
 /*
@@ -30,10 +31,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/add-visitor', [VisitorController::class, 'store'])->name('visitor.store');
     Route::put('/update-visitor', [VisitorController::class, 'update'])->name('visitor.update');
     Route::delete('/delete-visitor/{id}', [VisitorController::class, 'destroy'])->name('visitor.destroy');
+    Route::get('/get-visitor-members/{id}', [VisitorController::class, 'getVisitorMembers']);
 
     // StaffController routes
     Route::get('/staff', [StaffController::class, 'index'])->name('staff');
     Route::post('/add-staff', [StaffController::class, 'store'])->name('staff.store');
     Route::post('/update-staff', [StaffController::class, 'update'])->name('staff.update');
     Route::delete('/delete-staff/{id}', [StaffController::class, 'destroy'])->name('staff.destroy');
+
+    // ServiceController routes
+    Route::get('/services', [ServiceController::class, 'index'])->name('services');
+    Route::get('/entrances', [ServiceController::class, 'entrances'])->name('entrances');
+    Route::post('/add-entrance', [ServiceController::class, 'storeEntrance'])->name('entrance.store');
 });

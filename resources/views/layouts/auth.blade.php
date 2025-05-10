@@ -16,8 +16,8 @@
     <link href="{{ asset('public/css/datatables.min.css') }}" rel="stylesheet">
     <!-- Select2 Style -->
     <link href="{{ asset('public/css/select2.min.css') }}" rel="stylesheet">
-    <!-- Custom Styles -->
-    <link href="{{ asset('public/css/styles.css') }}" rel="stylesheet">
+    <!-- Select2 Bootstrap Styles -->
+    <link href="{{ asset('public/css/select2-bootstrap4.min.css') }}" rel="stylesheet">
     <!-- Custom Styles -->
     <link href="{{ asset('public/css/styles.css') }}" rel="stylesheet">
 </head>
@@ -55,7 +55,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{{ url('/log-book') }}" class="sidebar-link">
+                    <a href="{{ url('/services') }}" class="sidebar-link">
                         <i class="fa fa-tasks"></i>
                         <span>Services Management</span>
                     </a>

@@ -11,6 +11,10 @@ class AuthController extends Controller
 {
     public function index()
     {
+        if (auth()->check()) {
+            return redirect('/dashboard');
+        }
+
         return view('welcome');
     }
 

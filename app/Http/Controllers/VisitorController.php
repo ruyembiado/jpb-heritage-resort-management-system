@@ -19,9 +19,10 @@ class VisitorController extends Controller
 
         if ($start_date && $end_date) {
             $query->whereBetween('date_visit', [$start_date, $end_date]);
-        } else {
-            $query->whereDate('date_visit', now()->toDateString());
         }
+        // else {
+        //     $query->whereDate('date_visit', now()->toDateString());
+        // }
 
         $visitors = $query->get();
 
@@ -90,5 +91,13 @@ class VisitorController extends Controller
         $visitor = Visitor::findOrFail($id);
         $visitor->delete();
         return redirect()->route('logbook')->with('success', 'Visitor deleted successfully.');
+    }
+
+    public function getVisitorMembers($visitor_id)
+    {
+        $visitor = Visitor::findOrFail($visitor_id);
+        return response()->json([
+            'members' => $visitor->members,
+        ]);
     }
 }

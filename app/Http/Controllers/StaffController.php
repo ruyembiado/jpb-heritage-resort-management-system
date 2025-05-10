@@ -56,6 +56,10 @@ class StaffController extends Controller
             'date_resigned' => 'nullable',
         ]);
 
+        if ($request->date_resigned === null) {
+            $request->merge(['date_resigned' => null]);
+        }
+
         $staff->update($request->all());
 
         return redirect()->back()->with('success', 'Staff updated successfully.');
