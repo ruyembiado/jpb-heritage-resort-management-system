@@ -245,7 +245,8 @@
         aria-labelledby="editEntranceModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <form action="{{ route('entrance.update') }}" method="POST">
-                <input type="hidden" name="id" id="edit_entrance_id">
+                <input type="hidden" name="entrance_id" id="edit_entrance_id">
+                <input type="hidden" name="visitor_id" id="_visitor_id">
                 @csrf
                 @method('PUT')
                 <div class="modal-content">
@@ -257,8 +258,8 @@
                             <div class="d-flex align-items-start gap-1">
                                 <div class="form-group col-6">
                                     <label for="visitor_id">Name</label>
-                                    <select disabled name="visitor_id" class="form-control select2" id="edit_visitor_id" required
-                                        data-placeholder="Select a visitor">
+                                    <select disabled name="visitor_id" class="form-control select2" id="edit_visitor_id"
+                                        required data-placeholder="Select a visitor">
                                         <option></option>
                                         @foreach ($visitors as $visitor)
                                             <option value="{{ $visitor->id }}">{{ $visitor->first_name }}
@@ -335,15 +336,15 @@
                                             </td>
                                             <td width="25%" style="padding: 5px;">
                                                 <input class="form-control" type="number" name="members[]"
-                                                    min="0" value="" required>
+                                                    min="0" value="">
                                             </td>
                                             <td style="padding: 5px;">
                                                 <input class="form-control" type="text" name="age[]"
                                                     value="{{ $category['age'] }}" readonly>
                                             </td>
                                             <td style="padding: 5px;">
-                                                <input class="form-control" type="text" id="" name="fee[]" min="0"
-                                                    value="{{ $category['price'] }}" readonly>
+                                                <input class="form-control" type="text" id="" name="fee[]"
+                                                    min="0" value="{{ $category['price'] }}" readonly>
                                             </td>
                                             <td>
                                                 <input type="text" readonly id="sub-total" class="form-control"
@@ -510,11 +511,14 @@
 
                 document.getElementById('edit_entrance_id').value = entranceId;
                 $('#edit_visitor_id').val(visitorId).trigger('change');
+                $('#_visitor_id').val(visitorId);
 
                 // Target all members inputs
-                const memberInputs = document.querySelectorAll('#editEntranceModal input[name="members[]"]');
+                const memberInputs = document.querySelectorAll(
+                    '#editEntranceModal input[name="members[]"]');
                 const feeInputs = document.querySelectorAll('#editEntranceModal input[name="fee[]"]');
-                const subTotalInputs = document.querySelectorAll('#editEntranceModal input[id="sub-total"]');
+                const subTotalInputs = document.querySelectorAll(
+                    '#editEntranceModal input[id="sub-total"]');
 
                 editTotalMembers = 0;
                 let totalPaymentCalculated = 0;
@@ -555,7 +559,8 @@
                 var baseUrl = window.location.origin;
                 var pathParts = window.location.pathname.split('/');
                 var folderName = pathParts[1];
-                var url = window.location.origin + '/' + folderName + '/get-visitor-members/' + visitor_id;
+                var url = window.location.origin + '/' + folderName + '/get-visitor-members/' +
+                    visitor_id;
 
                 $.ajax({
                     url: url,
@@ -590,21 +595,21 @@
         function updateEditSubtotalsAndTotal() {
             let totalPayment = 0;
             let currentTotalMembers = 0;
-            
+
             $('#editEntranceModal tbody tr').each(function() {
                 const memberInput = $(this).find('input[name="members[]"]');
                 const feeInput = $(this).find('input[name="fee[]"]');
                 const subtotalInput = $(this).find('input[id="sub-total"]');
-                
+
                 const members = parseInt(memberInput.val()) || 0;
                 const fee = parseFloat(feeInput.val()) || 0;
                 const subtotal = members * fee;
-                
+
                 subtotalInput.val(subtotal.toFixed(2));
                 totalPayment += subtotal;
                 currentTotalMembers += members;
             });
-            
+
             $('#edit_total_payment').val(totalPayment.toFixed(2));
             // Don't update editTotalMembers here - it should only come from visitor data
         }
@@ -622,10 +627,10 @@
                 $('#editEntranceModal input[name="members[]"]').each(function() {
                     $(this).val(0);
                 });
-                
+
                 // Recalculate totals
                 updateEditSubtotalsAndTotal();
-                
+
                 // Optional: show feedback
                 alert('Total members exceeded. All inputs have been reset to 0.');
                 return;

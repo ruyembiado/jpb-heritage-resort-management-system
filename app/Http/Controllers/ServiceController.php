@@ -63,7 +63,7 @@ class ServiceController extends Controller
         return redirect()->route('entrances')->with('success', 'Entrance added successfully.');
     }
 
-    public function updateEntrance(Request $request, $id)
+    public function updateEntrance(Request $request)
     {
         $request->validate([
             'visitor_id' => 'required|exists:visitors,id',
@@ -93,7 +93,7 @@ class ServiceController extends Controller
             }
         }
 
-        $entrance = Entrance::findOrFail($id);
+        $entrance = Entrance::findOrFail($request->entrance_id);
         $entrance->update([
             'visitor_id' => $request->visitor_id,
             'category' => json_encode($filteredCategories),
