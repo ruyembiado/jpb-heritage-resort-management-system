@@ -61,7 +61,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{{ url('/log-book') }}" class="sidebar-link">
+                    <a href="{{ url('/bills') }}" class="sidebar-link">
                         <i class="fa fa-money-bill"></i>
                         <span>Visitor's Bill Summary</span>
                     </a>

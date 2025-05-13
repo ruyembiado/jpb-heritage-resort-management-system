@@ -24,4 +24,9 @@ class Visitor extends Model
         'address',
         'date_visit'
     ];
+
+    public function entrance()
+    {
+        return $this->hasOne(Entrance::class, 'visitor_id');
+    }
 }

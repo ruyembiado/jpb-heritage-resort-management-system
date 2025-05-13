@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BillController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VisitorController;
@@ -45,4 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/add-entrance', [ServiceController::class, 'storeEntrance'])->name('entrance.store');
     Route::put('/entrance/update', [ServiceController::class, 'updateEntrance'])->name('entrance.update');
     Route::delete('/delete-entrance/{id}', [ServiceController::class, 'destroy'])->name('entrance.destroy');
+
+    // BillController routes
+    Route::get('/bills', [BillController::class, 'index'])->name('bill');
 });

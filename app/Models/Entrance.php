@@ -20,8 +20,8 @@ class Entrance extends Model
         'total_payment',
     ];
 
-    function visitor()
+    public function visitor()
     {
-        return $this->belongsTo(Visitor::class);
+        return $this->belongsTo(Visitor::class, 'visitor_id');
     }
 }
