@@ -143,30 +143,6 @@ class ReportController extends Controller
         ]);
     }
 
-    /**
-     * Generate week options for dropdown
-     */
-    protected function getWeekOptions($year = null)
-    {
-        $options = [];
-        $year = $year ?? Carbon::now()->year;
-
-        $startOfYear = Carbon::createFromDate($year)->startOfYear();
-        $endOfYear = Carbon::createFromDate($year)->endOfYear();
-
-        $currentWeek = $startOfYear;
-
-        while ($currentWeek <= $endOfYear) {
-            $weekNum = $currentWeek->format('W');
-            $key = "{$year}-{$weekNum}";
-            $display = "Week {$weekNum} (" . $currentWeek->startOfWeek()->format('M d') . ' - ' . $currentWeek->endOfWeek()->format('M d') . ')';
-            $options[$key] = $display;
-            $currentWeek->addWeek();
-        }
-
-        return $options;
-    }
-
     public function monthlyReport(Request $request)
     {
         $selectedYear = $request->input('year') ?? Carbon::now()->year;
