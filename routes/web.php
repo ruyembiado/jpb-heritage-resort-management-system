@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VisitorController;
 
@@ -49,4 +50,9 @@ Route::middleware(['auth'])->group(function () {
 
     // BillController routes
     Route::get('/bills', [BillController::class, 'index'])->name('bill');
+
+    // ReportController routes
+    Route::get('/report', [ReportController::class, 'index'])->name('report');
+    Route::get('/daily-report', [ReportController::class, 'dailyReport'])->name('daily.report');
+    Route::get('/weekly-report', [ReportController::class, 'weeklyReport'])->name('weekly.report');
 });

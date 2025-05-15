@@ -293,3 +293,11 @@ h1.home-title {
 #sidebar {
     background-color: #557A46 !important;
 }
+
+@media print {
+    .print-footer {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+    }
+}
