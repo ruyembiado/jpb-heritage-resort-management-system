@@ -28,7 +28,7 @@
                     style="border-collapse: collapse;">
                     <tr>
                         <td style="vertical-align: middle;" class="text-center">
-                            <div class="d-flex align-items-center justify-content-center">
+                            <div class="d-flex align-items-center justify-content-center gap-1">
                                 <div class="company-logo">
                                     <img src="{{ asset('public/img/jbp-icon.jpg') }}" alt="Company Logo"
                                         style="height: 100px; display: block;" />
