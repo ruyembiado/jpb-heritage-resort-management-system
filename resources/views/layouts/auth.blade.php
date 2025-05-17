@@ -93,10 +93,10 @@
                                 <i class="text-dark fas fa-user-circle avatar"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end rounded animated--fade-in">
-                                <a class="dropdown-item" href="">
+                                {{-- <a class="dropdown-item" href="">
                                     <i class="text-primary fas fa-user fa-sm fa-fw mr-2"></i>
                                     Profile
-                                </a>
+                                </a> --}}
                                 <a class="dropdown-item" href="{{ url('/logout') }}">
                                     <i class="text-primary fas fa-sign-out-alt fa-sm fa-fw mr-2"></i>
                                     Logout
