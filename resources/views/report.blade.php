@@ -72,10 +72,10 @@
                                 <div class="text-dark text-uppercase mb-1 mt-3">
                                     <strong>Monthly Report</strong>
                                 </div>
-                                {{-- <a class="btn btn-sm btn-primary mt-2"
+                                <a class="btn btn-sm btn-primary mt-2"
                                     href="{{ route('monthly.report', ['year' => now()->year, 'month' => now()->month]) }}">
                                     View Report
-                                </a> --}}
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -94,8 +94,8 @@
                                 <div class="text-dark text-uppercase mb-1 mt-3">
                                     <strong>Yearly Report</strong>
                                 </div>
-                                {{-- <a class="btn btn-sm btn-primary mt-2"
-                                    href="{{ route('yearly.report', ['year' => now()->year]) }}">View Report</a> --}}
+                                <a class="btn btn-sm btn-primary mt-2"
+                                    href="{{ route('yearly.report', ['year' => now()->year]) }}">View Report</a>
                             </div>
                         </div>
                     </div>

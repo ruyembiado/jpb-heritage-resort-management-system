@@ -143,6 +143,7 @@ class ReportController extends Controller
         ]);
     }
 
+
     public function monthlyReport(Request $request)
     {
         $selectedYear = $request->input('year') ?? Carbon::now()->year;
@@ -151,40 +152,58 @@ class ReportController extends Controller
         $startDate = Carbon::createFromDate($selectedYear, $selectedMonth, 1)->startOfMonth();
         $endDate = $startDate->copy()->endOfMonth();
 
-        $orders = Visitor::with(['items.product', 'user'])
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->where('status', 'Accepted')
-            ->orWhere('status', 'Delivered')
+        $visitors = Visitor::with('entrance')
+            ->whereBetween('date_visit', [$startDate, $endDate])
             ->get();
 
-        $report = $orders->groupBy(function ($order) {
-            return Carbon::parse($order->created_at)->format('W'); // Group by week number
-        })->map(function ($weekOrders, $weekNumber) {
-            $products = [];
-            $totalQuantity = 0;
-            $totalAmount = 0;
+        // Initialize monthly totals
+        $monthlyData = [
+            'visitors' => 0,
+            'entrance_fee' => 0,
+            'accomodation' => 0,
+            'rental' => 0,
+            'total' => 0,
+        ];
 
-            foreach ($weekOrders as $order) {
-                foreach ($order->items as $item) {
-                    $products[$item->product->product_name] = true;
-                    $totalQuantity += $item->quantity;
-                    $totalAmount += $item->quantity * $item->price;
-                }
+        // Calculate totals for the month
+        foreach ($visitors as $visitor) {
+            $monthlyData['visitors'] += (int) $visitor->members;
+            $monthlyData['entrance_fee'] += (float) ($visitor->entrance->total_payment ?? 0);
+            // If you later include accommodation and rental relationships, update these:
+            $monthlyData['accomodation'] += 0;
+            $monthlyData['rental'] += 0;
+        }
+
+        $monthlyData['total'] = $monthlyData['entrance_fee'] + $monthlyData['accomodation'] + $monthlyData['rental'];
+
+        // Also group by week for weekly breakdown within the month
+        $weeklyBreakdown = $visitors->groupBy(function ($visitor) {
+            return Carbon::parse($visitor->date_visit)->weekOfMonth;
+        })->map(function ($weekVisitors, $weekNumber) {
+            $weekData = [
+                'visitors' => 0,
+                'entrance_fee' => 0,
+                'accomodation' => 0,
+                'rental' => 0,
+                'total' => 0,
+            ];
+
+            foreach ($weekVisitors as $visitor) {
+                $weekData['visitors'] += (int) $visitor->members;
+                $weekData['entrance_fee'] += (float) ($visitor->entrance->total_payment ?? 0);
             }
 
-            return [
-                'week_number' => $weekNumber,
-                'products' => implode(', ', array_keys($products)),
-                'quantity' => $totalQuantity,
-                'total' => $totalAmount,
-            ];
+            $weekData['total'] = $weekData['entrance_fee'] + $weekData['accomodation'] + $weekData['rental'];
+
+            return $weekData;
         });
 
-        return view('admin.monthly_report', [
-            'report' => $report,
+        return view('monthly_report', [
+            'monthlyData' => $monthlyData,
+            'weeklyBreakdown' => $weeklyBreakdown,
             'selected_year' => $selectedYear,
             'selected_month' => $selectedMonth,
-            'month_name' => Carbon::createFromDate($selectedYear, $selectedMonth, 1)->format('F'),
+            'month_name' => $startDate->format('F'),
             'start_date' => $startDate->format('F d, Y'),
             'end_date' => $endDate->format('F d, Y'),
         ]);
@@ -197,37 +216,62 @@ class ReportController extends Controller
         $startDate = Carbon::createFromDate($selectedYear, 1, 1)->startOfYear();
         $endDate = $startDate->copy()->endOfYear();
 
-        $orders = Visitor::with(['items.product', 'user'])
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->where('status', 'Accepted')
-            ->orWhere('status', 'Delivered')
+        $visitors = Visitor::with('entrance')
+            ->whereBetween('date_visit', [$startDate, $endDate])
             ->get();
 
-        $report = $orders->groupBy(function ($order) {
-            return Carbon::parse($order->created_at)->format('m'); // Group by month
-        })->map(function ($monthOrders, $monthNumber) {
-            $products = [];
-            $totalQuantity = 0;
-            $totalAmount = 0;
+        // Initialize yearly totals
+        $yearlyData = [
+            'visitors' => 0,
+            'entrance_fee' => 0,
+            'accomodation' => 0,
+            'rental' => 0,
+            'total' => 0,
+        ];
 
-            foreach ($monthOrders as $order) {
-                foreach ($order->items as $item) {
-                    $products[$item->product->product_name] = true;
-                    $totalQuantity += $item->quantity;
-                    $totalAmount += $item->quantity * $item->price;
-                }
+        // Group by month for monthly breakdown
+        $monthlyBreakdown = $visitors->groupBy(function ($visitor) {
+            return Carbon::parse($visitor->date_visit)->format('m'); // Group by month number
+        })->map(function ($monthVisitors, $monthNumber) {
+            $monthData = [
+                'visitors' => 0,
+                'entrance_fee' => 0,
+                'accomodation' => 0,
+                'rental' => 0,
+                'total' => 0,
+                'month_name' => Carbon::create()->month($monthNumber)->format('F')
+            ];
+
+            foreach ($monthVisitors as $visitor) {
+                $monthData['visitors'] += (int) $visitor->members;
+                $monthData['entrance_fee'] += (float) ($visitor->entrance->total_payment ?? 0);
+                // If you later include accommodation and rental relationships, update these:
+                $monthData['accomodation'] += 0;
+                $monthData['rental'] += 0;
             }
 
-            return [
-                'month_number' => $monthNumber,
-                'products' => implode(', ', array_keys($products)),
-                'quantity' => $totalQuantity,
-                'total' => $totalAmount,
-            ];
+            $monthData['total'] = $monthData['entrance_fee'] + $monthData['accomodation'] + $monthData['rental'];
+
+            return $monthData;
         });
 
-        return view('admin.yearly_report', [
-            'report' => $report,
+        // Calculate yearly totals from monthly breakdown
+        foreach ($monthlyBreakdown as $monthData) {
+            $yearlyData['visitors'] += $monthData['visitors'];
+            $yearlyData['entrance_fee'] += $monthData['entrance_fee'];
+            $yearlyData['accomodation'] += $monthData['accomodation'];
+            $yearlyData['rental'] += $monthData['rental'];
+        }
+        $yearlyData['total'] = $yearlyData['entrance_fee'] + $yearlyData['accomodation'] + $yearlyData['rental'];
+
+        // Sort monthly breakdown by month number (01-12)
+        $monthlyBreakdown = $monthlyBreakdown->sortBy(function ($item, $key) {
+            return (int)$key;
+        });
+
+        return view('yearly_report', [
+            'yearlyData' => $yearlyData,
+            'monthlyBreakdown' => $monthlyBreakdown,
             'selected_year' => $selectedYear,
             'year_name' => $selectedYear,
             'start_date' => $startDate->format('F d, Y'),
