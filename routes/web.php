@@ -43,10 +43,17 @@ Route::middleware(['auth'])->group(function () {
 
     // ServiceController routes
     Route::get('/services', [ServiceController::class, 'index'])->name('services');
+    // entrances
     Route::get('/entrances', [ServiceController::class, 'entrances'])->name('entrances');
     Route::post('/add-entrance', [ServiceController::class, 'storeEntrance'])->name('entrance.store');
     Route::put('/entrance/update', [ServiceController::class, 'updateEntrance'])->name('entrance.update');
-    Route::delete('/delete-entrance/{id}', [ServiceController::class, 'destroy'])->name('entrance.destroy');
+    Route::delete('/delete-entrance/{id}', [ServiceController::class, 'destroyEntrance'])->name('entrance.destroy');
+    // accommodations
+    Route::get('/accommodations', [ServiceController::class, 'accommodations'])->name('accommodations');
+    Route::post('/accommodation', [ServiceController::class, 'storeAccommodation'])->name('accommodation.store');
+    Route::put('/accommodation/update', [ServiceController::class, 'updateAccommodation'])->name('accommodation.update');
+    Route::delete('/delete-accommodation/{id}', [ServiceController::class, 'destroyAccommodation'])->name('accommodation.destroy');
+
 
     // BillController routes
     Route::get('/bills', [BillController::class, 'index'])->name('bill');
