@@ -85,7 +85,7 @@
                                 <th>Week</th>
                                 <th>No. of Visitors</th>
                                 <th>Entrance Fee</th>
-                                <th>Accomodation</th>
+                                <th>Accommodation</th>
                                 <th>Cottage Rental</th>
                                 <th>Total</th>
                             </tr>
@@ -101,7 +101,7 @@
                                         <td>Week {{ $weekNumber }}</td>
                                         <td>{{ $weekData['visitors'] }}</td>
                                         <td>₱{{ number_format($weekData['entrance_fee'], 2) }}</td>
-                                        <td>₱{{ number_format($weekData['accomodation'], 2) }}</td>
+                                        <td>₱{{ number_format($weekData['accommodation'], 2) }}</td>
                                         <td>₱{{ number_format($weekData['rental'], 2) }}</td>
                                         <td>₱{{ number_format($weekData['total'], 2) }}</td>
                                     </tr>
@@ -110,7 +110,7 @@
                                     <td class="h6">Grand Total:</td>
                                     <td class="h6">{{ $weeklyBreakdown->sum('visitors') }}</td>
                                     <td class="h6">₱{{ number_format($weeklyBreakdown->sum('entrance_fee'), 2) }}</td>
-                                    <td class="h6">₱{{ number_format($weeklyBreakdown->sum('accomodation'), 2) }}</td>
+                                    <td class="h6">₱{{ number_format($weeklyBreakdown->sum('accommodation'), 2) }}</td>
                                     <td class="h6">₱{{ number_format($weeklyBreakdown->sum('rental'), 2) }}</td>
                                     <td class="h6">₱{{ number_format($weeklyBreakdown->sum('total'), 2) }}</td>
                                 </tr>

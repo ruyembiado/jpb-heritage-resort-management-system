@@ -16,7 +16,7 @@ class ReportController extends Controller
     public function dailyReport(Request $request)
     {
         $date = $request->input('date') ?? Carbon::today()->toDateString();
-        $visitors = Visitor::with('entrance')
+        $visitors = Visitor::with('entrance', 'accommodation')
             ->whereDate('date_visit', $date)
             ->get();
 
@@ -33,17 +33,21 @@ class ReportController extends Controller
             return $visitor->entrance ? (float) ($visitor->entrance->total_payment ?? 0) : 0;
         });
 
+        $totalAccommodation = $visitors->sum(function ($visitor) {
+            // Ensure 'accommodation' exists and sum total_payment safely
+            return $visitor->accommodation ? (float) ($visitor->accommodation->total_payment ?? 0) : 0;
+        });
+
         // Placeholder for accommodation and rental totals
-        $totalAccomodation = 0;
         $totalRental = 0;
 
         // Final report
         $report = [
             'visitors' => $totalVisitors,
             'entrance_fee' => $totalEntrance,
-            'accomodation' => $totalAccomodation,
+            'accommodation' => $totalAccommodation,
             'rental' => $totalRental,
-            'total' => $totalEntrance + $totalAccomodation + $totalRental,
+            'total' => $totalEntrance + $totalAccommodation + $totalRental,
         ];
 
         $dayName = Carbon::parse($date)->format('l');
@@ -64,7 +68,7 @@ class ReportController extends Controller
         $startDate = Carbon::createFromDate($selectedYear, $selectedMonth, 1)->startOfMonth();
         $endDate = $startDate->copy()->endOfMonth();
 
-        $visitors = Visitor::with('entrance')
+        $visitors = Visitor::with('entrance', 'accommodation')
             ->whereBetween('date_visit', [$startDate, $endDate])
             ->get();
 
@@ -76,6 +80,7 @@ class ReportController extends Controller
             $dayName = Carbon::parse($visitor->date_visit)->format('l');
 
             $entrance = $visitor->entrance->total_payment ?? 0;
+            $accommodation = $visitor->accommodation->total_payment ?? 0;
 
             if (!$report->has($weekNumber)) {
                 $report->put($weekNumber, collect());
@@ -87,7 +92,7 @@ class ReportController extends Controller
                 $weekData->put($dayName, [
                     'visitors' => 0,
                     'entrance_fee' => 0,
-                    'accomodation' => 0,
+                    'accommodation' => 0,
                     'rental' => 0,
                     'total' => 0,
                 ]);
@@ -97,10 +102,9 @@ class ReportController extends Controller
 
             $dayData['visitors'] += (int) $visitor->members;
             $dayData['entrance_fee'] += (float) $entrance;
-            // If you later include accommodation and rental relationships, update these:
-            $dayData['accomodation'] += 0;
+            $dayData['accommodation'] += (float) $accommodation;
             $dayData['rental'] += 0;
-            $dayData['total'] = $dayData['entrance_fee'] + $dayData['accomodation'] + $dayData['rental'];
+            $dayData['total'] = $dayData['entrance_fee'] + $dayData['accommodation'] + $dayData['rental'];
 
             $weekData->put($dayName, $dayData);
             $report->put($weekNumber, $weekData);
@@ -116,7 +120,7 @@ class ReportController extends Controller
             return [
                 'visitors' => $weekDays->sum('visitors'),
                 'entrance_fee' => $weekDays->sum('entrance_fee'),
-                'accomodation' => $weekDays->sum('accomodation'),
+                'accommodation' => $weekDays->sum('accommodation'),
                 'rental' => $weekDays->sum('rental'),
                 'total' => $weekDays->sum('total'),
             ];
@@ -125,7 +129,7 @@ class ReportController extends Controller
         $grandTotal = [
             'visitors' => $weeklyTotal->sum('visitors'),
             'entrance_fee' => $weeklyTotal->sum('entrance_fee'),
-            'accomodation' => $weeklyTotal->sum('accomodation'),
+            'accommodation' => $weeklyTotal->sum('accommodation'),
             'rental' => $weeklyTotal->sum('rental'),
             'total' => $weeklyTotal->sum('total'),
         ];
@@ -152,7 +156,7 @@ class ReportController extends Controller
         $startDate = Carbon::createFromDate($selectedYear, $selectedMonth, 1)->startOfMonth();
         $endDate = $startDate->copy()->endOfMonth();
 
-        $visitors = Visitor::with('entrance')
+        $visitors = Visitor::with('entrance', 'accommodation')
             ->whereBetween('date_visit', [$startDate, $endDate])
             ->get();
 
@@ -160,7 +164,7 @@ class ReportController extends Controller
         $monthlyData = [
             'visitors' => 0,
             'entrance_fee' => 0,
-            'accomodation' => 0,
+            'accommodation' => 0,
             'rental' => 0,
             'total' => 0,
         ];
@@ -170,11 +174,11 @@ class ReportController extends Controller
             $monthlyData['visitors'] += (int) $visitor->members;
             $monthlyData['entrance_fee'] += (float) ($visitor->entrance->total_payment ?? 0);
             // If you later include accommodation and rental relationships, update these:
-            $monthlyData['accomodation'] += 0;
+            $monthlyData['accommodation'] += (float) ($visitor->accommodation->total_payment ?? 0);
             $monthlyData['rental'] += 0;
         }
 
-        $monthlyData['total'] = $monthlyData['entrance_fee'] + $monthlyData['accomodation'] + $monthlyData['rental'];
+        $monthlyData['total'] = $monthlyData['entrance_fee'] + $monthlyData['accommodation'] + $monthlyData['rental'];
 
         // Also group by week for weekly breakdown within the month
         $weeklyBreakdown = $visitors->groupBy(function ($visitor) {
@@ -183,7 +187,7 @@ class ReportController extends Controller
             $weekData = [
                 'visitors' => 0,
                 'entrance_fee' => 0,
-                'accomodation' => 0,
+                'accommodation' => 0,
                 'rental' => 0,
                 'total' => 0,
             ];
@@ -193,7 +197,7 @@ class ReportController extends Controller
                 $weekData['entrance_fee'] += (float) ($visitor->entrance->total_payment ?? 0);
             }
 
-            $weekData['total'] = $weekData['entrance_fee'] + $weekData['accomodation'] + $weekData['rental'];
+            $weekData['total'] = $weekData['entrance_fee'] + $weekData['accommodation'] + $weekData['rental'];
 
             return $weekData;
         });
@@ -216,7 +220,7 @@ class ReportController extends Controller
         $startDate = Carbon::createFromDate($selectedYear, 1, 1)->startOfYear();
         $endDate = $startDate->copy()->endOfYear();
 
-        $visitors = Visitor::with('entrance')
+        $visitors = Visitor::with('entrance', 'accommodation')
             ->whereBetween('date_visit', [$startDate, $endDate])
             ->get();
 
@@ -224,7 +228,7 @@ class ReportController extends Controller
         $yearlyData = [
             'visitors' => 0,
             'entrance_fee' => 0,
-            'accomodation' => 0,
+            'accommodation' => 0,
             'rental' => 0,
             'total' => 0,
         ];
@@ -236,7 +240,7 @@ class ReportController extends Controller
             $monthData = [
                 'visitors' => 0,
                 'entrance_fee' => 0,
-                'accomodation' => 0,
+                'accommodation' => 0,
                 'rental' => 0,
                 'total' => 0,
                 'month_name' => Carbon::create()->month($monthNumber)->format('F')
@@ -245,12 +249,11 @@ class ReportController extends Controller
             foreach ($monthVisitors as $visitor) {
                 $monthData['visitors'] += (int) $visitor->members;
                 $monthData['entrance_fee'] += (float) ($visitor->entrance->total_payment ?? 0);
-                // If you later include accommodation and rental relationships, update these:
-                $monthData['accomodation'] += 0;
+                $monthData['accommodation'] += (float) ($visitor->accommodation->total_payment ?? 0);
                 $monthData['rental'] += 0;
             }
 
-            $monthData['total'] = $monthData['entrance_fee'] + $monthData['accomodation'] + $monthData['rental'];
+            $monthData['total'] = $monthData['entrance_fee'] + $monthData['accommodation'] + $monthData['rental'];
 
             return $monthData;
         });
@@ -259,10 +262,10 @@ class ReportController extends Controller
         foreach ($monthlyBreakdown as $monthData) {
             $yearlyData['visitors'] += $monthData['visitors'];
             $yearlyData['entrance_fee'] += $monthData['entrance_fee'];
-            $yearlyData['accomodation'] += $monthData['accomodation'];
+            $yearlyData['accommodation'] += $monthData['accommodation'];
             $yearlyData['rental'] += $monthData['rental'];
         }
-        $yearlyData['total'] = $yearlyData['entrance_fee'] + $yearlyData['accomodation'] + $yearlyData['rental'];
+        $yearlyData['total'] = $yearlyData['entrance_fee'] + $yearlyData['accommodation'] + $yearlyData['rental'];
 
         // Sort monthly breakdown by month number (01-12)
         $monthlyBreakdown = $monthlyBreakdown->sortBy(function ($item, $key) {

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('visitor_id');
             $table->string('room');
             $table->string('fee');
+            $table->string('total_payment')->nullable();
             $table->timestamps();
 
             $table->foreign('visitor_id')->references('id')->on('visitors')->onDelete('cascade');

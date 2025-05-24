@@ -15,6 +15,7 @@ class Accommodation extends Model
         'visitor_id',
         'room',
         'fee',
+        'total_payment',
     ];
 
     public function visitor()

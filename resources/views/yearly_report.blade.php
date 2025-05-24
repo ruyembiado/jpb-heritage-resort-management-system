@@ -69,7 +69,7 @@
                                 <th>Month</th>
                                 <th>No. of Visitors</th>
                                 <th>Entrance Fee</th>
-                                <th>Accomodation</th>
+                                <th>Accommodation</th>
                                 <th>Cottage Rental</th>
                                 <th>Total</th>
                             </tr>
@@ -85,7 +85,7 @@
                                         <td>{{ $monthData['month_name'] }}</td>
                                         <td>{{ $monthData['visitors'] }}</td>
                                         <td>₱{{ number_format($monthData['entrance_fee'], 2) }}</td>
-                                        <td>₱{{ number_format($monthData['accomodation'], 2) }}</td>
+                                        <td>₱{{ number_format($monthData['accommodation'], 2) }}</td>
                                         <td>₱{{ number_format($monthData['rental'], 2) }}</td>
                                         <td>₱{{ number_format($monthData['total'], 2) }}</td>
                                     </tr>
@@ -94,7 +94,7 @@
                                     <td class="h6">Grand Total:</td>
                                     <td class="h6">{{ $monthlyBreakdown->sum('visitors') }}</td>
                                     <td class="h6">₱{{ number_format($monthlyBreakdown->sum('entrance_fee'), 2) }}</td>
-                                    <td class="h6">₱{{ number_format($monthlyBreakdown->sum('accomodation'), 2) }}</td>
+                                    <td class="h6">₱{{ number_format($monthlyBreakdown->sum('accommodation'), 2) }}</td>
                                     <td class="h6">₱{{ number_format($monthlyBreakdown->sum('rental'), 2) }}</td>
                                     <td class="h6">₱{{ number_format($monthlyBreakdown->sum('total'), 2) }}</td>
                                 </tr>

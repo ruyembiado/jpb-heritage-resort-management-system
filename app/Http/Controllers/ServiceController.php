@@ -128,6 +128,7 @@ class ServiceController extends Controller
             'visitor_id' => 'required|exists:visitors,id',
             'rooms' => 'required|array',
             'fees' => 'required|array',
+            'total_payment' => 'required',
         ]);
 
         $checked = $request->input('checked');
@@ -155,6 +156,7 @@ class ServiceController extends Controller
             'visitor_id' => $request->visitor_id,
             'room' => json_encode($filteredRooms),
             'fee' => json_encode($filteredFees),
+            'total_payment' => $request->total_payment,
         ]);
 
         return redirect()->route('accommodations')->with('success', 'Accommodation added successfully.');
@@ -166,6 +168,7 @@ class ServiceController extends Controller
             'accommodation_id' => 'required|exists:accommodations,id',
             'edit_rooms' => 'required|array',
             'edit_fees' => 'required|array',
+            'total_payment' => 'required',
         ]);
 
         $checked = $request->input('checked', []);
@@ -186,6 +189,7 @@ class ServiceController extends Controller
         $accommodation->update([
             'room' => json_encode($filteredRooms),
             'fee' => json_encode($filteredFees),
+            'total_payment' => $request->total_payment,
         ]);
 
         return redirect()->route('accommodations')->with('success', 'Accommodation updated successfully.');

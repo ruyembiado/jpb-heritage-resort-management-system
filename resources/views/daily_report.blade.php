@@ -61,7 +61,7 @@
                             <tr>
                                 <th>No. of Visitors</th>
                                 <th>Entrance Fee</th>
-                                <th>Accomodation</th>
+                                <th>Accommodation</th>
                                 <th>Cottage Rental</th>
                                 <th>Total</th>
                             </tr>
@@ -75,7 +75,7 @@
                                 <tr>
                                     <td>{{ $report['visitors'] }}</td>
                                     <td>₱{{ number_format($report['entrance_fee'], 2) }}</td>
-                                    <td>₱{{ number_format($report['accomodation'], 2) }}</td>
+                                    <td>₱{{ number_format($report['accommodation'], 2) }}</td>
                                     <td>₱{{ number_format($report['rental'], 2) }}</td>
                                     <td>₱{{ number_format($report['total'], 2) }}</td>
                                 </tr>

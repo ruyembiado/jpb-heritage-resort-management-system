@@ -37,7 +37,7 @@
                             <th>Name</th>
                             <th>No. of Members</th>
                             <th>Entrance Fee</th>
-                            <th>Accomodation</th>
+                            <th>Accommodation</th>
                             <th>Cottage Rental</th>
                             <th>Total Payment</th>
                         </tr>
@@ -53,7 +53,7 @@
                                     {{ $visitor->entrance ? '₱' . number_format($visitor->entrance->total_payment, 2) : 'N/A' }}
                                 </td>
                                 <td>
-                                    {{ $visitor->accomodation ? '₱' . number_format($visitor->accomodation->total_payment, 2) : 'N/A' }}
+                                    {{ $visitor->accommodation ? '₱' . number_format($visitor->accommodation->total_payment, 2) : 'N/A' }}
                                 </td>
                                 <td>
                                     {{ $visitor->cottage ? '₱' . number_format($visitor->cottage->total_payment, 2) : 'N/A' }}
@@ -61,7 +61,7 @@
                                 @php
                                     $grand_total =
                                         ($visitor->entrance->total_payment ?? 0) +
-                                        ($visitor->accomodation->total_payment ?? 0) +
+                                        ($visitor->accommodation->total_payment ?? 0) +
                                         ($visitor->cottage->total_payment ?? 0);
                                 @endphp
                                 <td>₱{{ number_format($grand_total, 2) }}</td>

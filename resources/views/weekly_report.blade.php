@@ -108,7 +108,7 @@
                                 <th>Day</th>
                                 <th>No. of Visitors</th>
                                 <th>Entrance Fee</th>
-                                <th>Accomodation</th>
+                                <th>Accommodation</th>
                                 <th>Cottage Rental</th>
                                 <th>Total</th>
                             </tr>
@@ -125,7 +125,7 @@
                                             <td>{{ $dayName }}</td>
                                             <td>{{ $dayData['visitors'] }}</td>
                                             <td>₱{{ number_format($dayData['entrance_fee'], 2) }}</td>
-                                            <td>₱{{ number_format($dayData['accomodation'], 2) }}</td>
+                                            <td>₱{{ number_format($dayData['accommodation'], 2) }}</td>
                                             <td>₱{{ number_format($dayData['rental'], 2) }}</td>
                                             <td>₱{{ number_format($dayData['total'], 2) }}</td>
                                         </tr>
@@ -135,7 +135,7 @@
                                     <td class="text-start h6">Grand Total</td>
                                     <td class="h6">{{ $grandTotal['visitors'] }}</td>
                                     <td class="h6">₱{{ number_format($grandTotal['entrance_fee'], 2) }}</td>
-                                    <td class="h6">₱{{ number_format($grandTotal['accomodation'], 2) }}</td>
+                                    <td class="h6">₱{{ number_format($grandTotal['accommodation'], 2) }}</td>
                                     <td class="h6">₱{{ number_format($grandTotal['rental'], 2) }}</td>
                                     <td class="h6">₱{{ number_format($grandTotal['total'], 2) }}</td>
                                 </tr>

@@ -29,4 +29,9 @@ class Visitor extends Model
     {
         return $this->hasOne(Entrance::class, 'visitor_id');
     }
+
+    public function accommodation()
+    {
+        return $this->hasOne(Accommodation::class, 'visitor_id');
+    }
 }

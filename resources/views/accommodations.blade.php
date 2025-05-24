@@ -4,7 +4,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text">Accommodations</h1>
-        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAccomodationModal">Add
+        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAccommodationModal">Add
             Accommodation</a>
     </div>
 
@@ -40,12 +40,12 @@
                                         @endforeach
                                     </ul>
                                 </td>
-                                <td>₱ {{ number_format(array_sum($fees), 2) }}</td>
+                                <td>₱ {{ number_format($accommodation->total_payment, 2) }}</td>
                                 <td>{{ \Carbon\Carbon::parse($accommodation->created_at)->format('F j, Y') }}</td>
                                 <td>
                                     <div class="d-flex align-items-center justify-c gap-2">
                                         <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#editAccomodationModal" data-id="{{ $accommodation->id }}"
+                                            data-bs-target="#editAccommodationModal" data-id="{{ $accommodation->id }}"
                                             data-visitor-id="{{ $accommodation->visitor_id }}"
                                             data-rooms="{{ $accommodation->room }}"
                                             data-fees="{{ $accommodation->fee }}"
@@ -72,14 +72,14 @@
     </div>
 
     <!-- Add Accommodation Modal -->
-    <div class="modal fade" id="addAccomodationModal" tabindex="-1" role="dialog"
-        aria-labelledby="addAccomodationModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addAccommodationModal" tabindex="-1" role="dialog"
+        aria-labelledby="addAccommodationModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <form action="{{ route('accommodation.store') }}" method="POST">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addAccomodationModalLabel">Add Accommodation</h5>
+                        <h5 class="modal-title" id="addAccommodationModalLabel">Add Accommodation</h5>
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">
@@ -170,8 +170,8 @@
     </div>
 
     <!-- Edit Accommodation Modal -->
-    <div class="modal fade" id="editAccomodationModal" tabindex="-1" role="dialog"
-        aria-labelledby="editAccomodationModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editAccommodationModal" tabindex="-1" role="dialog"
+        aria-labelledby="editAccommodationModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <form action="{{ route('accommodation.update') }}" method="POST">
                 <input type="hidden" name="accommodation_id" id="edit_accommodation_id">
@@ -179,7 +179,7 @@
                 @method('PUT')
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editAccomodationModalLabel">Edit Accommodation</h5>
+                        <h5 class="modal-title" id="editAccommodationModalLabel">Edit Accommodation</h5>
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">
@@ -272,13 +272,13 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Initialize Select2 for visitor_name for add form
-        $('#addAccomodationModal').on('shown.bs.modal', function() {
+        $('#addAccommodationModal').on('shown.bs.modal', function() {
             $('#visitor_name').select2({
                 theme: 'bootstrap4',
                 width: '100%',
                 placeholder: "Select a visitor",
                 allowClear: true,
-                dropdownParent: $('#addAccomodationModal')
+                dropdownParent: $('#addAccommodationModal')
             });
 
             // Reset form when modal is shown
@@ -294,7 +294,7 @@
             let total = 0;
 
             // Calculate for add form
-            $('#addAccomodationModal .room-checkbox:checked').each(function() {
+            $('#addAccommodationModal .room-checkbox:checked').each(function() {
                 const fee = parseFloat($(this).closest('tr').find('.room-fee').val()) || 0;
                 total += fee;
             });
@@ -303,7 +303,7 @@
 
             // Calculate for edit form
             let editTotal = 0;
-            $('#editAccomodationModal .edit-room-checkbox:checked').each(function() {
+            $('#editAccommodationModal .edit-room-checkbox:checked').each(function() {
                 const fee = parseFloat($(this).closest('tr').find('.edit-room-fee').val()) || 0;
                 editTotal += fee;
             });
@@ -312,7 +312,7 @@
         }
 
         // Edit modal functionality with error handling
-        $('#editAccomodationModal').on('show.bs.modal', function(event) {
+        $('#editAccommodationModal').on('show.bs.modal', function(event) {
             const button = event.relatedTarget;
             const modal = $(this);
 
