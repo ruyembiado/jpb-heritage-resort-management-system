@@ -53,7 +53,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/accommodation', [ServiceController::class, 'storeAccommodation'])->name('accommodation.store');
     Route::put('/accommodation/update', [ServiceController::class, 'updateAccommodation'])->name('accommodation.update');
     Route::delete('/delete-accommodation/{id}', [ServiceController::class, 'destroyAccommodation'])->name('accommodation.destroy');
-
+    // cottages
+    Route::get('/cottages', [ServiceController::class, 'cottages'])->name('cottages');
+    Route::post('/cottage', [ServiceController::class, 'storeCottage'])->name('cottage.store');
+    Route::put('/cottage/update', [ServiceController::class, 'updateCottage'])->name('cottage.update');
+    Route::delete('/delete-cottage/{id}', [ServiceController::class, 'destroyCottage'])->name('cottage.destroy');
 
     // BillController routes
     Route::get('/bills', [BillController::class, 'index'])->name('bill');

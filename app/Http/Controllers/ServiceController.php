@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Accommodation;
+use App\Models\Cottage;
 use App\Models\Entrance;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
@@ -200,5 +201,109 @@ class ServiceController extends Controller
         $accommodation = Accommodation::findOrFail($id);
         $accommodation->delete();
         return redirect()->route('accommodations')->with('success', 'Accommodation deleted successfully.');
+    }
+
+    public function cottages()
+    {
+        $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
+        $cottages = Cottage::orderBy('created_at', 'desc')->with('visitor')->get();
+
+        return view('cottages', compact('visitors', 'cottages'));
+    }
+
+    public function storeCottage(Request $request)
+    {
+        $request->validate([
+            'visitor_id' => 'required|exists:visitors,id',
+            'cottage_area' => 'required',
+            'cottage_type' => 'required|array',
+            'quantity' => 'required|array',
+            'fees' => 'required|array',
+            'total_payment' => 'required',
+        ]);
+
+        $types = $request->input('cottage_type');
+        $quantities = $request->input('quantity');
+        $fees = $request->input('fees');
+
+        $finalCottages = [];
+        $finalQuantities = [];
+        $finalFees = [];
+
+        foreach ($types as $index => $type) {
+            // If quantity is empty or not set, set it to 0
+            $qty = isset($quantities[$index]) && is_numeric($quantities[$index])
+                ? (int) $quantities[$index]
+                : 0;
+
+            // If fee is empty or not set, set it to 0.0
+            $fee = isset($fees[$index]) && is_numeric($fees[$index])
+                ? (float) $fees[$index]
+                : 0.0;
+
+            $finalCottages[] = $type;
+            $finalQuantities[] = $qty;
+            $finalFees[] = $fee;
+        }
+
+        Cottage::create([
+            'visitor_id' => $request->visitor_id,
+            'cottage_area' => $request->cottage_area,
+            'cottage_type' => json_encode($finalCottages),
+            'quantity' => json_encode($finalQuantities),
+            'fee' => json_encode($finalFees),
+            'total_payment' => $request->total_payment,
+        ]);
+
+        return redirect()->route('cottages')->with('success', 'Cottage Rental added successfully.');
+    }
+
+    public function updateCottage(Request $request)
+    {
+        $request->validate([
+            'cottage_id' => 'required|exists:cottages,id',
+            'edit_cottage_area' => 'required|string',
+            'edit_cottage_types' => 'required|array',
+            'quantity' => 'required|array',
+            'cottage_fees' => 'required|array',
+            'total_payment' => 'required|numeric',
+        ]);
+
+        $cottage = Cottage::findOrFail($request->cottage_id);
+
+        $types = $request->input('edit_cottage_types');
+        $quantities = $request->input('quantity');
+        $fees = $request->input('cottage_fees');
+
+        $finalCottages = [];
+        $finalQuantities = [];
+        $finalFees = [];
+
+        foreach ($types as $index => $type) {
+            $qty = isset($quantities[$index]) && is_numeric($quantities[$index]) ? (int) $quantities[$index] : 0;
+            $fee = isset($fees[$index]) && is_numeric($fees[$index]) ? (float) $fees[$index] : 0.0;
+
+            $finalCottages[] = $type;
+            $finalQuantities[] = $qty;
+            $finalFees[] = $fee;
+        }
+
+        $cottage->update([
+            'cottage_area' => $request->input('edit_cottage_area'),
+            'cottage_type' => json_encode($finalCottages),
+            'quantity' => json_encode($finalQuantities),
+            'fee' => json_encode($finalFees),
+            'total_payment' => $request->input('total_payment'),
+        ]);
+
+        return redirect()->route('cottages')->with('success', 'Cottage Rental updated successfully.');
+    }
+
+
+    public function destroyCottage($id)
+    {
+        $cottage = Cottage::findOrFail($id);
+        $cottage->delete();
+        return redirect()->route('cottages')->with('success', 'Cottage Rental deleted successfully.');
     }
 }

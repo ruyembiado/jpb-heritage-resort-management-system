@@ -63,7 +63,7 @@
                                     <strong>Cottage Rental</strong>
                                 </div>
                                 <a class="btn btn-sm btn-secondary mt-2"
-                                    href="">
+                                    href="{{ route('cottages') }}">
                                     View
                                 </a>
                             </div>
