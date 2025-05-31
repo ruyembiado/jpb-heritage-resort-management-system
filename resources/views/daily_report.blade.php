@@ -63,6 +63,7 @@
                                 <th>Entrance Fee</th>
                                 <th>Accommodation</th>
                                 <th>Cottage Rental</th>
+                                <th>Meal</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
@@ -77,10 +78,11 @@
                                     <td>₱{{ number_format($report['entrance_fee'], 2) }}</td>
                                     <td>₱{{ number_format($report['accommodation'], 2) }}</td>
                                     <td>₱{{ number_format($report['rental'], 2) }}</td>
+                                    <td>₱{{ number_format($report['meal'], 2) }}</td>
                                     <td>₱{{ number_format($report['total'], 2) }}</td>
                                 </tr>
                                 <tr class="bg-light">
-                                    <td colspan="4" class="text-start h6">Grand Total:</td>
+                                    <td colspan="5" class="text-start h6">Grand Total:</td>
                                     <td class="h6">₱{{ number_format($report['total'], 2) }}</td>
                                 </tr>
                             @endif

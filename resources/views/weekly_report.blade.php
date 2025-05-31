@@ -110,13 +110,14 @@
                                 <th>Entrance Fee</th>
                                 <th>Accommodation</th>
                                 <th>Cottage Rental</th>
+                                <th>Meals</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if ($report->isEmpty())
                                 <tr>
-                                    <td colspan="6" class="text-center">No data available for this week.</td>
+                                    <td colspan="7" class="text-center">No data available for this week.</td>
                                 </tr>
                             @else
                                 @foreach ($report as $weekNumber => $weekDays)
@@ -127,6 +128,7 @@
                                             <td>₱{{ number_format($dayData['entrance_fee'], 2) }}</td>
                                             <td>₱{{ number_format($dayData['accommodation'], 2) }}</td>
                                             <td>₱{{ number_format($dayData['rental'], 2) }}</td>
+                                            <td>₱{{ number_format($dayData['meal'], 2) }}</td>
                                             <td>₱{{ number_format($dayData['total'], 2) }}</td>
                                         </tr>
                                     @endforeach
@@ -137,6 +139,7 @@
                                     <td class="h6">₱{{ number_format($grandTotal['entrance_fee'], 2) }}</td>
                                     <td class="h6">₱{{ number_format($grandTotal['accommodation'], 2) }}</td>
                                     <td class="h6">₱{{ number_format($grandTotal['rental'], 2) }}</td>
+                                    <td class="h6">₱{{ number_format($grandTotal['meal'], 2) }}</td>
                                     <td class="h6">₱{{ number_format($grandTotal['total'], 2) }}</td>
                                 </tr>
                             @endif

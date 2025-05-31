@@ -71,6 +71,7 @@
                                 <th>Entrance Fee</th>
                                 <th>Accommodation</th>
                                 <th>Cottage Rental</th>
+                                <th>Meals</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
@@ -87,6 +88,7 @@
                                         <td>₱{{ number_format($monthData['entrance_fee'], 2) }}</td>
                                         <td>₱{{ number_format($monthData['accommodation'], 2) }}</td>
                                         <td>₱{{ number_format($monthData['rental'], 2) }}</td>
+                                        <td>₱{{ number_format($monthData['meal'], 2) }}</td>
                                         <td>₱{{ number_format($monthData['total'], 2) }}</td>
                                     </tr>
                                 @endforeach
@@ -96,6 +98,7 @@
                                     <td class="h6">₱{{ number_format($monthlyBreakdown->sum('entrance_fee'), 2) }}</td>
                                     <td class="h6">₱{{ number_format($monthlyBreakdown->sum('accommodation'), 2) }}</td>
                                     <td class="h6">₱{{ number_format($monthlyBreakdown->sum('rental'), 2) }}</td>
+                                    <td class="h6">₱{{ number_format($monthlyBreakdown->sum('meal'), 2) }}</td>
                                     <td class="h6">₱{{ number_format($monthlyBreakdown->sum('total'), 2) }}</td>
                                 </tr>
                             @endif
