@@ -58,6 +58,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cottage', [ServiceController::class, 'storeCottage'])->name('cottage.store');
     Route::put('/cottage/update', [ServiceController::class, 'updateCottage'])->name('cottage.update');
     Route::delete('/delete-cottage/{id}', [ServiceController::class, 'destroyCottage'])->name('cottage.destroy');
+    // meals
+    Route::get('/meals', [ServiceController::class, 'meals'])->name('meals');
+    Route::post('/meal', [ServiceController::class, 'storeMeal'])->name('meal.store');
+    Route::put('/meal/update', [ServiceController::class, 'updateMeal'])->name('meal.update');
+    Route::delete('/delete-meal/{id}', [ServiceController::class, 'destroyMeal'])->name('meal.destroy');
 
     // BillController routes
     Route::get('/bills', [BillController::class, 'index'])->name('bill');

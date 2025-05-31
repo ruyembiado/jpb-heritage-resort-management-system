@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Accommodation;
+use App\Models\Meal;
 use App\Models\Cottage;
-use App\Models\Entrance;
 use App\Models\Visitor;
+use App\Models\Entrance;
 use Illuminate\Http\Request;
+use App\Models\Accommodation;
 
 class ServiceController extends Controller
 {
@@ -299,11 +300,104 @@ class ServiceController extends Controller
         return redirect()->route('cottages')->with('success', 'Cottage Rental updated successfully.');
     }
 
-
     public function destroyCottage($id)
     {
         $cottage = Cottage::findOrFail($id);
         $cottage->delete();
         return redirect()->route('cottages')->with('success', 'Cottage Rental deleted successfully.');
+    }
+
+    public function meals()
+    {
+        $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
+        $meals = Meal::orderBy('created_at', 'desc')->with('visitor')->get();
+
+        return view('meals', compact('visitors', 'meals'));
+    }
+
+    public function storeMeal(Request $request)
+    {
+        $request->validate([
+            'visitor_id' => 'required|exists:visitors,id',
+            'meal_items' => 'required|array',
+            'meal_items.*.name' => 'required|string',
+            'meal_items.*.price' => 'nullable|numeric',
+            'meal_items.*.quantity' => 'nullable|integer|min:0',
+            'meal_items.*.subtotal' => 'nullable|numeric',
+            'total_payment' => 'required|numeric',
+        ]);
+
+        $itemNames = [];
+        $quantities = [];
+        $fees = [];
+
+        foreach ($request->meal_items as $item) {
+            $name = isset($item['name']) ? $item['name'] : '';
+            $qty  = isset($item['quantity']) && is_numeric($item['quantity']) ? (int) $item['quantity'] : 0;
+            $fee  = isset($item['price']) && is_numeric($item['price']) ? (float) $item['price'] : 0.00;
+
+            $itemNames[] = $name;
+            $quantities[] = $qty;
+            $fees[] = $fee;
+        }
+
+        Meal::create([
+            'visitor_id'    => $request->visitor_id,
+            'item_name'     => json_encode($itemNames),
+            'fee'           => json_encode($fees),
+            'quantity'      => json_encode($quantities),
+            'total_payment' => $request->total_payment,
+        ]);
+
+        return redirect()->route('meals')->with('success', 'Meal(s) added successfully.');
+    }
+
+    public function updateMeal(Request $request)
+    {
+        $request->validate([
+            'meal_id' => 'required|exists:meals,id',
+            'visitor_id' => 'required|exists:visitors,id',
+            'meal_items' => 'required|array',
+            'meal_items.*.name' => 'required|string',
+            'meal_items.*.price' => 'required|numeric',
+            'meal_items.*.quantity' => 'required|integer|min:0',
+            'total_payment' => 'required|numeric',
+        ]);
+
+        $meal = Meal::findOrFail($request->meal_id);
+
+        $items = $request->input('meal_items');
+
+        $itemNames = [];
+        $prices = [];
+        $quantities = [];
+        $subtotals = [];
+
+        foreach ($items as $item) {
+            if ($item['quantity'] > 0) {
+                $itemNames[] = $item['name'];
+                $prices[] = (float) $item['price'];
+                $quantities[] = (int) $item['quantity'];
+                $subtotals[] = (float) $item['price'] * (int) $item['quantity'];
+            }
+        }
+
+        $meal->update([
+            'visitor_id' => $request->input('visitor_id'),
+            'item_name' => json_encode($itemNames),
+            'fee' => json_encode($prices),
+            'quantity' => json_encode($quantities),
+            'subtotal' => json_encode($subtotals),
+            'total_payment' => $request->input('total_payment'),
+        ]);
+
+        return redirect()->route('meals')->with('success', 'Meal record updated successfully.');
+    }
+
+    public function destroyMeal($id)
+    {
+        $meal = Meal::findOrFail($id);
+        $meal->delete();
+        return redirect()->route('meals')->with('success', 'Meal(s) record deleted successfully.');
     }
 }

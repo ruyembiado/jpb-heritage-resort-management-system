@@ -85,7 +85,7 @@
                                     <strong>Meals</strong>
                                 </div>
                                 <a class="btn btn-sm btn-secondary mt-2"
-                                    href="">
+                                    href="{{ route('meals') }}">
                                     View
                                 </a>
                             </div>
