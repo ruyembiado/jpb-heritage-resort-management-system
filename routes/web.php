@@ -63,6 +63,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/meal', [ServiceController::class, 'storeMeal'])->name('meal.store');
     Route::put('/meal/update', [ServiceController::class, 'updateMeal'])->name('meal.update');
     Route::delete('/delete-meal/{id}', [ServiceController::class, 'destroyMeal'])->name('meal.destroy');
+    // Beverages
+    Route::get('/beverages', [ServiceController::class, 'beverages'])->name('beverages');
+    Route::post('/beverage', [ServiceController::class, 'storeBeverage'])->name('beverage.store');
+    Route::put('/beverage/update', [ServiceController::class, 'updateBeverage'])->name('beverage.update');
+    Route::delete('/delete-beverage/{id}', [ServiceController::class, 'destroyBeverage'])->name('beverage.destroy');
 
     // BillController routes
     Route::get('/bills', [BillController::class, 'index'])->name('bill');

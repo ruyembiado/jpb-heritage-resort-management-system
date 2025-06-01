@@ -107,7 +107,7 @@
                                     <strong>Beverages</strong>
                                 </div>
                                 <a class="btn btn-sm btn-secondary mt-2"
-                                    href="">
+                                    href="{{ route('beverages') }}">
                                     View
                                 </a>
                             </div>

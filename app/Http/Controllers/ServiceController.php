@@ -8,6 +8,7 @@ use App\Models\Visitor;
 use App\Models\Entrance;
 use Illuminate\Http\Request;
 use App\Models\Accommodation;
+use App\Models\Beverage;
 
 class ServiceController extends Controller
 {
@@ -399,5 +400,99 @@ class ServiceController extends Controller
         $meal = Meal::findOrFail($id);
         $meal->delete();
         return redirect()->route('meals')->with('success', 'Meal(s) record deleted successfully.');
+    }
+
+    public function beverages()
+    {
+        $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
+        $beverages = Beverage::orderBy('created_at', 'desc')->with('visitor')->get();
+
+        return view('beverages', compact('visitors', 'beverages'));
+    }
+
+    public function storeBeverage(Request $request)
+    {
+        $request->validate([
+            'visitor_id' => 'required|exists:visitors,id',
+            'beverage_items' => 'required|array',
+            'beverage_items.*.name' => 'required|string',
+            'beverage_items.*.price' => 'nullable|numeric',
+            'beverage_items.*.quantity' => 'nullable|integer|min:0',
+            'beverage_items.*.subtotal' => 'nullable|numeric',
+            'total_payment' => 'required|numeric',
+        ]);
+
+        $itemNames = [];
+        $quantities = [];
+        $fees = [];
+
+        foreach ($request->beverage_items as $item) {
+            $name = isset($item['name']) ? $item['name'] : '';
+            $qty  = isset($item['quantity']) && is_numeric($item['quantity']) ? (int) $item['quantity'] : 0;
+            $fee  = isset($item['price']) && is_numeric($item['price']) ? (float) $item['price'] : 0.00;
+
+            $itemNames[] = $name;
+            $quantities[] = $qty;
+            $fees[] = $fee;
+        }
+
+        Beverage::create([
+            'visitor_id'    => $request->visitor_id,
+            'item_name'     => json_encode($itemNames),
+            'fee'           => json_encode($fees),
+            'quantity'      => json_encode($quantities),
+            'total_payment' => $request->total_payment,
+        ]);
+
+        return redirect()->route('beverages')->with('success', 'Beverage(s) added successfully.');
+    }
+
+    public function updateBeverage(Request $request)
+    {
+        $request->validate([
+            'beverage_id' => 'required|exists:beverages,id',
+            'visitor_id' => 'required|exists:visitors,id',
+            'beverage_items' => 'required|array',
+            'beverage_items.*.name' => 'required|string',
+            'beverage_items.*.price' => 'required|numeric',
+            'beverage_items.*.quantity' => 'required|integer|min:0',
+            'total_payment' => 'required|numeric',
+        ]);
+
+        $beverage = Beverage::findOrFail($request->beverage_id);
+
+        $items = $request->input('beverage_items');
+
+        $itemNames = [];
+        $prices = [];
+        $quantities = [];
+        $subtotals = [];
+
+        foreach ($items as $item) {
+            if ($item['quantity'] > 0) {
+                $itemNames[] = $item['name'];
+                $prices[] = (float) $item['price'];
+                $quantities[] = (int) $item['quantity'];
+                $subtotals[] = (float) $item['price'] * (int) $item['quantity'];
+            }
+        }
+
+        $beverage->update([
+            'visitor_id' => $request->input('visitor_id'),
+            'item_name' => json_encode($itemNames),
+            'fee' => json_encode($prices),
+            'quantity' => json_encode($quantities),
+            'subtotal' => json_encode($subtotals),
+            'total_payment' => $request->input('total_payment'),
+        ]);
+
+        return redirect()->route('beverages')->with('success', 'Beverage record updated successfully.');
+    }
+
+    public function destroyBeverage($id)
+    {
+        $beverage = Beverage::findOrFail($id);
+        $beverage->delete();
+        return redirect()->route('beverages')->with('success', 'Beverage(s) record deleted successfully.');
     }
 }

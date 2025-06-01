@@ -44,4 +44,9 @@ class Visitor extends Model
     {
         return $this->hasOne(Meal::class, 'visitor_id');
     }
+
+    public function beverage()
+    {
+        return $this->hasOne(Beverage::class, 'visitor_id');
+    }
 }
