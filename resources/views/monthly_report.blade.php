@@ -88,13 +88,14 @@
                                 <th>Accommodation</th>
                                 <th>Cottage Rental</th>
                                 <th>Meals</th>
+                                <th>Beverages</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if ($weeklyBreakdown->isEmpty())
                                 <tr>
-                                    <td colspan="7" class="text-center">No data available for this month.</td>
+                                    <td colspan="8" class="text-center">No data available for this month.</td>
                                 </tr>
                             @else
                                 @foreach ($weeklyBreakdown as $weekNumber => $weekData)
@@ -105,6 +106,7 @@
                                         <td>₱{{ number_format($weekData['accommodation'], 2) }}</td>
                                         <td>₱{{ number_format($weekData['rental'], 2) }}</td>
                                         <td>₱{{ number_format($weekData['meal'], 2) }}</td>
+                                        <td>₱{{ number_format($weekData['beverage'], 2) }}</td>
                                         <td>₱{{ number_format($weekData['total'], 2) }}</td>
                                     </tr>
                                 @endforeach
@@ -115,6 +117,7 @@
                                     <td class="h6">₱{{ number_format($weeklyBreakdown->sum('accommodation'), 2) }}</td>
                                     <td class="h6">₱{{ number_format($weeklyBreakdown->sum('rental'), 2) }}</td>
                                     <td class="h6">₱{{ number_format($weeklyBreakdown->sum('meal'), 2) }}</td>
+                                    <td class="h6">₱{{ number_format($weeklyBreakdown->sum('beverage'), 2) }}</td>
                                     <td class="h6">₱{{ number_format($weeklyBreakdown->sum('total'), 2) }}</td>
                                 </tr>
                             @endif

@@ -111,6 +111,7 @@
                                 <th>Accommodation</th>
                                 <th>Cottage Rental</th>
                                 <th>Meals</th>
+                                <th>Beverages</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
@@ -129,6 +130,7 @@
                                             <td>₱{{ number_format($dayData['accommodation'], 2) }}</td>
                                             <td>₱{{ number_format($dayData['rental'], 2) }}</td>
                                             <td>₱{{ number_format($dayData['meal'], 2) }}</td>
+                                            <td>₱{{ number_format($dayData['beverage'], 2) }}</td>
                                             <td>₱{{ number_format($dayData['total'], 2) }}</td>
                                         </tr>
                                     @endforeach
@@ -140,6 +142,7 @@
                                     <td class="h6">₱{{ number_format($grandTotal['accommodation'], 2) }}</td>
                                     <td class="h6">₱{{ number_format($grandTotal['rental'], 2) }}</td>
                                     <td class="h6">₱{{ number_format($grandTotal['meal'], 2) }}</td>
+                                    <td class="h6">₱{{ number_format($grandTotal['beverage'], 2) }}</td>
                                     <td class="h6">₱{{ number_format($grandTotal['total'], 2) }}</td>
                                 </tr>
                             @endif

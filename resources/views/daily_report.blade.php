@@ -63,14 +63,15 @@
                                 <th>Entrance Fee</th>
                                 <th>Accommodation</th>
                                 <th>Cottage Rental</th>
-                                <th>Meal</th>
+                                <th>Meals</th>
+                                <th>Beverages</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if ($report['visitors'] == 0)
                                 <tr>
-                                    <td colspan="5" class="text-center">No data available for this date.</td>
+                                    <td colspan="7" class="text-center">No data available for this date.</td>
                                 </tr>
                             @else
                                 <tr>
@@ -79,10 +80,11 @@
                                     <td>₱{{ number_format($report['accommodation'], 2) }}</td>
                                     <td>₱{{ number_format($report['rental'], 2) }}</td>
                                     <td>₱{{ number_format($report['meal'], 2) }}</td>
+                                    <td>₱{{ number_format($report['beverage'], 2) }}</td>
                                     <td>₱{{ number_format($report['total'], 2) }}</td>
                                 </tr>
                                 <tr class="bg-light">
-                                    <td colspan="5" class="text-start h6">Grand Total:</td>
+                                    <td colspan="6" class="text-start h6">Grand Total:</td>
                                     <td class="h6">₱{{ number_format($report['total'], 2) }}</td>
                                 </tr>
                             @endif
