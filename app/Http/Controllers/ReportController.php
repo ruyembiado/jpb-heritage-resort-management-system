@@ -79,7 +79,8 @@ class ReportController extends Controller
         $endDate = $startDate->copy()->endOfMonth();
 
         $visitors = Visitor::with('entrance', 'accommodation', 'cottage', 'meal', 'beverage')
-            ->whereBetween('date_visit', [$startDate, $endDate])
+            ->whereDate('date_visit', '>=', $startDate)
+            ->whereDate('date_visit', '<=', $endDate)
             ->get();
 
         // Group visitors by week and day
@@ -178,7 +179,8 @@ class ReportController extends Controller
         $endDate = $startDate->copy()->endOfMonth();
 
         $visitors = Visitor::with('entrance', 'accommodation', 'cottage', 'meal', 'beverage')
-            ->whereBetween('date_visit', [$startDate, $endDate])
+            ->whereDate('date_visit', '>=', $startDate)
+            ->whereDate('date_visit', '<=', $endDate)
             ->get();
 
         // Initialize monthly totals

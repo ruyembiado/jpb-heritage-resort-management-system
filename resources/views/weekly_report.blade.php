@@ -118,7 +118,7 @@
                         <tbody>
                             @if ($report->isEmpty())
                                 <tr>
-                                    <td colspan="7" class="text-center">No data available for this week.</td>
+                                    <td colspan="8" class="text-center">No data available for this week.</td>
                                 </tr>
                             @else
                                 @foreach ($report as $weekNumber => $weekDays)

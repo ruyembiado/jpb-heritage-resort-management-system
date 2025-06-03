@@ -39,6 +39,8 @@
                             <th>Entrance Fee</th>
                             <th>Accommodation</th>
                             <th>Cottage Rental</th>
+                            <th>Meals</th>
+                            <th>Beverages</th>
                             <th>Total Payment</th>
                         </tr>
                     </thead>
@@ -58,11 +60,19 @@
                                 <td>
                                     {{ $visitor->cottage ? '₱' . number_format($visitor->cottage->total_payment, 2) : 'N/A' }}
                                 </td>
+                                 <td>
+                                    {{ $visitor->meal ? '₱' . number_format($visitor->meal->total_payment, 2) : 'N/A' }}
+                                </td>
+                                 <td>
+                                    {{ $visitor->beverage ? '₱' . number_format($visitor->beverage->total_payment, 2) : 'N/A' }}
+                                </td>
                                 @php
                                     $grand_total =
                                         ($visitor->entrance->total_payment ?? 0) +
                                         ($visitor->accommodation->total_payment ?? 0) +
-                                        ($visitor->cottage->total_payment ?? 0);
+                                        ($visitor->cottage->total_payment ?? 0) +
+                                        ($visitor->meal->total_payment ?? 0) +
+                                        ($visitor->beverage->total_payment ?? 0);
                                 @endphp
                                 <td>₱{{ number_format($grand_total, 2) }}</td>
 
