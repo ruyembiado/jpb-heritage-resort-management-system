@@ -28,7 +28,7 @@
             <div class="d-flex gap-1 justify-content-center pt-4">
                 <div class="site-log">
                     <a href="{{ url('/dashboard') }}">
-                        <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
+                        <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="60" alt="jbp-logo">
                     </a>
                 </div>
                 <div class="sidebar-logo">

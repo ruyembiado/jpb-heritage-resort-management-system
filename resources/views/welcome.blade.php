@@ -44,7 +44,7 @@
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-logo text-center">
-                <img src="{{ asset('public/img/jbp-icon.jpg') }}" alt="eggcellent-logo" class="img-fluid" width="200">
+                <img src="{{ asset('public/img/jbp-icon.jpg') }}" alt="jpb-logo" class="img-fluid" width="200">
             </div>
             @if ($errors->any())
                 <div class="alert alert-danger" role="alert">
