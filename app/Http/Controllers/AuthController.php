@@ -25,9 +25,7 @@ class AuthController extends Controller
             return redirect('/dashboard')->with('success', 'Login successful');
         }
 
-        return back()
-            ->withErrors(['error' => 'The provided credentials do not match our records.'])
-            ->withInput($request->only('email'));
+        return back()->withErrors(['error' => 'The provided credentials do not match our records.']);
     }
 
     public function dashboard()
