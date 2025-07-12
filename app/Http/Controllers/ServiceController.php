@@ -46,13 +46,11 @@ class ServiceController extends Controller
         $filteredAges = [];
         $filteredFees = [];
 
-        foreach ($members as $index => $count) {
-            if (!empty($count) && is_numeric($count)) {
-                $filteredCategories[] = $categories[$index] ?? null;
-                $filteredMembers[] = $count;
-                $filteredAges[] = $ages[$index] ?? null;
-                $filteredFees[] = $fees[$index] ?? null;
-            }
+        foreach ($categories as $index => $category) {
+            $filteredCategories[] = $category;
+            $filteredMembers[] = isset($members[$index]) && $members[$index] !== '' ? $members[$index] : "null";
+            $filteredAges[] = isset($ages[$index]) ? $ages[$index] : null;
+            $filteredFees[] = isset($fees[$index]) ? $fees[$index] : null;
         }
 
         Entrance::create([
@@ -88,13 +86,11 @@ class ServiceController extends Controller
         $filteredAges = [];
         $filteredFees = [];
 
-        foreach ($members as $index => $count) {
-            if (!empty($count) && is_numeric($count)) {
-                $filteredCategories[] = $categories[$index] ?? null;
-                $filteredMembers[] = $count;
-                $filteredAges[] = $ages[$index] ?? null;
-                $filteredFees[] = $fees[$index] ?? null;
-            }
+        foreach ($categories as $index => $category) {
+            $filteredCategories[] = $category;
+            $filteredMembers[] = isset($members[$index]) && $members[$index] !== '' ? $members[$index] : "null";
+            $filteredAges[] = isset($ages[$index]) ? $ages[$index] : null;
+            $filteredFees[] = isset($fees[$index]) ? $fees[$index] : null;
         }
 
         $entrance = Entrance::findOrFail($request->entrance_id);

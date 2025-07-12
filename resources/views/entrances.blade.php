@@ -66,13 +66,17 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($categories as $index => $cat)
-                                                @if (!empty($members[$index]))
+                                                @php
+                                                    $member = $members[$index] ?? null;
+                                                @endphp
+
+                                                @if (!is_null($member) && $member !== 'null' && $member !== '' && (int) $member > 0)
                                                     <tr>
                                                         <td style="padding: 8px;">{{ $cat }}</td>
-                                                        <td style="padding: 8px;">{{ $members[$index] }}</td>
+                                                        <td style="padding: 8px;">{{ $member }}</td>
                                                         <td style="padding: 8px;">{{ $ages[$index] ?? 'N/A' }}</td>
                                                         <td style="padding: 8px;">
-                                                            ₱{{ number_format((float) ($members[$index] ?? 0) * (float) ($fees[$index] ?? 0), 2) }}
+                                                            ₱{{ number_format((float) $member * (float) ($fees[$index] ?? 0), 2) }}
                                                         </td>
                                                     </tr>
                                                 @endif
@@ -586,7 +590,6 @@
 
         function resetEditMemberInputs() {
             $('#editEntranceModal input[name="members[]"]').each(function() {
-                $(this).val('');
                 $(this).attr('max', editTotalMembers);
                 $(this).prop('readonly', false);
             });
