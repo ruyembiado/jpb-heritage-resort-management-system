@@ -27,6 +27,10 @@ body {
     height: 100vh;
 }
 
+main.content {
+    height: 100%;
+}
+
 .main {
     display: flex;
     flex-direction: column;
