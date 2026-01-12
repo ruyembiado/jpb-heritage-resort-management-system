@@ -46,8 +46,11 @@
                         @foreach ($entrances as $entrance)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $entrance->visitor->first_name }} {{ $entrance->visitor->middle_name }}
-                                    {{ $entrance->visitor->last_name }}</td>
+                                <td>
+                                    {{ optional($entrance->visitor)->first_name }}
+                                    {{ optional($entrance->visitor)->middle_name }}
+                                    {{ optional($entrance->visitor)->last_name }}
+                                </td>
                                 @php
                                     $categories = json_decode($entrance->category, true);
                                     $members = json_decode($entrance->members, true);

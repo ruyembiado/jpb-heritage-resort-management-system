@@ -27,8 +27,11 @@
                         @foreach ($accommodations as $accommodation)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $accommodation->visitor->first_name }} {{ $accommodation->visitor->middle_name }}
-                                    {{ $accommodation->visitor->last_name }}</td>
+                                <td>
+                                    {{ optional($accommodation->visitor)->first_name }}
+                                    {{ optional($accommodation->visitor)->middle_name }}
+                                    {{ optional($accommodation->visitor)->last_name }}
+                                </td>
                                 <td>
                                     @php
                                         $rooms = json_decode($accommodation->room, true);

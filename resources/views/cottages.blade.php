@@ -27,8 +27,11 @@
                         @foreach ($cottages as $cottage)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $cottage->visitor->first_name }} {{ $cottage->visitor->middle_name }}
-                                    {{ $cottage->visitor->last_name }}</td>
+                                <td>
+                                    {{ optional($cottage->visitor)->first_name }}
+                                    {{ optional($cottage->visitor)->middle_name }}
+                                    {{ optional($cottage->visitor)->last_name }}
+                                </td>
                                 <td>
                                     @php
                                         $cottage_types = json_decode($cottage->cottage_type, true);

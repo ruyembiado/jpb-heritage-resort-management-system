@@ -26,8 +26,11 @@
                         @foreach ($beverages as $beverage)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $beverage->visitor->first_name }} {{ $beverage->visitor->middle_name }}
-                                    {{ $beverage->visitor->last_name }}</td>
+                                <td>
+                                    {{ optional($beverage->visitor)->first_name }}
+                                    {{ optional($beverage->visitor)->middle_name }}
+                                    {{ optional($beverage->visitor)->last_name }}
+                                </td>
                                 @php
                                     $item_names = json_decode($beverage->item_name, true);
                                     $fee = json_decode($beverage->fee, true);
