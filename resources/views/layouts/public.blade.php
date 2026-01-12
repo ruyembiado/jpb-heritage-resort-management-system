@@ -21,11 +21,11 @@
 <body>
     <div class="wrapper">
         <div class="main">
-            <nav class="navbar-expand px-4 py-1 shadow-sm">
+            <nav class="navbar-expand bg-black px-4 py-1 shadow-sm">
                 <div class="col-10 m-auto d-flex justify-content-between flex-wrap align-items-center">
                     <div class="d-flex flex-wrap align-items-center">
                         <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
-                        <h5 class="ms-2 mb-0 text-dark">JPB OASIS: HERITAGE INLAND RESORT</h5>
+                        <h5 class="ms-2 mb-0 text-light">JPB OASIS: HERITAGE INLAND RESORT</h5>
                     </div>
                     <div class="d-flex align-items-center gap-5">
                         @if (auth()->user())
@@ -63,7 +63,7 @@
 
             @yield('content')
 
-            <footer class="footer py-2 shadow text-center bg-light text-dark">
+            <footer class="footer py-2 shadow text-center bg-black text-light">
                 <div class="m-auto">
                     <div class="">© 2025 JPB OASIS. All rights reserved.</div>
                 </div>
