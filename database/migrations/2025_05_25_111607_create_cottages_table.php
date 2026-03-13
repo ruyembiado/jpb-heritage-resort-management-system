@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('cottage_type');
             $table->string('quantity');
             $table->string('fee');
+            $table->string('status');
             $table->string('total_payment')->nullable();
             $table->timestamps();
 

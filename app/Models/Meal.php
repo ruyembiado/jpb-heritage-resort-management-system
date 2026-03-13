@@ -15,6 +15,7 @@ class Meal extends Model
         'visitor_id',
         'item_name',
         'fee',
+        'status',
         'quantity',
         'total_payment',
     ];

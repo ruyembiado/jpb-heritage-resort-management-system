@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
     // ServiceController routes
     Route::get('/services', [ServiceController::class, 'index'])->name('services');
     // entrances
+    Route::get('/availed-services', [ServiceController::class, 'availed_services'])->name('availed.services');
     Route::get('/entrances', [ServiceController::class, 'entrances'])->name('entrances');
     Route::post('/add-entrance', [ServiceController::class, 'storeEntrance'])->name('entrance.store');
     Route::put('/entrance/update', [ServiceController::class, 'updateEntrance'])->name('entrance.update');

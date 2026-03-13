@@ -34,8 +34,8 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Name</th>
-                            <th>No. of Members</th>
+                            <th>Name of Guest</th>
+                            <th>Members</th>
                             <th>Entrance Fee</th>
                             <th>Accommodation</th>
                             <th>Cottage Rental</th>
@@ -60,10 +60,10 @@
                                 <td>
                                     {{ $visitor->cottage ? '₱' . number_format($visitor->cottage->total_payment, 2) : 'N/A' }}
                                 </td>
-                                 <td>
+                                <td>
                                     {{ $visitor->meal ? '₱' . number_format($visitor->meal->total_payment, 2) : 'N/A' }}
                                 </td>
-                                 <td>
+                                <td>
                                     {{ $visitor->beverage ? '₱' . number_format($visitor->beverage->total_payment, 2) : 'N/A' }}
                                 </td>
                                 @php

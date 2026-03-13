@@ -17,6 +17,7 @@ class Entrance extends Model
         'members',
         'age',
         'fee',
+        'status',
         'total_payment',
     ];
 

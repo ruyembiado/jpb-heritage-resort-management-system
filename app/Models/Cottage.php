@@ -17,6 +17,7 @@ class Cottage extends Model
         'cottage_type',
         'quantity',
         'fee',
+        'status',
         'total_payment',
     ];
 

@@ -4,85 +4,31 @@
     <!-- Start the content section -->
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <div class="d-flex">
-            <i class="fas fa-money-bill fa-2x text-dark me-2"></i>
-            <div class="d-flex flex-column">
-                <h1 class="h3 mb-0 text">AVAILED SERVICES</h1>
-                <h6 class="mb-0">Dashboard | Entrance Fees</h6>
-            </div>
-        </div>
+        <h1 class="h3 mb-0 text">Entrances</h1>
         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEntranceModal">Add Entrance Fee</a>
     </div>
 
     <!-- Content Row -->
-    <div class="d-flex align-items-center justify-content-center gap-5 bg-success p-2">
-        <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="60" alt="jbp-logo">
-        <div class="d-flex gap-2">
-            <a href="{{ url()->current() }}" class="btn btn-danger">
-                <i class="fas fa-refresh"></i> Reload
-            </a>
-            <a href="{{ url('entrances') }}" class="btn {{ Request::is('entrances') ? 'btn-success bg-light-active' : 'btn-outline-light ' }} d-flex align-items-center gap-2">
-                <i class="fas fa-money-bill"></i>
-                Entrance Fee
-            </a>
-            <a href="#" class="btn btn-outline-light d-flex align-items-center gap-2">
-                <i class="fas fa-home"></i>
-                Cottage Fee
-            </a>
-            <a href="#" class="btn btn-outline-light d-flex align-items-center gap-2">
-                <i class="fas fa-tools"></i>
-                Facilities
-            </a>
-            <a href="#" class="btn btn-outline-light d-flex align-items-center gap-2">
-                <i class="fas fa-utensils"></i>
-                Food & Drinks
-            </a>
-            <a href="#" class="btn btn-outline-light d-flex align-items-center gap-2">
-                <i class="fas fa-file-invoice"></i>
-                Bill
-            </a>
-        </div>
-    </div>
     <div class="card shadow mb-4">
         <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center">
-                <!-- Date Filter -->
-                <form method="GET" action="" id="dateRangeForm">
-                    <div class="d-flex justify-content-start gap-2 align-items-end mb-4">
-
-                        <div class="d-flex align-items-center">
-                            <label class="mb-0 me-0 p-1 bg-success text-light">From:</label>
-                            <input type="date" name="start_date" value="{{ request('start_date') }}"
-                                class="form-control form-control-sm rounded-0"
-                                onchange="document.getElementById('dateRangeForm').submit();">
-                        </div>
-
-                        <div class="d-flex align-items-center">
-                            <label class="mb-0 me-0 p-1 bg-success text-light">To:</label>
-                            <input type="date" name="end_date" value="{{ request('end_date') }}"
-                                class="form-control form-control-sm rounded-0"
-                                onchange="document.getElementById('dateRangeForm').submit();">
-                        </div>
-
+            {{-- <form method="GET" action="" class="" id="dateRangeForm">
+                <div class="d-flex justify-content-start gap-2 align-items-end mb-4">
+                    <div class="d-flex flex-column align-items-start" style="width: auto;">
+                        <label for="date" class="mb-0">Start Date:</label>
+                        <input type="date" name="start_date" value="{{ $start_date }}"
+                            class="form-control form-control-sm" style="width: auto;" id="start_date" />
                     </div>
-                    <!-- A-Z Filter -->
-                    <div class="d-flex flex-wrap gap-1 mb-3">
-                        <a href="{{ request()->fullUrlWithQuery(['letter' => null]) }}"
-                            class="btn btn-sm rounded-circle {{ request('letter') ? 'btn-dark' : 'btn-success' }}">
-                            All
-                        </a>
-
-                        @foreach (range('A', 'Z') as $letter)
-                            <a href="{{ request()->fullUrlWithQuery(['letter' => $letter]) }}"
-                                class="btn btn-sm rounded-circle 
-                                    {{ request('letter') == $letter ? 'btn-success' : 'btn-dark' }}"
-                                style="width:32px;height:32px;line-height:22px;">
-                                {{ $letter }}
-                            </a>
-                        @endforeach
+                    <div class="d-flex flex-column align-items-start" style="width: auto;">
+                        <label for="date" class="mb-0">End Date:</label>
+                        <input type="date" name="end_date" value="{{ $end_date }}"
+                            class="form-control form-control-sm" style="width: auto;" id="end_date" />
                     </div>
-                </form>
-            </div>
+
+                    <a href="{{ url()->current() }}" class="btn btn-sm btn-danger">
+                        <i class="fas fa-times"></i> Clear
+                    </a>
+                </div>
+            </form> --}}
 
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
@@ -255,15 +201,14 @@
                                         <tr>
                                             <td width="30%" style="padding: 5px;">
                                                 <div class="d-flex align-items-center gap-1">
-                                                    <input type="hidden" name="category[]"
-                                                        value="{{ $category['name'] }}"
+                                                    <input type="hidden" name="category[]" value="{{ $category['name'] }}"
                                                         {{ $category['checked'] ? 'checked' : '' }}>
                                                     <span>{{ $category['name'] }}</span>
                                                 </div>
                                             </td>
                                             <td width="25%" style="padding: 5px;">
-                                                <input class="form-control" type="number" name="members[]"
-                                                    min="0" value="">
+                                                <input class="form-control" type="number" name="members[]" min="0"
+                                                    value="">
                                             </td>
                                             <td style="padding: 5px;">
                                                 <input class="form-control" type="text" name="age[]"

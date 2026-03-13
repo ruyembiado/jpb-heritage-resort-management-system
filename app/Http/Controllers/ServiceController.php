@@ -14,15 +14,33 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        return view('services');
+        return view('entrances');
     }
 
-    public function entrances()
+    public function entrances(Request $request)
     {
-        $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
-        $entrances = Entrance::orderBy('created_at', 'desc')->with('visitor')->get();
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $letter = $request->letter;
 
-        return view('entrances', compact('visitors', 'entrances'));
+        $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
+        $entrances = Entrance::with('visitor')
+            ->when($start_date, function ($query) use ($start_date) {
+                $query->whereDate('created_at', '>=', $start_date);
+            })
+            ->when($end_date, function ($query) use ($end_date) {
+                $query->whereDate('created_at', '<=', $end_date);
+            })
+            ->when($letter, function ($query) use ($letter) {
+                $query->whereHas('visitor', function ($q) use ($letter) {
+                    $q->where('first_name', 'like', $letter . '%');
+                });
+            })
+
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('entrances', compact('visitors', 'entrances', 'start_date', 'end_date', 'letter'));
     }
 
     public function storeEntrance(Request $request)

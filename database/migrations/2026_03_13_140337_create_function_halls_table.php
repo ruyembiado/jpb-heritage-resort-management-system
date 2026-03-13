@@ -11,8 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('entrances', function (Blueprint $table) {
-            $table->unsignedBigInteger('visitor_id')->after('id');
+        Schema::create('function_halls', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('visitor_id');
+            $table->string('function_hall_type');
+            $table->string('fee');
+            $table->string('status');
+            $table->string('total_payment')->nullable();
+            $table->timestamps();
+
             $table->foreign('visitor_id')->references('id')->on('visitors')->onDelete('cascade');
         });
     }
@@ -22,9 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('entrances', function (Blueprint $table) {
-            $table->dropForeign(['visitor_id']);
-            $table->dropColumn('visitor_id');
-        });
+        Schema::dropIfExists('function_halls');
     }
 };

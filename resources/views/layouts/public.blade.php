@@ -9,7 +9,7 @@
     <!-- Bootstrap Style -->
     <link href="{{ asset('public/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Fontawesome Style -->
-    <link href="{{ asset('public/css/fontawesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/css/all.min.css') }}" rel="stylesheet">
     <!-- Datatables -->
     <link href="{{ asset('public/css/datatables.min.css') }}" rel="stylesheet">
     <!-- Select2 Style -->
@@ -22,19 +22,26 @@
     <div class="wrapper">
         <div class="main">
             <nav class="navbar-expand bg-black px-4 py-1 shadow-sm">
-                <div class="col-10 m-auto d-flex justify-content-between flex-wrap align-items-center">
+                <div class="col-11 m-auto d-flex justify-content-between flex-wrap align-items-center">
                     <div class="d-flex flex-wrap align-items-center">
                         <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
                         <h5 class="ms-2 mb-0 text-light">JPB OASIS: HERITAGE INLAND RESORT</h5>
                     </div>
                     <div class="d-flex align-items-center gap-5">
+                        @if (!auth()->check())
+                            <div class="auth-buttons d-flex gap-3">
+                                <button class="btn btn-light" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#loginModal">
+                                    <i class="fas fa-user-circle text-dark"></i> Admin
+                                </button>
+                            </div>
+                        @endif
                         @if (auth()->user())
                             <ul class="navbar-nav ms-auto">
                                 <span class="m-auto me-1 text-light">{{ Str::ucfirst(auth()->user()->username) }}</span>
                                 <li class="nav-item dropdown">
                                     <a href="#" data-bs-toggle="dropdown" class="nav-stat-icon pe-md-0">
-                                        <a data-bs-toggle="dropdown" class="nav-stat-icon pe-md-0"
-                                            href="#">
+                                        <a data-bs-toggle="dropdown" class="nav-stat-icon pe-md-0" href="#">
                                             <i class="text-light fas fa-user-circle avatar"></i>
                                         </a>
                                     </a>
@@ -65,7 +72,8 @@
 
             <footer class="footer py-2 shadow text-center bg-black text-light">
                 <div class="m-auto">
-                    <div class="">© 2025 JPB OASIS. All rights reserved.</div>
+                    <div class="">© {{ date('Y') }}. Developed by IS-FLUTTERTECH INFINITY. All rights
+                        reserved.</div>
                 </div>
             </footer>
         </div>
@@ -78,7 +86,7 @@
     <!-- Datatables -->
     <script src="{{ asset('public/js/datatables.min.js') }}"></script>
     <!-- Fontawesome Script -->
-    <script src="{{ asset('public/js/fontawesome.min.js') }}"></script>
+    <script src="{{ asset('public/js/all.min.js') }}"></script>
     <!-- Select2 Script -->
     <script src="{{ asset('public/js/select2.min.js') }}"></script>
     <!-- Custom Script -->

@@ -15,6 +15,7 @@ class Accommodation extends Model
         'visitor_id',
         'room',
         'fee',
+        'status',
         'total_payment',
     ];
 

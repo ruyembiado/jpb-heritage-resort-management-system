@@ -25,51 +25,59 @@
 <body>
     <div class="wrapper">
         <aside id="sidebar" class="bg-primary-theme expand">
-            <div class="d-flex gap-1 justify-content-center pt-4">
+            <div class="d-flex flex-column gap-1 align-items-center justify-content-center pt-4">
                 <div class="site-log">
                     <a href="{{ url('/dashboard') }}">
                         <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="60" alt="jbp-logo">
                     </a>
                 </div>
                 <div class="sidebar-logo">
-                    <a href="{{ url('/dashboard') }}">JPB HERITAGE</a>
+                    <a href="{{ url('/dashboard') }}">JPB Heritage Inland Resort</a>
                 </div>
             </div>
             <ul class="sidebar-nav">
+                <hr class="sidebar-hr text-light mt-2 mb-1">
                 <li class="sidebar-item">
-                    <a href="{{ url('/dashboard') }}" class="sidebar-link">
+                    <a href="{{ url('/dashboard') }}"
+                        class="sidebar-link {{ Request::is('dashboard') ? 'active' : '' }}">
                         <i class="fa fa-dashboard"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a href="{{ url('/log-book') }}" class="sidebar-link">
+                <hr class="sidebar-hr text-light mt-1 mb-2">
+                <b class="text-light ms-2">GUEST</b>
+                <li class="sidebar-item mt-1">
+                    <a href="{{ url('/entrances') }}" class="sidebar-link {{ Request::is('entrances*') ? 'active' : '' }}">
                         <i class="fa fa-book"></i>
-                        <span>Visitor's Log Book</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="{{ url('/staff') }}" class="sidebar-link">
-                        <i class="fa fa-users"></i>
-                        <span>Staff Management</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="{{ url('/services') }}" class="sidebar-link">
-                        <i class="fa fa-tasks"></i>
-                        <span>Services Management</span>
+                        <span>Availed Services</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a href="{{ url('/bills') }}" class="sidebar-link">
                         <i class="fa fa-money-bill"></i>
-                        <span>Visitor's Bill Summary</span>
+                        <span>Bill History</span>
+                    </a>
+                </li>
+                <hr class="sidebar-hr text-light mt-1 mb-2">
+                <b class="text-light ms-2">STAFF</b>
+                <li class="sidebar-item">
+                    <a href="{{ url('/staff') }}" class="sidebar-link">
+                        <i class="fa fa-users"></i>
+                        <span>List & Attendance</span>
+                    </a>
+                </li>
+                <hr class="sidebar-hr text-light mt-1 mb-2">
+                <b class="text-light ms-2">REPORT</b>
+                <li class="sidebar-item">
+                    <a href="{{ url('/bills') }}" class="sidebar-link">
+                        <i class="fa fa-money-bill"></i>
+                        <span>Bill Income</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a href="{{ url('/report') }}" class="sidebar-link">
                         <i class="fa fa-file"></i>
-                        <span>Reports Management</span>
+                        <span>List of Guest</span>
                     </a>
                 </li>
             </ul>
@@ -123,7 +131,8 @@
             </main>
             <footer class="footer py-3 shadow text-center">
                 <div class="d-flex justify-content-center px-3">
-                    <div class="">© 2025 JPB OASIS. All rights reserved.</div>
+                    <div class="">© {{ date('Y') }}. Developed by IS-FLUTTERTECH INFINITY. All rights
+                        reserved.</div>
                 </div>
             </footer>
         </div>

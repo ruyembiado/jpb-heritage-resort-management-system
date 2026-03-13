@@ -5,23 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Beverage extends Model
+class FunctionHall extends Model
 {
     use HasFactory;
 
-    protected $table = 'beverages';
+    protected $table = 'function_halls';
 
     protected $fillable = [
         'visitor_id',
-        'item_name',
+        'function_hall_type',
         'fee',
         'status',
-        'quantity',
         'total_payment',
     ];
-
-    public function visitor()
-    {
-        return $this->belongsTo(Visitor::class);
-    }
 }
