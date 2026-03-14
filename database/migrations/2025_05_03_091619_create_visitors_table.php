@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('contact_number');
             $table->string('gender');
             $table->string('age');
+            $table->string('isPWD');
             $table->string('members');
             $table->text('address');
             $table->string('date_visit');

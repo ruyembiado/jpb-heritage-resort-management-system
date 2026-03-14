@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('entrances', function (Blueprint $table) {
+        Schema::create('companions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('visitor_id')->after('id');
-            $table->string('status');
-            $table->string('total_payment')->nullable();
+            $table->unsignedBigInteger('visitor_id');
+            $table->unsignedBigInteger('entrance_id');
+            $table->string('name');
+            $table->integer('age');
+            $table->boolean('isPWD');
+            $table->string('address');
+            $table->decimal('fee', 8, 2);
             $table->timestamps();
-
-            $table->foreign('visitor_id')->references('id')->on('visitors')->onDelete('cascade');
         });
     }
 
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('entrances');
+        Schema::dropIfExists('companions');
     }
 };

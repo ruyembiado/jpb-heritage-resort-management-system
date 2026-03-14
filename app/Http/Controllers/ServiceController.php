@@ -2,19 +2,77 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Meal;
-use App\Models\Cottage;
-use App\Models\Visitor;
-use App\Models\Entrance;
-use Illuminate\Http\Request;
 use App\Models\Accommodation;
 use App\Models\Beverage;
+use App\Models\Companion;
+use App\Models\Cottage;
+use App\Models\Entrance;
+use App\Models\Meal;
+use App\Models\Service;
+use App\Models\Visitor;
+use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
     public function index()
     {
-        return view('entrances');
+        $services = Service::orderBy('created_at', 'desc')->get();
+
+        return view('services_setting', compact('services'));
+    }
+
+    public function add_service(Request $request)
+    {
+        $request->validate([
+            'service_name' => 'required|string|max:255',
+            'service_category' => 'nullable|string|max:255',
+            'service_type' => 'required|string|max:255',
+            'food_category' => 'nullable|string|max:255',
+            'food_type' => 'nullable|string|max:255',
+            'fee' => 'required|numeric|min:0',
+        ]);
+
+        Service::create([
+            'service_name' => $request->service_name,
+            'service_category' => $request->service_category ?? null,
+            'service_type' => $request->service_type,
+            'food_category' => $request->food_category ?? null,
+            'food_type' => $request->food_type ?? null,
+            'fee' => $request->fee,
+        ]);
+
+        return redirect()->back()->with('success', 'Service added successfully.');
+    }
+
+    public function update_service(Request $request, $id)
+    {
+        $request->validate([
+            'service_name' => 'required|string|max:255',
+            'service_category' => 'nullable|string|max:255',
+            'service_type' => 'required|string|max:255',
+            'food_category' => 'nullable|string|max:255',
+            'food_type' => 'nullable|string|max:255',
+            'fee' => 'required|numeric|min:0',
+        ]);
+
+        $service = Service::findOrFail($id);
+        $service->update([
+            'service_name' => $request->service_name,
+            'service_category' => $request->service_category ?? null,
+            'service_type' => $request->service_type,
+            'food_category' => $request->food_category ?? null,
+            'food_type' => $request->service_type == 'foods' ? $request->food_type : ($request->service_type == 'drinks' ? $request->drink_type : null),
+            'fee' => $request->fee,
+        ]);
+
+        return redirect()->back()->with('success', 'Service updated successfully.');
+    }
+
+    public function delete_service($id)
+    {
+        $service = Service::findOrFail($id);
+        $service->delete();
+        return redirect()->back()->with('success', 'Service deleted successfully.');
     }
 
     public function entrances(Request $request)
@@ -23,8 +81,10 @@ class ServiceController extends Controller
         $end_date = $request->end_date;
         $letter = $request->letter;
 
-        $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
-        $entrances = Entrance::with('visitor')
+        $entranceFees = Service::where('service_type', 'entrance_fee')->get();
+
+        // $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
+        $entrances = Entrance::with('visitor', 'companions')
             ->when($start_date, function ($query) use ($start_date) {
                 $query->whereDate('created_at', '>=', $start_date);
             })
@@ -40,48 +100,94 @@ class ServiceController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('entrances', compact('visitors', 'entrances', 'start_date', 'end_date', 'letter'));
+        return view('entrances', compact('entrances', 'start_date', 'end_date', 'letter', 'entranceFees'));
     }
 
-    public function storeEntrance(Request $request)
+    public function create_entrance_bill(Request $request)
     {
-        $request->validate([
-            'visitor_id' => 'required|exists:visitors,id',
-            'category' => 'required|array',
-            'members' => 'required|array',
-            'age' => 'nullable|array',
-            'fee' => 'nullable|array',
-            'total_payment' => 'required',
+        $visitor = Visitor::create([
+            'first_name' => $request->guest_first_name,
+            'middle_name' => $request->guest_middle_name,
+            'last_name' => $request->guest_last_name,
+            'contact_number' => $request->guest_contact_number,
+            'gender' => $request->guest_gender,
+            'age' => $request->guest_age,
+            'isPWD' => $request->guest_is_pwd ? 1 : 0,
+            'address' => $request->guest_address,
+            'date_visit' => $request->date_visit,
+            'members' => $request->guest_members,
         ]);
 
-        $categories = $request->input('category');
-        $members = $request->input('members');
-        $ages = $request->input('age');
-        $fees = $request->input('fee');
+        $entrance = Entrance::create([
+            'visitor_id' => $visitor->id,
+            'status' => $request->payment_status ?? 'unpaid',
+            'total_payment' => $request->total_fee,
+        ]);
 
-        $filteredCategories = [];
-        $filteredMembers = [];
-        $filteredAges = [];
-        $filteredFees = [];
-
-        foreach ($categories as $index => $category) {
-            $filteredCategories[] = $category;
-            $filteredMembers[] = isset($members[$index]) && $members[$index] !== '' ? $members[$index] : "null";
-            $filteredAges[] = isset($ages[$index]) ? $ages[$index] : null;
-            $filteredFees[] = isset($fees[$index]) ? $fees[$index] : null;
+        if ($request->guest_members > 0) {
+            foreach ($request->companion_name as $index => $name) {
+                Companion::create([
+                    'visitor_id' => $visitor->id,
+                    'entrance_id' => $entrance->id,
+                    'name' => $name,
+                    'age' => $request->companion_age[$index],
+                    'isPWD' => isset($request->companion_is_pwd[$index]) ? 1 : 0,
+                    'address' => $request->companion_address[$index],
+                    'fee' => $request->companion_fee[$index],
+                ]);
+            }
         }
-
-        Entrance::create([
-            'visitor_id' => $request->visitor_id,
-            'category' => json_encode($filteredCategories),
-            'members' => json_encode($filteredMembers),
-            'age' => json_encode($filteredAges),
-            'fee' => json_encode($filteredFees),
-            'total_payment' => $request->total_payment,
-        ]);
 
         return redirect()->route('entrances')->with('success', 'Entrance added successfully.');
     }
+
+    public function delete_visitor_entrance($id)
+    {
+        $visitor = Visitor::findOrFail($id);
+        $visitor->delete();
+
+        return redirect()->route('entrances')->with('success', 'Visitor data deleted successfully.');
+    }
+
+    // public function storeEntrance(Request $request)
+    // {
+    //     $request->validate([
+    //         'visitor_id' => 'required|exists:visitors,id',
+    //         'category' => 'required|array',
+    //         'members' => 'required|array',
+    //         'age' => 'nullable|array',
+    //         'fee' => 'nullable|array',
+    //         'total_payment' => 'required',
+    //     ]);
+
+    //     $categories = $request->input('category');
+    //     $members = $request->input('members');
+    //     $ages = $request->input('age');
+    //     $fees = $request->input('fee');
+
+    //     $filteredCategories = [];
+    //     $filteredMembers = [];
+    //     $filteredAges = [];
+    //     $filteredFees = [];
+
+    //     foreach ($categories as $index => $category) {
+    //         $filteredCategories[] = $category;
+    //         $filteredMembers[] = isset($members[$index]) && $members[$index] !== '' ? $members[$index] : "null";
+    //         $filteredAges[] = isset($ages[$index]) ? $ages[$index] : null;
+    //         $filteredFees[] = isset($fees[$index]) ? $fees[$index] : null;
+    //     }
+
+    //     Entrance::create([
+    //         'visitor_id' => $request->visitor_id,
+    //         'category' => json_encode($filteredCategories),
+    //         'members' => json_encode($filteredMembers),
+    //         'age' => json_encode($filteredAges),
+    //         'fee' => json_encode($filteredFees),
+    //         'total_payment' => $request->total_payment,
+    //     ]);
+
+    //     return redirect()->route('entrances')->with('success', 'Entrance added successfully.');
+    // }
 
     public function updateEntrance(Request $request)
     {

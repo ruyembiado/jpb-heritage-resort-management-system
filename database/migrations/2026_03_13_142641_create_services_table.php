@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->string('service_name');
+            $table->string('service_category')->nullable();
             $table->string('service_type');
-            $table->string('fee');
+            $table->string('food_category')->nullable();
+            $table->string('food_type')->nullable();
+            $table->decimal('fee', 10, 2);
             $table->timestamps();
         });
     }

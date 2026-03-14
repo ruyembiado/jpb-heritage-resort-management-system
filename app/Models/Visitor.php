@@ -20,6 +20,7 @@ class Visitor extends Model
         'contact_number',
         'gender',
         'age',
+        'isPWD',
         'members',
         'address',
         'date_visit'
@@ -33,6 +34,11 @@ class Visitor extends Model
     public function accommodation()
     {
         return $this->hasOne(Accommodation::class, 'visitor_id');
+    }
+
+    public function functionHall()
+    {
+        return $this->hasOne(FunctionHall::class, 'visitor_id');
     }
 
     public function cottage()

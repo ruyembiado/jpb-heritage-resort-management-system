@@ -80,6 +80,14 @@
                         <span>List of Guest</span>
                     </a>
                 </li>
+                <hr class="sidebar-hr text-light mt-1 mb-2">
+                <b class="text-light ms-2">SETTINGS</b>
+                <li class="sidebar-item">
+                    <a href="{{ url('/services') }}" class="sidebar-link">
+                        <i class="fa fa-cog"></i>
+                        <span>Services</span>
+                    </a>
+                </li>
             </ul>
         </aside>
         <div class="main bg-gradient">

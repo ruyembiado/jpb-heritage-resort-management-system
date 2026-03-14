@@ -183,21 +183,36 @@
                         <div class="card mb-0">
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="" width="100%">
+                                    <table class="table table-bordered border-dark" id="" width="100%">
                                         <thead>
                                             <tr>
-                                                <th rowspan="3" class="align-middle bg-success text-light text-uppercase">No.</th>
-                                                <th rowspan="3" class="align-middle bg-success text-light text-uppercase">Name of Guest</th>
-                                                <th rowspan="3" class="align-middle bg-success text-light text-uppercase">Members</th>
-                                                <th colspan="10" class="text-center bg-success text-light text-uppercase">Availed Services</th>
-                                                <th rowspan="3" class="align-middle bg-success text-light text-uppercase">Total Fee</th>
+                                                <th rowspan="3"
+                                                    class="align-middle bg-theme-primary text-light text-uppercase">No.
+                                                </th>
+                                                <th rowspan="3"
+                                                    class="align-middle bg-theme-primary text-light text-uppercase">Name of
+                                                    Guest</th>
+                                                <th rowspan="3"
+                                                    class="align-middle bg-theme-primary text-light text-uppercase">Members
+                                                </th>
+                                                <th colspan="10"
+                                                    class="text-center bg-theme-primary text-light text-uppercase">Availed
+                                                    Services</th>
+                                                <th rowspan="3"
+                                                    class="align-middle bg-theme-primary text-light text-uppercase">Total
+                                                    Fee</th>
                                             </tr>
                                             <tr>
-                                                <th class="bg-success text-light text-uppercase" colspan="2">Entrance Fee</th>
-                                                <th class="bg-success text-light text-uppercase" colspan="2">Room Accommodation</th>
-                                                <th class="bg-success text-light text-uppercase" colspan="2">Cottage Fee</th>
-                                                <th class="bg-success text-light text-uppercase" colspan="2">Foods</th>
-                                                <th class="bg-success text-light text-uppercase" colspan="2">Drinks</th>
+                                                <th class="bg-theme-primary text-light text-uppercase" colspan="2">
+                                                    Entrance Fee</th>
+                                                <th class="bg-theme-primary text-light text-uppercase" colspan="2">Room
+                                                    Accommodation</th>
+                                                <th class="bg-theme-primary text-light text-uppercase" colspan="2">
+                                                    Cottage Fee</th>
+                                                <th class="bg-theme-primary text-light text-uppercase" colspan="2">
+                                                    Foods</th>
+                                                <th class="bg-theme-primary text-light text-uppercase" colspan="2">
+                                                    Drinks</th>
                                             </tr>
                                             <tr>
                                                 <th class="bg-success text-light">Fee</th>
@@ -223,41 +238,82 @@
                                                     <td class="text-center">
                                                         {{ $visitor->members }}
                                                     </td>
+
                                                     <!-- Entrance -->
                                                     <td>
                                                         {{ $visitor->entrance ? '₱' . number_format($visitor->entrance->total_payment, 2) : 'N/A' }}
                                                     </td>
                                                     <td>
-                                                        {{ $visitor->entrance->status ?? 'N/A' }}
+                                                        @if (isset($visitor->entrance->status))
+                                                            <span
+                                                                class="badge {{ $visitor->entrance->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
+                                                                {{ $visitor->entrance->status }}
+                                                            </span>
+                                                        @else
+                                                            <span class="badge bg-secondary">N/A</span>
+                                                        @endif
                                                     </td>
+
                                                     <!-- Accommodation -->
                                                     <td>
                                                         {{ $visitor->accommodation ? '₱' . number_format($visitor->accommodation->total_payment, 2) : 'N/A' }}
                                                     </td>
                                                     <td>
-                                                        {{ $visitor->accommodation->status ?? 'N/A' }}
+                                                        @if (isset($visitor->accommodation->status))
+                                                            <span
+                                                                class="badge {{ $visitor->accommodation->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
+                                                                {{ $visitor->accommodation->status }}
+                                                            </span>
+                                                        @else
+                                                            <span class="badge bg-secondary">N/A</span>
+                                                        @endif
                                                     </td>
+
                                                     <!-- Cottage -->
                                                     <td>
                                                         {{ $visitor->cottage ? '₱' . number_format($visitor->cottage->total_payment, 2) : 'N/A' }}
                                                     </td>
                                                     <td>
-                                                        {{ $visitor->cottage->status ?? 'N/A' }}
+                                                        @if (isset($visitor->cottage->status))
+                                                            <span
+                                                                class="badge {{ $visitor->cottage->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
+                                                                {{ $visitor->cottage->status }}
+                                                            </span>
+                                                        @else
+                                                            <span class="badge bg-secondary">N/A</span>
+                                                        @endif
                                                     </td>
+
                                                     <!-- Meals -->
                                                     <td>
                                                         {{ $visitor->meal ? '₱' . number_format($visitor->meal->total_payment, 2) : 'N/A' }}
                                                     </td>
                                                     <td>
-                                                        {{ $visitor->meal->status ?? 'N/A' }}
+                                                        @if (isset($visitor->meal->status))
+                                                            <span
+                                                                class="badge {{ $visitor->meal->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
+                                                                {{ $visitor->meal->status }}
+                                                            </span>
+                                                        @else
+                                                            <span class="badge bg-secondary">N/A</span>
+                                                        @endif
                                                     </td>
+
                                                     <!-- Beverages -->
                                                     <td>
                                                         {{ $visitor->beverage ? '₱' . number_format($visitor->beverage->total_payment, 2) : 'N/A' }}
                                                     </td>
                                                     <td>
-                                                        {{ $visitor->beverage->status ?? 'N/A' }}
+                                                        @if (isset($visitor->beverage->status))
+                                                            <span
+                                                                class="badge {{ $visitor->beverage->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
+                                                                {{ $visitor->beverage->status }}
+                                                            </span>
+                                                        @else
+                                                            <span class="badge bg-secondary">N/A</span>
+                                                        @endif
                                                     </td>
+
                                                     @php
                                                         $grand_total =
                                                             ($visitor->entrance->total_payment ?? 0) +

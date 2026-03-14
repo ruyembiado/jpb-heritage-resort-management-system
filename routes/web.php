@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/log-book', [VisitorController::class, 'index'])->name('logbook');
     Route::post('/add-visitor', [VisitorController::class, 'store'])->name('visitor.store');
     Route::put('/update-visitor', [VisitorController::class, 'update'])->name('visitor.update');
-    Route::delete('/delete-visitor/{id}', [VisitorController::class, 'destroy'])->name('visitor.destroy');
+    Route::delete('/delete-visitor/{id}', [ServiceController::class, 'delete_visitor_entrance'])->name('visitor.destroy');
     Route::get('/get-visitor-members/{id}', [VisitorController::class, 'getVisitorMembers']);
 
     // StaffController routes
@@ -43,10 +43,13 @@ Route::middleware(['auth'])->group(function () {
 
     // ServiceController routes
     Route::get('/services', [ServiceController::class, 'index'])->name('services');
+    Route::post('/add-service', [ServiceController::class, 'add_service'])->name('service.store');
+    Route::put('/update-service/{id}', [ServiceController::class,'update_service'])->name('service.update');
+    Route::delete('/delete-service/{id}', [ServiceController::class, 'delete_service'])->name('service.destroy');
     // entrances
     Route::get('/availed-services', [ServiceController::class, 'availed_services'])->name('availed.services');
     Route::get('/entrances', [ServiceController::class, 'entrances'])->name('entrances');
-    Route::post('/add-entrance', [ServiceController::class, 'storeEntrance'])->name('entrance.store');
+    Route::post('/add-entrance', [ServiceController::class, 'create_entrance_bill'])->name('entrance.store');
     Route::put('/entrance/update', [ServiceController::class, 'updateEntrance'])->name('entrance.update');
     Route::delete('/delete-entrance/{id}', [ServiceController::class, 'destroyEntrance'])->name('entrance.destroy');
     // accommodations

@@ -184,7 +184,7 @@ a.sidebar-link:hover {
 }
 
 .bg-theme-primary {
-    background-color: #084D00;
+    background-color: #084D00 !important;
 }
 
 .navbar-expand .navbar-collapse {
@@ -338,4 +338,11 @@ h1.home-title {
     --bs-border-opacity: 1;
     --bs-brown-rgb: 179, 81, 0;
     border-color: rgba(var(--bs-brown-rgb), var(--bs-border-opacity)) !important;
+}
+
+.sticky-action {
+    position: sticky !important;
+    right: 0 !important;
+    background: white;
+    z-index: 2 !important;
 }
