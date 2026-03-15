@@ -42,7 +42,7 @@
                         </div>
                         <div class="d-flex justify-content-center align-items-center gap-2">
                             <i class="fa fa-peso-sign fa-2x text-light"></i>
-                            <div class="h3 mb-0 font-weight-bold text-light">{{ $visitorsThisYear }}</div>
+                            <div class="h3 mb-0 font-weight-bold text-light">₱{{ number_format($totalBills, 2) }}</div>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                             </div>
                             <div class="d-flex justify-content-center align-items-center gap-2">
                                 <i class="fa fa-times-circle fa-2x text-light"></i>
-                                <div class="h3 mb-0 font-weight-bold text-light">{{ $visitorsThisYear }}</div>
+                                <div class="h3 mb-0 font-weight-bold text-light">{{ $unpaidBills }}</div>
                             </div>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                         </div>
                         <div class="d-flex justify-content-center align-items-center gap-2">
                             <i class="fa fa-check-circle fa-2x text-light"></i>
-                            <div class="h3 mb-0 font-weight-bold text-light">{{ $visitorsThisYear }}</div>
+                            <div class="h3 mb-0 font-weight-bold text-light">{{ $paidBills }}</div>
                         </div>
                     </div>
                 </div>
@@ -338,49 +338,150 @@
         </div>
 
         <div class="col-12 mb-4">
-            <div class="card shadow h-100 py-2">
+            <div class="card shadow mb-0">
                 <div class="card-body">
-                    <div class="d-flex h-100 flex-column justify-content-between">
-                        <div class="row align-items-center justify-content-between">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                                    Visitors | This Month</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <!-- Date Filter -->
+                        <form method="GET" action="" id="dateRangeForm">
+                            <div class="d-flex justify-content-start gap-2 align-items-end mb-4">
+
+                                <div class="d-flex align-items-center">
+                                    <label class="mb-0 me-0 p-1 bg-theme-primary text-light">From:</label>
+                                    <input type="date" name="start_date" value="{{ request('start_date') }}"
+                                        class="form-control form-control-sm rounded-0"
+                                        onchange="document.getElementById('dateRangeForm').submit();">
+                                </div>
+
+                                <div class="d-flex align-items-center">
+                                    <label class="mb-0 me-0 p-1 bg-theme-primary text-light">To:</label>
+                                    <input type="date" name="end_date" value="{{ request('end_date') }}"
+                                        class="form-control form-control-sm rounded-0"
+                                        onchange="document.getElementById('dateRangeForm').submit();">
+                                </div>
                             </div>
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>No.</th>
-                                            <th>Name</th>
-                                            <th>Gender</th>
-                                            <th>Age</th>
-                                            <th class="text-start">Members</th>
-                                            <th class="text-start">Contact No.</th>
-                                            <th>Address</th>
-                                            <th>Date</th>
-                                            {{-- <th>Date Created</th> --}}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($visitors as $visitor)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $visitor->first_name . ' ' . $visitor->middle_name . ' ' . $visitor->last_name }}
-                                                </td>
-                                                <td class="text-start">{{ $visitor->gender }}</td>
-                                                <td class="text-start">{{ $visitor->age }}</td>
-                                                <td class="text-start">{{ $visitor->members }}</td>
-                                                <td class="text-start">{{ $visitor->contact_number }}</td>
-                                                <td>{{ $visitor->address }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}
-                                                </td>
-                                                {{-- <td>{{ \Carbon\Carbon::parse($visitor->created_at)->format('F j, Y \a\t h:i A') }}</td> --}}
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                            <!-- A-Z Filter -->
+                            <div class="d-flex flex-wrap gap-1 mb-3">
+                                <a href="{{ request()->fullUrlWithQuery(['letter' => null]) }}"
+                                    class="btn btn-sm rounded-circle {{ request('letter') ? 'btn-dark' : 'btn-success' }}">
+                                    All
+                                </a>
+
+                                @foreach (range('A', 'Z') as $letter)
+                                    <a href="{{ request()->fullUrlWithQuery(['letter' => $letter]) }}"
+                                        class="btn btn-sm rounded-circle 
+                                    {{ request('letter') == $letter ? 'btn-success' : 'btn-dark' }}"
+                                        style="width:32px;height:32px;line-height:22px;">
+                                        {{ $letter }}
+                                    </a>
+                                @endforeach
                             </div>
-                        </div>
+                        </form>
+                    </div>
+
+                    <div class="table-responsive" style="overflow-x:auto;">
+                        <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0"
+                            style="min-width:2000px;">
+                            <thead>
+                                <tr>
+                                    <th class="bg-theme-primary text-light border-dark">NO.</th>
+                                    <th class="bg-theme-primary text-light border-dark">NAME OF GUEST</th>
+                                    <th class="bg-theme-primary text-light border-dark">SEX</th>
+                                    <th class="bg-theme-primary text-light border-dark">AGE</th>
+                                    <th class="bg-theme-primary text-light border-dark">MEMBERS</th>
+                                    <th class="bg-theme-primary text-light border-dark">TOTAL FEE</th>
+                                    <th class="bg-theme-primary text-light border-dark">STATUS</th>
+                                    <th class="bg-theme-primary text-light border-dark">CONTACT NO.</th>
+                                    <th class="bg-theme-primary text-light border-dark">ADDRESS</th>
+                                    <th class="bg-theme-primary text-light border-dark">CHECK-IN</th>
+                                    <th class="bg-theme-primary text-light border-dark">DATE CREATED</th>
+                                    <th class="bg-theme-primary text-light border-dark sticky-action">ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($entrances as $entrance)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $entrance->visitor?->first_name ?? '' }}
+                                            {{ $entrance->visitor?->middle_name ?? '' }}
+                                            {{ $entrance->visitor?->last_name ?? '' }}
+                                        </td>
+                                        <td>{{ $entrance->visitor->gender }}</td>
+                                        <td>{{ $entrance->visitor->age }}</td>
+                                        <td class="text-center px-0 pb-0">
+                                            {{ $entrance->visitor->members ?? 0 }}
+                                            @if (!empty($entrance->companions))
+                                                <table class="table table-bordered mt-2 mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="bg-success text-light">No.</th>
+                                                            <th class="bg-success text-light">Name</th>
+                                                            <th class="bg-success text-light">Category</th>
+                                                            <th class="bg-success text-light">Sex</th>
+                                                            <th class="bg-success text-light">Age</th>
+                                                            <th class="bg-success text-light">Address</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($entrance->companions as $index => $companion)
+                                                            <tr>
+                                                                <td>{{ $index + 1 }}</td>
+                                                                <td>{{ $companion->name }}</td>
+                                                                <td>
+                                                                    @if ($companion->age <= 15)
+                                                                        Child
+                                                                    @elseif ($companion->isPWD)
+                                                                        PWD
+                                                                    @else
+                                                                        Adult
+                                                                    @endif
+                                                                </td>
+                                                                <td>{{ $companion->gender }}</td>
+                                                                <td>{{ $companion->age }}</td>
+                                                                <td>{{ $companion->address }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            @else
+                                                <span class="text-muted">No companions</span>
+                                            @endif
+                                        </td>
+                                        <td>₱ {{ number_format($entrance->total_payment, 2) }}</td>
+                                        <td>
+                                            @if ($entrance->status === 'Paid')
+                                                <span class="badge bg-success">Paid</span>
+                                            @else
+                                                <span class="badge bg-danger">Unpaid</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $entrance->visitor->contact_number }}</td>
+                                        <td>{{ $entrance->visitor->address }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($entrance->visitor->created_at)->format('h:i A') }}
+                                        </td>
+                                        <td>{{ \Carbon\Carbon::parse($entrance->created_at)->format('M d, Y') }}</td>
+                                        <td class="sticky-action">
+                                            <div class="d-flex align-items-center gap-1">
+                                                <button class="btn btn-primary btn-sm editEntrance"
+                                                    data-id="{{ $entrance->id }}" data-bs-toggle="modal"
+                                                    data-bs-target="#editEntranceModal">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <form action="{{ route('visitor.destroy', $entrance->visitor_id) }}"
+                                                    method="POST"
+                                                    onsubmit="return confirm('Are you sure you want to delete this visitor record?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -395,9 +496,21 @@
                                 <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
                                     Monthly Visitors Data Chart</div>
                             </div>
+                            <div class="col-auto">
+                                <form method="GET" action="{{ route('dashboard') }}">
+                                    <select name="year" class="form-select" onchange="this.form.submit()">
+                                        @for ($year = 2025; $year <= now()->year; $year++)
+                                            <option value="{{ $year }}"
+                                                {{ $selectedYear == $year ? 'selected' : '' }}>
+                                                {{ $year }}
+                                            </option>
+                                        @endfor
+                                    </select>
+                                </form>
+                            </div>
                             <canvas id="visitorsChart" height="100"></canvas>
                             <div class="text-center mt-3">
-                                <p>Year {{ now()->year }}</p>
+                                <p>Year {{ $selectedYear }}</p>
                             </div>
                         </div>
                     </div>

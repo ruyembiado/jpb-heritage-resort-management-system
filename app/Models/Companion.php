@@ -15,6 +15,7 @@ class Companion extends Model
         'visitor_id',
         'entrance_id',
         'name',
+        'gender',
         'age',
         'isPWD',
         'address',

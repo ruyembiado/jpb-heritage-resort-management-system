@@ -50,7 +50,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/availed-services', [ServiceController::class, 'availed_services'])->name('availed.services');
     Route::get('/entrances', [ServiceController::class, 'entrances'])->name('entrances');
     Route::post('/add-entrance', [ServiceController::class, 'create_entrance_bill'])->name('entrance.store');
-    Route::put('/entrance/update', [ServiceController::class, 'updateEntrance'])->name('entrance.update');
+    Route::put('/entrance/update', [ServiceController::class, 'update_entrance_bill'])->name('entrance.update');
     Route::delete('/delete-entrance/{id}', [ServiceController::class, 'destroyEntrance'])->name('entrance.destroy');
     // accommodations
     Route::get('/accommodations', [ServiceController::class, 'accommodations'])->name('accommodations');

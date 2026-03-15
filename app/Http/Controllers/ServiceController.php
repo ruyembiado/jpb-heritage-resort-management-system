@@ -130,15 +130,60 @@ class ServiceController extends Controller
                     'visitor_id' => $visitor->id,
                     'entrance_id' => $entrance->id,
                     'name' => $name,
+                    'gender' => $request->companion_gender[$index],
                     'age' => $request->companion_age[$index],
-                    'isPWD' => isset($request->companion_is_pwd[$index]) ? 1 : 0,
+                    'isPWD' => $request->companion_is_pwd[$index] ?? 0,
                     'address' => $request->companion_address[$index],
                     'fee' => $request->companion_fee[$index],
                 ]);
             }
         }
 
-        return redirect()->route('entrances')->with('success', 'Entrance added successfully.');
+        return redirect()->route('entrances')->with('success', 'Visitor and entrance added successfully.');
+    }
+
+    public function update_entrance_bill(Request $request)
+    {
+        $entrance = Entrance::findOrFail($request->entrance_id);
+
+        $visitor = $entrance->visitor;
+        $visitor->update([
+            'first_name' => $request->edit_guest_first_name,
+            'middle_name' => $request->edit_guest_middle_name,
+            'last_name' => $request->edit_guest_last_name,
+            'contact_number' => $request->edit_guest_contact_number,
+            'gender' => $request->edit_guest_gender,
+            'age' => $request->edit_guest_age,
+            'isPWD' => $request->edit_guest_is_pwd ? 1 : 0,
+            'address' => $request->edit_guest_address,
+            'date_visit' => $request->edit_date_visit,
+            'members' => $request->edit_guest_members,
+        ]);
+
+        $entrance->update([
+            'status' => $request->payment_status ?? 'Unpaid',
+            'total_payment' => $request->edit_total_fee,
+        ]);
+
+        Companion::where('entrance_id', $entrance->id)->delete();
+        if ($request->edit_guest_members > 0 && $request->has('edit_companion_name')) {
+            foreach ($request->edit_companion_name as $index => $name) {
+                if (empty($name)) continue;
+
+                Companion::create([
+                    'visitor_id' => $visitor->id,
+                    'entrance_id' => $entrance->id,
+                    'name' => $name,
+                    'gender' => $request->edit_companion_gender[$index] ?? 'Male',
+                    'age' => $request->edit_companion_age[$index] ?? 0,
+                    'isPWD' => isset($request->edit_companion_is_pwd[$index]) ? 1 : 0,
+                    'address' => $request->edit_companion_address[$index] ?? '',
+                    'fee' => $request->edit_companion_fee[$index] ?? 0,
+                ]);
+            }
+        }
+
+        return redirect()->route('entrances')->with('success', 'Visitor and entrance updated successfully.');
     }
 
     public function delete_visitor_entrance($id)
