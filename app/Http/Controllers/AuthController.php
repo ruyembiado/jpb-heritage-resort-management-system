@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Entrance;
+use App\Models\Service;
 use App\Models\Visitor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -68,6 +69,24 @@ class AuthController extends Controller
         $visitorsMonth = Visitor::where('created_at', '>=', $startOfMonth)
             ->orderBy('created_at', 'desc')
             ->get();
+
+        $visitorsWithUnpaidBills = $visitorsMonth->filter(function ($visitor) {
+            $services = [
+                $visitor->entrance,
+                $visitor->accommodation,
+                $visitor->cottage,
+                $visitor->meal,
+                $visitor->beverage
+            ];
+
+            foreach ($services as $service) {
+                if ($service && isset($service->status) && $service->status !== 'Paid') {
+                    return true; 
+                }
+            }
+
+            return false; 
+        });
 
         /*
     |--------------------------------------------------------------------------
@@ -149,6 +168,8 @@ class AuthController extends Controller
             'December'
         ];
 
+        $entranceFees = Service::where('service_type', 'entrance_fee')->get();
+
         return view('dashboard', [
             'visitorsToday' => $visitorsToday,
             'visitorsThisWeek' => $visitorsThisWeek,
@@ -165,6 +186,8 @@ class AuthController extends Controller
 
             'entrances' => $entrances,
             'selectedYear' => $selectedYear,
+            'visitorsWithUnpaidBills' => $visitorsWithUnpaidBills,
+            'entranceFees' => $entranceFees
         ]);
     }
 

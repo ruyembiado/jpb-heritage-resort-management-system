@@ -161,7 +161,7 @@ class ServiceController extends Controller
         ]);
 
         $entrance->update([
-            'status' => $request->payment_status ?? 'Unpaid',
+            'status' => $request->edit_payment_status ?? 'Unpaid',
             'total_payment' => $request->edit_total_fee,
         ]);
 
@@ -183,7 +183,7 @@ class ServiceController extends Controller
             }
         }
 
-        return redirect()->route('entrances')->with('success', 'Visitor and entrance updated successfully.');
+        return redirect()->back()->with('success', 'Visitor and entrance updated successfully.');
     }
 
     public function delete_visitor_entrance($id)
@@ -192,94 +192,6 @@ class ServiceController extends Controller
         $visitor->delete();
 
         return redirect()->route('entrances')->with('success', 'Visitor data deleted successfully.');
-    }
-
-    // public function storeEntrance(Request $request)
-    // {
-    //     $request->validate([
-    //         'visitor_id' => 'required|exists:visitors,id',
-    //         'category' => 'required|array',
-    //         'members' => 'required|array',
-    //         'age' => 'nullable|array',
-    //         'fee' => 'nullable|array',
-    //         'total_payment' => 'required',
-    //     ]);
-
-    //     $categories = $request->input('category');
-    //     $members = $request->input('members');
-    //     $ages = $request->input('age');
-    //     $fees = $request->input('fee');
-
-    //     $filteredCategories = [];
-    //     $filteredMembers = [];
-    //     $filteredAges = [];
-    //     $filteredFees = [];
-
-    //     foreach ($categories as $index => $category) {
-    //         $filteredCategories[] = $category;
-    //         $filteredMembers[] = isset($members[$index]) && $members[$index] !== '' ? $members[$index] : "null";
-    //         $filteredAges[] = isset($ages[$index]) ? $ages[$index] : null;
-    //         $filteredFees[] = isset($fees[$index]) ? $fees[$index] : null;
-    //     }
-
-    //     Entrance::create([
-    //         'visitor_id' => $request->visitor_id,
-    //         'category' => json_encode($filteredCategories),
-    //         'members' => json_encode($filteredMembers),
-    //         'age' => json_encode($filteredAges),
-    //         'fee' => json_encode($filteredFees),
-    //         'total_payment' => $request->total_payment,
-    //     ]);
-
-    //     return redirect()->route('entrances')->with('success', 'Entrance added successfully.');
-    // }
-
-    public function updateEntrance(Request $request)
-    {
-        $request->validate([
-            'visitor_id' => 'required|exists:visitors,id',
-            'category' => 'required|array',
-            'members' => 'required|array',
-            'age' => 'nullable|array',
-            'fee' => 'nullable|array',
-            'total_payment' => 'required',
-        ]);
-
-        $categories = $request->input('category');
-        $members = $request->input('members');
-        $ages = $request->input('age');
-        $fees = $request->input('fee');
-
-        $filteredCategories = [];
-        $filteredMembers = [];
-        $filteredAges = [];
-        $filteredFees = [];
-
-        foreach ($categories as $index => $category) {
-            $filteredCategories[] = $category;
-            $filteredMembers[] = isset($members[$index]) && $members[$index] !== '' ? $members[$index] : "null";
-            $filteredAges[] = isset($ages[$index]) ? $ages[$index] : null;
-            $filteredFees[] = isset($fees[$index]) ? $fees[$index] : null;
-        }
-
-        $entrance = Entrance::findOrFail($request->entrance_id);
-        $entrance->update([
-            'visitor_id' => $request->visitor_id,
-            'category' => json_encode($filteredCategories),
-            'members' => json_encode($filteredMembers),
-            'age' => json_encode($filteredAges),
-            'fee' => json_encode($filteredFees),
-            'total_payment' => $request->total_payment,
-        ]);
-
-        return redirect()->route('entrances')->with('success', 'Entrance updated successfully.');
-    }
-
-    public function destroyEntrance($id)
-    {
-        $entrance = Entrance::findOrFail($id);
-        $entrance->delete();
-        return redirect()->route('entrances')->with('success', 'Entrance fee deleted successfully.');
     }
 
     public function accommodations()
@@ -370,12 +282,31 @@ class ServiceController extends Controller
         return redirect()->route('accommodations')->with('success', 'Accommodation deleted successfully.');
     }
 
-    public function cottages()
+    public function cottages(Request $request)
     {
-        $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
-        $cottages = Cottage::orderBy('created_at', 'desc')->with('visitor')->get();
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $letter = $request->letter;
 
-        return view('cottages', compact('visitors', 'cottages'));
+        $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
+        $cottages = Cottage::with('visitor')
+            ->when($start_date, function ($query) use ($start_date) {
+                $query->whereDate('created_at', '>=', $start_date);
+            })
+            ->when($end_date, function ($query) use ($end_date) {
+                $query->whereDate('created_at', '<=', $end_date);
+            })
+            ->when($letter, function ($query) use ($letter) {
+                $query->whereHas('visitor', function ($q) use ($letter) {
+                    $q->where('first_name', 'like', $letter . '%');
+                });
+            })
+
+            ->orderBy('created_at', 'desc')
+            ->get();
+        $cottageFees = Service::where('service_type', 'cottage_fee')->get();
+
+        return view('cottages', compact('visitors', 'cottages', 'cottageFees'));
     }
 
     public function storeCottage(Request $request)
@@ -386,7 +317,8 @@ class ServiceController extends Controller
             'cottage_type' => 'required|array',
             'quantity' => 'required|array',
             'fees' => 'required|array',
-            'total_payment' => 'required',
+            'total_payment' => 'required|numeric|min:0',
+            'payment_status' => 'required|in:Paid,Unpaid'
         ]);
 
         $types = $request->input('cottage_type');
@@ -398,19 +330,27 @@ class ServiceController extends Controller
         $finalFees = [];
 
         foreach ($types as $index => $type) {
-            // If quantity is empty or not set, set it to 0
-            $qty = isset($quantities[$index]) && is_numeric($quantities[$index])
-                ? (int) $quantities[$index]
-                : 0;
+            // Handle checkbox values - check if it's checked (value = 1)
+            $qty = isset($quantities[$index]) && $quantities[$index] == 1 ? 1 : 0;
 
-            // If fee is empty or not set, set it to 0.0
+            // Get the fee value
             $fee = isset($fees[$index]) && is_numeric($fees[$index])
                 ? (float) $fees[$index]
                 : 0.0;
 
-            $finalCottages[] = $type;
-            $finalQuantities[] = $qty;
-            $finalFees[] = $fee;
+            // Only include if quantity is 1 (checked)
+            if ($qty == 1) {
+                $finalCottages[] = $type;
+                $finalQuantities[] = $qty;
+                $finalFees[] = $fee;
+            }
+        }
+
+        // If no cottages selected, return error
+        if (empty($finalCottages)) {
+            return redirect()->back()
+                ->with('error', 'Please select at least one cottage.')
+                ->withInput();
         }
 
         Cottage::create([
@@ -420,57 +360,76 @@ class ServiceController extends Controller
             'quantity' => json_encode($finalQuantities),
             'fee' => json_encode($finalFees),
             'total_payment' => $request->total_payment,
+            'status' => $request->payment_status,
         ]);
 
-        return redirect()->route('cottages')->with('success', 'Cottage Rental added successfully.');
+        return redirect()->route('cottages')->with('success', 'Cottage fee added successfully.');
     }
 
     public function updateCottage(Request $request)
     {
         $request->validate([
             'cottage_id' => 'required|exists:cottages,id',
-            'edit_cottage_area' => 'required|string',
-            'edit_cottage_types' => 'required|array',
+            'visitor_id' => 'required|exists:visitors,id',
+            'cottage_area' => 'required',
+            'cottage_type' => 'required|array',
             'quantity' => 'required|array',
-            'cottage_fees' => 'required|array',
-            'total_payment' => 'required|numeric',
+            'fees' => 'required|array',
+            'total_payment' => 'required|numeric|min:0',
+            'payment_status' => 'required|in:Paid,Unpaid'
         ]);
 
-        $cottage = Cottage::findOrFail($request->cottage_id);
-
-        $types = $request->input('edit_cottage_types');
+        $types = $request->input('cottage_type');
         $quantities = $request->input('quantity');
-        $fees = $request->input('cottage_fees');
+        $fees = $request->input('fees');
 
         $finalCottages = [];
         $finalQuantities = [];
         $finalFees = [];
 
         foreach ($types as $index => $type) {
-            $qty = isset($quantities[$index]) && is_numeric($quantities[$index]) ? (int) $quantities[$index] : 0;
-            $fee = isset($fees[$index]) && is_numeric($fees[$index]) ? (float) $fees[$index] : 0.0;
+            // Handle checkbox values
+            $qty = isset($quantities[$index]) && $quantities[$index] == 1 ? 1 : 0;
 
-            $finalCottages[] = $type;
-            $finalQuantities[] = $qty;
-            $finalFees[] = $fee;
+            // Get the fee value
+            $fee = isset($fees[$index]) && is_numeric($fees[$index])
+                ? (float) $fees[$index]
+                : 0.0;
+
+            // Only include if quantity is 1 (checked)
+            if ($qty == 1) {
+                $finalCottages[] = $type;
+                $finalQuantities[] = $qty;
+                $finalFees[] = $fee;
+            }
         }
 
+        // If no cottages selected, return error
+        if (empty($finalCottages)) {
+            return redirect()->back()
+                ->with('error', 'Please select at least one cottage.')
+                ->withInput();
+        }
+
+        $cottage = Cottage::findOrFail($request->cottage_id);
         $cottage->update([
-            'cottage_area' => $request->input('edit_cottage_area'),
+            'visitor_id' => $request->visitor_id,
+            'cottage_area' => $request->cottage_area,
             'cottage_type' => json_encode($finalCottages),
             'quantity' => json_encode($finalQuantities),
             'fee' => json_encode($finalFees),
-            'total_payment' => $request->input('total_payment'),
+            'total_payment' => $request->total_payment,
+            'status' => $request->payment_status,
         ]);
 
-        return redirect()->route('cottages')->with('success', 'Cottage Rental updated successfully.');
+        return redirect()->route('cottages')->with('success', 'Cottage fee updated successfully.');
     }
 
     public function destroyCottage($id)
     {
         $cottage = Cottage::findOrFail($id);
         $cottage->delete();
-        return redirect()->route('cottages')->with('success', 'Cottage Rental deleted successfully.');
+        return redirect()->route('cottages')->with('success', 'Cottage fee deleted successfully.');
     }
 
     public function meals()

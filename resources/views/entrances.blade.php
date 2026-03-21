@@ -15,35 +15,7 @@
     </div>
 
     <!-- Content Row -->
-    <div class="d-flex align-items-center justify-content-center gap-5 bg-theme-primary p-2">
-        <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="60" alt="jbp-logo">
-        <div class="d-flex gap-2">
-            <a href="{{ url()->current() }}" class="btn btn-danger">
-                <i class="fas fa-refresh"></i> Reload
-            </a>
-            <a href="{{ url('entrances') }}"
-                class="btn {{ Request::is('entrances') ? 'btn-success' : 'btn-outline-light ' }} d-flex align-items-center gap-2">
-                <i class="fas fa-money-bill"></i>
-                Entrance Fee
-            </a>
-            <a href="#" class="btn btn-outline-light d-flex align-items-center gap-2">
-                <i class="fas fa-home"></i>
-                Cottage Fee
-            </a>
-            <a href="#" class="btn btn-outline-light d-flex align-items-center gap-2">
-                <i class="fas fa-tools"></i>
-                Facilities
-            </a>
-            <a href="#" class="btn btn-outline-light d-flex align-items-center gap-2">
-                <i class="fas fa-utensils"></i>
-                Food & Drinks
-            </a>
-            <a href="#" class="btn btn-outline-light d-flex align-items-center gap-2">
-                <i class="fas fa-file-invoice"></i>
-                Bill
-            </a>
-        </div>
-    </div>
+    @include('layouts.services-navigation')
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
@@ -167,7 +139,7 @@
                                 <td>{{ \Carbon\Carbon::parse($entrance->created_at)->format('M d, Y') }}</td>
                                 <td class="sticky-action">
                                     <div class="d-flex align-items-center gap-1">
-                                        <button class="btn btn-primary btn-sm editEntranceBtn"
+                                        <button class="btn btn-warning btn-sm editEntranceBtn"
                                             data-id="{{ $entrance->id }}"
                                             data-first_name="{{ $entrance->visitor->first_name }}"
                                             data-middle_name="{{ $entrance->visitor->middle_name }}"
