@@ -4,10 +4,10 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="d-flex">
-            <i class="fas fa-money-bill fa-2x text-dark me-2"></i>
+            <i class="fas fa-home fa-2x text-dark me-2"></i>
             <div class="d-flex flex-column">
                 <h1 class="h3 mb-0 text">AVAILED SERVICES</h1>
-                <h6 class="mb-0">Dashboard | Cottage Fees</h6>
+                <h6 class="mb-0">Guest | Cottage Fees</h6>
             </div>
         </div>
         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCottageModal">Add Cottage Fee</a>

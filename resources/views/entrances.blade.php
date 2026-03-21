@@ -8,7 +8,7 @@
             <i class="fas fa-money-bill fa-2x text-dark me-2"></i>
             <div class="d-flex flex-column">
                 <h1 class="h3 mb-0 text">AVAILED SERVICES</h1>
-                <h6 class="mb-0">Dashboard | Entrance Fees</h6>
+                <h6 class="mb-0">Guest | Entrance Fees</h6>
             </div>
         </div>
         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEntranceModal">Add Entrance Fee</a>

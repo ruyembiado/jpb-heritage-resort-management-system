@@ -3,14 +3,70 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text">Accommodations</h1>
+        <div class="d-flex">
+            <i class="fa-solid fa-hotel fa-2x text-dark me-2"></i>
+            <div class="d-flex flex-column">
+                <h1 class="h3 mb-0 text">AVAILED SERVICES</h1>
+                <h6 class="mb-0">Guest | Accommodation Fees</h6>
+            </div>
+        </div>
         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAccommodationModal">Add
             Accommodation</a>
     </div>
 
     <!-- Content Row -->
+    @include('layouts.services-navigation')
     <div class="card shadow mb-4">
         <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <!-- Date Filter -->
+                <form method="GET" action="" id="dateRangeForm">
+                    <div class="d-flex justify-content-start gap-2 align-items-end mb-4">
+
+                        <div class="d-flex align-items-center">
+                            <label class="mb-0 me-0 p-1 bg-theme-primary text-light">From:</label>
+                            <input type="date" name="start_date" value="{{ request('start_date') }}"
+                                class="form-control form-control-sm rounded-0"
+                                onchange="document.getElementById('dateRangeForm').submit();">
+                        </div>
+
+                        <div class="d-flex align-items-center">
+                            <label class="mb-0 me-0 p-1 bg-theme-primary text-light">To:</label>
+                            <input type="date" name="end_date" value="{{ request('end_date') }}"
+                                class="form-control form-control-sm rounded-0"
+                                onchange="document.getElementById('dateRangeForm').submit();">
+                        </div>
+                    </div>
+                    <!-- A-Z Filter -->
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <a href="{{ request()->fullUrlWithQuery(['letter' => null]) }}"
+                            class="btn btn-sm rounded-circle {{ request('letter') ? 'btn-dark' : 'btn-success' }}">
+                            All
+                        </a>
+
+                        @foreach (range('A', 'Z') as $letter)
+                            <a href="{{ request()->fullUrlWithQuery(['letter' => $letter]) }}"
+                                class="btn btn-sm rounded-circle 
+                                    {{ request('letter') == $letter ? 'btn-success' : 'btn-dark' }}"
+                                style="width:32px;height:32px;line-height:22px;">
+                                {{ $letter }}
+                            </a>
+                        @endforeach
+                    </div>
+                </form>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="{{ url('accommodations') }}"
+                    class="btn {{ Request::is('accommodations') ? 'btn-success' : 'bg-theme-primary text-light' }} d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-building-user"></i>
+                    Room Accommodation
+                </a>
+                <a href="{{ url('function-halls') }}"
+                    class="btn {{ Request::is('function-halls') ? 'btn-success' : 'bg-theme-primary text-light' }} d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-building-user"></i>
+                    Function Hall
+                </a>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                     <thead>
@@ -50,8 +106,7 @@
                                         <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#editAccommodationModal" data-id="{{ $accommodation->id }}"
                                             data-visitor-id="{{ $accommodation->visitor_id }}"
-                                            data-rooms="{{ $accommodation->room }}"
-                                            data-fees="{{ $accommodation->fee }}"
+                                            data-rooms="{{ $accommodation->room }}" data-fees="{{ $accommodation->fee }}"
                                             data-total-payment="{{ $accommodation->total_payment }}">
                                             Edit
                                         </a>
@@ -140,8 +195,8 @@
                                                     class="room-checkbox">
                                             </td>
                                             <td width="" style="padding: 5px;">
-                                                <input class="form-control" name="rooms[]" type="text" value="{{ $room['name'] }}"
-                                                    readonly>
+                                                <input class="form-control" name="rooms[]" type="text"
+                                                    value="{{ $room['name'] }}" readonly>
                                             </td>
                                             <td width="15%" style="padding: 5px;">
                                                 <input class="form-control room-fee" type="text" name="fees[]"
@@ -238,8 +293,8 @@
                                                     class="edit-room-checkbox">
                                             </td>
                                             <td width="" style="padding: 5px;">
-                                                <input class="form-control" name="edit_rooms[]" type="text" value="{{ $room['name'] }}"
-                                                    readonly>
+                                                <input class="form-control" name="edit_rooms[]" type="text"
+                                                    value="{{ $room['name'] }}" readonly>
                                             </td>
                                             <td width="15%" style="padding: 5px;">
                                                 <input class="form-control edit-room-fee" type="text"

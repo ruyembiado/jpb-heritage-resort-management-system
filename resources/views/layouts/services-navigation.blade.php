@@ -12,8 +12,8 @@
             <i class="fas fa-utensils"></i>
             Food & Drinks
         </a>
-        <a href="{{ url('entrances') }}" class="btn btn-outline-light d-flex align-items-center gap-2">
-            <i class="fas fa-tools"></i>
+        <a href="{{ url('accommodations') }}" class="btn {{ Request::is('accommodations') ? 'btn-success' : 'btn-outline-light ' }} d-flex align-items-center gap-2">
+            <i class="fa-solid fa-building-user"></i>
             Facilities
         </a>
         <a href="{{ url('cottages') }}"
