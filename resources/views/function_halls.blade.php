@@ -4,10 +4,10 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="d-flex">
-            <i class="fa-solid fa-bed fa-2x text-dark me-2"></i>
+            <i class="fa-solid fa-building-columns fa-2x text-dark me-2"></i>
             <div class="d-flex flex-column">
                 <h1 class="h3 mb-0 text">AVAILED SERVICES</h1>
-                <h6 class="mb-0">Guest | Accommodation Fees</h6>
+                <h6 class="mb-0">Guest | Function Hall Fees</h6>
             </div>
         </div>
         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAccommodationModal">Add Facilities
@@ -53,12 +53,12 @@
                 </form>
             </div>
             <div class="d-flex gap-2">
-                <a href="{{ url('accommodations') }}" class="btn btn-success d-flex align-items-center gap-2">
+                <a href="{{ url('accommodations') }}" class="btn bg-theme-primary text-light d-flex align-items-center gap-2">
                     <i class="fa-solid fa-bed"></i>
                     Room Accommodation
                 </a>
                 <a href="{{ url('function-halls') }}"
-                    class="btn bg-theme-primary text-light d-flex align-items-center gap-2">
+                    class="btn btn-success d-flex align-items-center gap-2">
                     <i class="fa-solid fa-building-columns"></i>
                     Function Hall
                 </a>
@@ -72,7 +72,7 @@
                             <th class="bg-theme-primary text-light border-dark">NAME OF GUEST</th>
                             <th class="bg-theme-primary text-light border-dark">MEMBERS</th>
                             <th class="bg-theme-primary text-light border-dark">ROOM</th>
-                            <th class="bg-theme-primary text-light border-dark">NO. OF NIGHTS</th>
+                            <th class="bg-theme-primary text-light border-dark">QTY</th>
                             <th class="bg-theme-primary text-light border-dark">TOTAL FEE</th>
                             <th class="bg-theme-primary text-light border-dark">STATUS</th>
                             <th class="bg-theme-primary text-light border-dark">DATE CREATED</th>
@@ -80,7 +80,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($accommodations as $accommodation)
+                        @foreach ($functionhalls as $accommodation)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
@@ -91,12 +91,12 @@
                                 <td></td>
                                 <td>
                                     @php
-                                        $rooms = json_decode($accommodation->room, true);
+                                        $functionhalls = json_decode($accommodation->function_hall_type, true);
                                         $fees = json_decode($accommodation->fee, true);
                                     @endphp
                                     <ul style="list-style-type: none; padding: 5px; margin: 0;">
-                                        @foreach ($rooms as $index => $room)
-                                            <li>{{ $room }} - ₱{{ number_format($fees[$index], 2) }}</li>
+                                        @foreach ($functionhalls as $index => $functionhall)
+                                            <li>{{ $functionhall }}</li>
                                         @endforeach
                                     </ul>
                                 </td>

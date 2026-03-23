@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('visitor_id');
             $table->string('room');
             $table->string('fee');
+            $table->integer('quantity')->default(0);
             $table->string('status');
             $table->string('total_payment')->nullable();
             $table->timestamps();

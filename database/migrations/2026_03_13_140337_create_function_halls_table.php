@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('visitor_id');
             $table->string('function_hall_type');
+            $table->string('quantity');
             $table->string('fee');
             $table->string('status');
             $table->string('total_payment')->nullable();

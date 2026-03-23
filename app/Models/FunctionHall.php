@@ -14,8 +14,14 @@ class FunctionHall extends Model
     protected $fillable = [
         'visitor_id',
         'function_hall_type',
+        'quantity',
         'fee',
         'status',
         'total_payment',
     ];
+
+    public function visitor()
+    {
+        return $this->belongsTo(Visitor::class, 'visitor_id');
+    }
 }

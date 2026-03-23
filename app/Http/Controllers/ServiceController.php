@@ -7,6 +7,7 @@ use App\Models\Beverage;
 use App\Models\Companion;
 use App\Models\Cottage;
 use App\Models\Entrance;
+use App\Models\FunctionHall;
 use App\Models\Meal;
 use App\Models\Service;
 use App\Models\Visitor;
@@ -96,7 +97,6 @@ class ServiceController extends Controller
                     $q->where('first_name', 'like', $letter . '%');
                 });
             })
-
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -194,92 +194,178 @@ class ServiceController extends Controller
         return redirect()->route('entrances')->with('success', 'Visitor data deleted successfully.');
     }
 
-    public function accommodations()
+    public function accommodations(Request $request)
     {
-        $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
-        $accommodations = Accommodation::orderBy('created_at', 'desc')->with('visitor')->get();
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $letter = $request->letter;
 
-        return view('accommodations', compact('visitors', 'accommodations'));
+        $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
+        $accommodations = Accommodation::with('visitor')
+            ->when($start_date, function ($query) use ($start_date) {
+                $query->whereDate('created_at', '>=', $start_date);
+            })
+            ->when($end_date, function ($query) use ($end_date) {
+                $query->whereDate('created_at', '<=', $end_date);
+            })
+            ->when($letter, function ($query) use ($letter) {
+                $query->whereHas('visitor', function ($q) use ($letter) {
+                    $q->where('first_name', 'like', $letter . '%');
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $accommodationFees = Service::where('service_type', 'accommodation')->get();
+        $functionFees = Service::where('service_type', 'function_hall')->get();
+
+        return view('accommodations', compact('visitors', 'accommodations', 'accommodationFees', 'functionFees'));
     }
 
-    public function storeAccommodation(Request $request)
+    public function functionhalls(Request $request)
+    {
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $letter = $request->letter;
+
+        $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
+        $functionhalls = FunctionHall::with('visitor')
+            ->when($start_date, function ($query) use ($start_date) {
+                $query->whereDate('created_at', '>=', $start_date);
+            })
+            ->when($end_date, function ($query) use ($end_date) {
+                $query->whereDate('created_at', '<=', $end_date);
+            })
+            ->when($letter, function ($query) use ($letter) {
+                $query->whereHas('visitor', function ($q) use ($letter) {
+                    $q->where('first_name', 'like', $letter . '%');
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $accommodationFees = Service::where('service_type', 'accommodation')->get();
+        $functionFees = Service::where('service_type', 'function_hall')->get();
+
+        return view('function_halls', compact('visitors', 'functionhalls', 'accommodationFees', 'functionFees'));
+    }
+
+    public function storeAccommodationFunctionHall(Request $request)
     {
         $request->validate([
             'visitor_id' => 'required|exists:visitors,id',
-            'rooms' => 'required|array',
-            'fees' => 'required|array',
-            'total_payment' => 'required',
+            'accommodation_service_names' => 'required|array',
+            'accommodation_quantities' => 'required|array',
+            'accommodation_fees' => 'required|array',
+            'accommodation_total' => 'required|numeric|min:0',
+            'accommodation_payment_status' => 'required|in:Paid,Unpaid',
+            'functionhall_service_names' => 'required|array',
+            'functionhall_quantities' => 'required|array',
+            'functionhall_fees' => 'required|array',
+            'functionhall_total' => 'required|numeric|min:0',
+            'functionhall_payment_status' => 'required|in:Paid,Unpaid',
         ]);
 
-        $checked = $request->input('checked');
-        $rooms = $request->input('rooms');
-        $fees = $request->input('fees');
+        // Process Accommodation data
+        $accommodationTypes = $request->input('accommodation_service_names');
+        $accommodationQuantities = $request->input('accommodation_quantities');
+        $accommodationFees = $request->input('accommodation_fees');
 
-        $filteredRooms = [];
-        $filteredFees = [];
+        $finalAccommodationRooms = [];
+        $finalAccommodationQuantities = [];
+        $finalAccommodationFees = [];
 
-        foreach ($rooms as $index => $room) {
-            if (in_array($room, $checked)) {
-                $filteredRooms[] = $room;
-                $filteredFees[] = $fees[$index] ?? 0;
+        foreach ($accommodationTypes as $index => $room) {
+            // Handle checkbox values - check if it's checked (value = 1)
+            $qty = isset($accommodationQuantities[$index]) && $accommodationQuantities[$index] == 1 ? 1 : 0;
+
+            // Get the fee value
+            $fee = isset($accommodationFees[$index]) && is_numeric($accommodationFees[$index])
+                ? (float) $accommodationFees[$index]
+                : 0.0;
+
+            // Only include if quantity is 1 (checked)
+            if ($qty == 1) {
+                $finalAccommodationRooms[] = $room;
+                $finalAccommodationQuantities[] = $qty;
+                $finalAccommodationFees[] = $fee;
             }
         }
 
-        // Check if at least one room was selected
-        if (empty($filteredRooms)) {
+        // Process Function Hall data
+        $functionHallTypes = $request->input('functionhall_service_names');
+        $functionHallQuantities = $request->input('functionhall_quantities');
+        $functionHallFees = $request->input('functionhall_fees');
+
+        $finalFunctionHallTypes = [];
+        $finalFunctionHallQuantities = [];
+        $finalFunctionHallFees = [];
+
+        foreach ($functionHallTypes as $index => $type) {
+            // Handle checkbox values - check if it's checked (value = 1)
+            $qty = isset($functionHallQuantities[$index]) && $functionHallQuantities[$index] == 1 ? 1 : 0;
+
+            // Get the fee value
+            $fee = isset($functionHallFees[$index]) && is_numeric($functionHallFees[$index])
+                ? (float) $functionHallFees[$index]
+                : 0.0;
+
+            // Only include if quantity is 1 (checked)
+            if ($qty == 1) {
+                $finalFunctionHallTypes[] = $type;
+                $finalFunctionHallQuantities[] = $qty;
+                $finalFunctionHallFees[] = $fee;
+            }
+        }
+
+        // Check if at least one accommodation or function hall is selected
+        if (empty($finalAccommodationRooms) && empty($finalFunctionHallTypes)) {
             return redirect()->back()
-                ->withInput()
-                ->with('error', 'Please select at least one room.');
+                ->with('error', 'Please select at least one accommodation or function hall.')
+                ->withInput();
         }
 
-        Accommodation::create([
-            'visitor_id' => $request->visitor_id,
-            'room' => json_encode($filteredRooms),
-            'fee' => json_encode($filteredFees),
-            'total_payment' => $request->total_payment,
-        ]);
-
-        return redirect()->route('accommodations')->with('success', 'Accommodation added successfully.');
-    }
-
-    public function updateAccommodation(Request $request)
-    {
-        $request->validate([
-            'accommodation_id' => 'required|exists:accommodations,id',
-            'edit_rooms' => 'required|array',
-            'edit_fees' => 'required|array',
-            'total_payment' => 'required',
-        ]);
-
-        $checked = $request->input('checked', []);
-        $rooms = $request->input('edit_rooms');
-        $fees = $request->input('edit_fees');
-
-        $filteredRooms = [];
-        $filteredFees = [];
-
-        foreach ($rooms as $index => $room) {
-            if (in_array($room, $checked)) {
-                $filteredRooms[] = $room;
-                $filteredFees[] = $fees[$index] ?? 0;
-            }
+        // Store accommodation data if any selected
+        if (!empty($finalAccommodationRooms)) {
+            Accommodation::create([
+                'visitor_id' => $request->visitor_id,
+                'room' => json_encode($finalAccommodationRooms),
+                'quantity' => json_encode($finalAccommodationQuantities),
+                'fee' => json_encode($finalAccommodationFees),
+                'status' => $request->accommodation_payment_status,
+                'total_payment' => $request->accommodation_total,
+            ]);
         }
 
-        $accommodation = Accommodation::findOrFail($request->accommodation_id);
-        $accommodation->update([
-            'room' => json_encode($filteredRooms),
-            'fee' => json_encode($filteredFees),
-            'total_payment' => $request->total_payment,
-        ]);
+        // Store function hall data if any selected
+        if (!empty($finalFunctionHallTypes)) {
+            FunctionHall::create([
+                'visitor_id' => $request->visitor_id,
+                'function_hall_type' => json_encode($finalFunctionHallTypes),
+                'quantity' => json_encode($finalFunctionHallQuantities),
+                'fee' => json_encode($finalFunctionHallFees),
+                'status' => $request->functionhall_payment_status,
+                'total_payment' => $request->functionhall_total,
+            ]);
+        }
 
-        return redirect()->route('accommodations')->with('success', 'Accommodation updated successfully.');
+        return redirect()->route('accommodations')->with('success', 'Accommodation and function hall fees added successfully.');
     }
+
+    public function updateAccommodationFunctionHall(Request $request) {}
 
     public function destroyAccommodation($id)
     {
         $accommodation = Accommodation::findOrFail($id);
         $accommodation->delete();
-        return redirect()->route('accommodations')->with('success', 'Accommodation deleted successfully.');
+        return redirect()->route('accommodations')->with('success', 'Accommodation fee deleted successfully.');
+    }
+
+    public function destroyFunctionHall($id)
+    {
+        $functionhall = FunctionHall::findOrFail($id);
+        $functionhall->delete();
+        return redirect()->route('funcionhalls')->with('success', 'Function hall fee deleted successfully.');
     }
 
     public function cottages(Request $request)
@@ -301,9 +387,9 @@ class ServiceController extends Controller
                     $q->where('first_name', 'like', $letter . '%');
                 });
             })
-
             ->orderBy('created_at', 'desc')
             ->get();
+
         $cottageFees = Service::where('service_type', 'cottage_fee')->get();
 
         return view('cottages', compact('visitors', 'cottages', 'cottageFees'));

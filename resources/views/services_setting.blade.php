@@ -35,7 +35,7 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $service->service_name }}</td>
-                                <td>{{ ucfirst(str_replace('_', ' ', $service->service_type)) }}</td>
+                                <td>{{ ucwords(str_replace('_', ' ', $service->service_type)) }}</td>
                                 <td>{{ $service->food_category ? ucfirst($service->food_category) : 'N/A' }}</td>
                                 <td>{{ $service->food_type ? ucfirst($service->food_type) : 'N/A' }}</td>
                                 <td>₱{{ number_format($service->fee, 2) }}</td>

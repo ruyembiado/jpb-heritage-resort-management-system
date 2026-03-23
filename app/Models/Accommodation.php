@@ -14,9 +14,16 @@ class Accommodation extends Model
     protected $fillable = [
         'visitor_id',
         'room',
+        'quantity',
         'fee',
         'status',
         'total_payment',
+    ];
+
+    protected $casts = [
+        'room' => 'array',
+        'quantity' => 'array',
+        'fee' => 'array',
     ];
 
     public function visitor()
