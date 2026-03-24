@@ -258,12 +258,12 @@ class ServiceController extends Controller
             'accommodation_quantities' => 'required|array',
             'accommodation_fees' => 'required|array',
             'accommodation_total' => 'required|numeric|min:0',
-            'accommodation_payment_status' => 'required|in:Paid,Unpaid',
+            'accommodation_payment_status' => 'nullable|in:Paid,Unpaid',
             'functionhall_service_names' => 'required|array',
             'functionhall_quantities' => 'required|array',
             'functionhall_fees' => 'required|array',
             'functionhall_total' => 'required|numeric|min:0',
-            'functionhall_payment_status' => 'required|in:Paid,Unpaid',
+            'functionhall_payment_status' => 'nullable|in:Paid,Unpaid',
         ]);
 
         // Process Accommodation data
@@ -332,7 +332,7 @@ class ServiceController extends Controller
                 'room' => json_encode($finalAccommodationRooms),
                 'quantity' => json_encode($finalAccommodationQuantities),
                 'fee' => json_encode($finalAccommodationFees),
-                'status' => $request->accommodation_payment_status,
+                'status' => $request->accommodation_payment_status ?? 'Unpaid',
                 'total_payment' => $request->accommodation_total,
             ]);
         }
@@ -344,16 +344,127 @@ class ServiceController extends Controller
                 'function_hall_type' => json_encode($finalFunctionHallTypes),
                 'quantity' => json_encode($finalFunctionHallQuantities),
                 'fee' => json_encode($finalFunctionHallFees),
-                'status' => $request->functionhall_payment_status,
+                'status' => $request->functionhall_payment_status ?? 'Unpaid',
                 'total_payment' => $request->functionhall_total,
             ]);
         }
 
-        return redirect()->route('accommodations')->with('success', 'Accommodation and function hall fees added successfully.');
+        return redirect()->back()->with('success', 'Accommodation and function hall fees added successfully.');
     }
 
-    public function updateAccommodationFunctionHall(Request $request) {}
+    public function updateAccommodation(Request $request)
+    {
+        $request->validate([
+            'accommodation_id' => 'required|exists:accommodations,id',
+            'visitor_id' => 'required|exists:visitors,id',
+            'edit_accommodation_service_names' => 'required|array',
+            'edit_accommodation_quantities' => 'required|array',
+            'edit_accommodation_fees' => 'required|array',
+            'accommodation_total' => 'required|numeric|min:0',
+            'accommodation_payment_status' => 'nullable|in:Paid,Unpaid',
+        ]);
 
+        // Find the accommodation record to update
+        $accommodation = Accommodation::findOrFail($request->accommodation_id);
+
+        // Process Accommodation data
+        $accommodationTypes = $request->input('edit_accommodation_service_names');
+        $accommodationQuantities = $request->input('edit_accommodation_quantities');
+        $accommodationFees = $request->input('edit_accommodation_fees');
+
+        $finalAccommodationRooms = [];
+        $finalAccommodationQuantities = [];
+        $finalAccommodationFees = [];
+
+        // Clean the fees (remove commas and convert to float)
+        foreach ($accommodationFees as $index => $fee) {
+            $accommodationFees[$index] = floatval(str_replace(',', '', $fee));
+        }
+
+        foreach ($accommodationTypes as $index => $room) {
+            // Get the quantity (number of nights)
+            $qty = isset($accommodationQuantities[$index]) ? (int) $accommodationQuantities[$index] : 0;
+
+            // Get the fee value
+            $fee = isset($accommodationFees[$index]) ? (float) $accommodationFees[$index] : 0.0;
+
+            // Only include if quantity is greater than 0
+            if ($qty > 0) {
+                $finalAccommodationRooms[] = $room;
+                $finalAccommodationQuantities[] = $qty;
+                $finalAccommodationFees[] = $fee;
+            }
+        }
+
+        // Update the accommodation record
+        $accommodation->update([
+            'visitor_id' => $request->visitor_id,
+            'room' => json_encode($finalAccommodationRooms),
+            'quantity' => json_encode($finalAccommodationQuantities),
+            'fee' => json_encode($finalAccommodationFees),
+            'status' => $request->accommodation_payment_status ?? 'Unpaid',
+            'total_payment' => $request->accommodation_total,
+        ]);
+
+        return redirect()->back()->with('success', 'Accommodation fees updated successfully.');
+    }
+
+    public function updateFunctionHall(Request $request)
+    {
+        $request->validate([
+            'accommodation_id' => 'required|exists:function_halls,id',
+            'visitor_id' => 'required|exists:visitors,id',
+            'edit_functionhall_service_names' => 'required|array',
+            'edit_functionhall_quantities' => 'required|array',
+            'edit_functionhall_fees' => 'required|array',
+            'functionhall_total' => 'required|numeric|min:0',
+            'functionhall_payment_status' => 'nullable|in:Paid,Unpaid',
+        ]);
+
+        // Find the accommodation record to update
+        $functionhall = FunctionHall::findOrFail($request->accommodation_id);
+
+        // Process Function Hall data
+        $functionHallTypes = $request->input('edit_functionhall_service_names');
+        $functionHallQuantities = $request->input('edit_functionhall_quantities');
+        $functionHallFees = $request->input('edit_functionhall_fees');
+
+        $finalFunctionHallRooms = [];
+        $finalFunctionHallQuantities = [];
+        $finalFunctionHallFees = [];
+
+        // Clean the fees (remove commas and convert to float)
+        foreach ($functionHallFees as $index => $fee) {
+            $functionHallFees[$index] = floatval(str_replace(',', '', $fee));
+        }
+
+        foreach ($functionHallTypes as $index => $hall) {
+            // Get the quantity
+            $qty = isset($functionHallQuantities[$index]) ? (int) $functionHallQuantities[$index] : 0;
+
+            // Get the fee value
+            $fee = isset($functionHallFees[$index]) ? (float) $functionHallFees[$index] : 0.0;
+
+            // Only include if quantity is greater than 0
+            if ($qty > 0) {
+                $finalFunctionHallRooms[] = $hall;
+                $finalFunctionHallQuantities[] = $qty;
+                $finalFunctionHallFees[] = $fee;
+            }
+        }
+
+        // Update the accommodation record
+        $functionhall->update([
+            'visitor_id' => $request->visitor_id,
+            'function_hall_type' => json_encode($finalFunctionHallRooms),
+            'quantity' => json_encode($finalFunctionHallQuantities),
+            'fee' => json_encode($finalFunctionHallFees),
+            'status' => $request->functionhall_payment_status ?? 'Unpaid',
+            'total_payment' => $request->functionhall_total,
+        ]);
+
+        return redirect()->back()->with('success', 'Function hall fees updated successfully.');
+    }
     public function destroyAccommodation($id)
     {
         $accommodation = Accommodation::findOrFail($id);
@@ -365,7 +476,7 @@ class ServiceController extends Controller
     {
         $functionhall = FunctionHall::findOrFail($id);
         $functionhall->delete();
-        return redirect()->route('funcionhalls')->with('success', 'Function hall fee deleted successfully.');
+        return redirect()->route('functionhalls')->with('success', 'Function hall fee deleted successfully.');
     }
 
     public function cottages(Request $request)

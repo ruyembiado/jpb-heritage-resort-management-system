@@ -388,7 +388,7 @@
 
                     <div class="table-responsive" style="overflow-x:auto;">
                         <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0"
-                            style="min-width:1400px;">
+                            style="min-width:2000px;">
                             <thead>
                                 <tr>
                                     <th class="bg-theme-primary text-light border-dark">NO.</th>

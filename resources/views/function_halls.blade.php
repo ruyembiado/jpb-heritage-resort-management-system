@@ -53,12 +53,12 @@
                 </form>
             </div>
             <div class="d-flex gap-2">
-                <a href="{{ url('accommodations') }}" class="btn bg-theme-primary text-light d-flex align-items-center gap-2">
+                <a href="{{ url('accommodations') }}"
+                    class="btn bg-theme-primary text-light d-flex align-items-center gap-2">
                     <i class="fa-solid fa-bed"></i>
                     Room Accommodation
                 </a>
-                <a href="{{ url('function-halls') }}"
-                    class="btn btn-success d-flex align-items-center gap-2">
+                <a href="{{ url('function-halls') }}" class="btn btn-success d-flex align-items-center gap-2">
                     <i class="fa-solid fa-building-columns"></i>
                     Function Hall
                 </a>
@@ -70,8 +70,8 @@
                         <tr>
                             <th class="bg-theme-primary text-light border-dark">NO.</th>
                             <th class="bg-theme-primary text-light border-dark">NAME OF GUEST</th>
-                            <th class="bg-theme-primary text-light border-dark">MEMBERS</th>
-                            <th class="bg-theme-primary text-light border-dark">ROOM</th>
+                            {{-- <th class="bg-theme-primary text-light border-dark">MEMBERS</th> --}}
+                            <th class="bg-theme-primary text-light border-dark">FUNCTION CATEGORY</th>
                             <th class="bg-theme-primary text-light border-dark">QTY</th>
                             <th class="bg-theme-primary text-light border-dark">TOTAL FEE</th>
                             <th class="bg-theme-primary text-light border-dark">STATUS</th>
@@ -80,29 +80,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($functionhalls as $accommodation)
+                        @foreach ($functionhalls as $fnchall)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
-                                    {{ optional($accommodation->visitor)->first_name }}
-                                    {{ optional($accommodation->visitor)->middle_name }}
-                                    {{ optional($accommodation->visitor)->last_name }}
+                                    {{ optional($fnchall->visitor)->first_name }}
+                                    {{ optional($fnchall->visitor)->middle_name }}
+                                    {{ optional($fnchall->visitor)->last_name }}
                                 </td>
-                                <td></td>
+                                {{-- <td></td> --}}
                                 <td>
                                     @php
-                                        $functionhalls = json_decode($accommodation->function_hall_type, true);
-                                        $fees = json_decode($accommodation->fee, true);
+                                        $functiontypes = json_decode($fnchall->function_hall_type, true);
+                                        $fees = json_decode($fnchall->fee, true);
                                     @endphp
                                     <ul style="list-style-type: none; padding: 5px; margin: 0;">
-                                        @foreach ($functionhalls as $index => $functionhall)
-                                            <li>{{ $functionhall }}</li>
+                                        @foreach ($functiontypes as $index => $type)
+                                            <li>{{ $type }}</li>
                                         @endforeach
                                     </ul>
                                 </td>
                                 <td>
-                                    @php 
-                                        $qtys = json_decode($accommodation->quantity, true);
+                                    @php
+                                        $qtys = json_decode($fnchall->quantity, true);
                                     @endphp
                                     <ul style="list-style-type: none; padding: 5px; margin: 0;">
                                         @foreach ($qtys as $index => $qty)
@@ -110,29 +110,29 @@
                                         @endforeach
                                     </ul>
                                 </td>
-                                <td>₱ {{ number_format($accommodation->total_payment, 2) }}</td>
+                                <td>₱ {{ number_format($fnchall->total_payment, 2) }}</td>
                                 <td>
-                                    <span
-                                        class="badge {{ $accommodation->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
-                                        {{ $accommodation->status }}
+                                    <span class="badge {{ $fnchall->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
+                                        {{ $fnchall->status }}
                                     </span>
                                 </td>
-                                <td>{{ \Carbon\Carbon::parse($accommodation->created_at)->format('F j, Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($fnchall->created_at)->format('F j, Y') }}</td>
                                 <td class="sticky-action">
                                     <div class="d-flex align-items-center justify-c gap-2">
                                         <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#editAccommodationModal" data-id="{{ $accommodation->id }}"
-                                            data-visitor-id="{{ $accommodation->visitor_id }}"
-                                            data-rooms="{{ $accommodation->room }}" data-fees="{{ $accommodation->fee }}"
-                                            data-total-payment="{{ $accommodation->total_payment }}">
+                                            data-bs-target="#editFunctionHallModal" data-id="{{ $fnchall->id }}"
+                                            data-visitor-id="{{ $fnchall->visitor_id }}"
+                                            data-function-hall-type="{{ $fnchall->function_hall_type }}"
+                                            data-fees="{{ $fnchall->fee }}" data-quantities="{{ $fnchall->quantity }}"
+                                            data-total-payment="{{ $fnchall->total_payment }}"
+                                            data-functionhall-status="{{ $fnchall->status ?? '' }}">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('accommodation.destroy', $accommodation->id) }}"
-                                            method="POST">
+                                        <form action="{{ route('functionhall.destroy', $fnchall->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Are you sure you want to delete this accommodation?')">
+                                                onclick="return confirm('Are you sure you want to delete this function hall fee?')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
@@ -244,7 +244,7 @@
                                         <label>Payment Status:</label>
                                         <div class="col-3">
                                             <select name="accommodation_payment_status" class="form-control"
-                                                id="accommodation_payment_status" required>
+                                                id="accommodation_payment_status">
                                                 <option value="">Select status</option>
                                                 <option value="Paid">Paid</option>
                                                 <option value="Unpaid">Unpaid</option>
@@ -320,7 +320,7 @@
                                         <label>Payment Status:</label>
                                         <div class="col-3">
                                             <select name="functionhall_payment_status" class="form-control"
-                                                id="functionhall_payment_status" required>
+                                                id="functionhall_payment_status">
                                                 <option value="">Select status</option>
                                                 <option value="Paid">Paid</option>
                                                 <option value="Unpaid">Unpaid</option>
@@ -338,6 +338,7 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="grand_total" id="grand_total" value="0.00">
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Save</button>
@@ -348,11 +349,11 @@
         </div>
     </div>
 
-    <!-- Edit Accommodation Modal -->
-    <div class="modal fade" id="editAccommodationModal" tabindex="-1" role="dialog"
-        aria-labelledby="editAccommodationModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document" style="max-width: 1520px;">
-            <form id="editAccommodationForm" action="{{ route('accommodation.update') }}" method="POST">
+    <!-- Edit Function Hall Modal -->
+    <div class="modal fade" id="editFunctionHallModal" tabindex="-1" role="dialog"
+        aria-labelledby="editFunctionHallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <form id="editAccommodationForm" action="{{ route('functionhall.update') }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="modal-content">
@@ -374,7 +375,7 @@
                         <input type="hidden" name="accommodation_id" id="edit_accommodation_id">
 
                         <div class="form-group mb-3">
-                            <div class="col-4 d-flex align-items-center gap-3">
+                            <div class="col-8 d-flex align-items-center gap-3">
                                 <label for="edit_visitor_id">Name:</label>
                                 <select name="visitor_id" class="form-control select2" id="edit_visitor_id" required
                                     data-placeholder="Select a visitor">
@@ -391,84 +392,8 @@
                         </div>
 
                         <div class="row">
-                            <!-- Room Accommodation Section -->
-                            <div class="col-md-6">
-                                <div
-                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
-                                    <i class="fa fa-bed fa-2x"></i>
-                                    <h3 class="m-0">ROOM ACCOMMODATION</h3>
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered border-dark">
-                                        <thead class="bg-success text-light">
-                                            <tr>
-                                                <th class="bg-success text-light" width="5%">SELECT</th>
-                                                <th class="bg-success text-light">ROOM</th>
-                                                <th class="bg-success text-light" width="20%">NO. OF NIGHTS</th>
-                                                <th class="bg-success text-light" width="15%">FEE</th>
-                                                <th class="bg-success text-light" width="15%">SUB-TOTAL</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($accommodationFees as $index => $room)
-                                                <tr data-type="accommodation">
-                                                    <td style="padding: 5px;" class="text-center">
-                                                        <input type="checkbox" name="edit_accommodation_services[]"
-                                                            value="{{ $room['service_name'] }}"
-                                                            class="edit-accommodation-checkbox form-check-input"
-                                                            data-type="accommodation" data-fee="{{ $room['fee'] }}">
-                                                    </td>
-                                                    <td style="padding: 5px;">
-                                                        <input type="hidden" name="edit_accommodation_service_names[]"
-                                                            value="{{ $room['service_name'] }}">
-                                                        <input type="text" class="form-control"
-                                                            value="{{ $room['service_name'] }}" readonly>
-                                                    </td>
-                                                    <td style="padding: 5px;">
-                                                        <input type="number" name="edit_accommodation_quantities[]"
-                                                            class="form-control edit-accommodation-quantity"
-                                                            min="0" value="0" step="1">
-                                                    </td>
-                                                    <td style="padding: 5px;">
-                                                        <input type="text" class="form-control edit-accommodation-fee"
-                                                            value="{{ number_format($room['fee'], 2) }}" readonly>
-                                                    </td>
-                                                    <td style="padding: 5px;">
-                                                        <input type="text" name="edit_accommodation_subtotals[]"
-                                                            class="form-control edit-accommodation-subtotal" readonly
-                                                            value="0.00">
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group">
-                                    <div class="d-flex align-items-center justify-content-end gap-3">
-                                        <label>Payment Status:</label>
-                                        <div class="col-3">
-                                            <select name="accommodation_payment_status" class="form-control"
-                                                id="edit_accommodation_payment_status">
-                                                <option value="">Select status</option>
-                                                <option value="Paid">Paid</option>
-                                                <option value="Unpaid">Unpaid</option>
-                                            </select>
-                                        </div>
-                                        <label>Total Fee:</label>
-                                        <div class="col-3">
-                                            <div class="d-flex">
-                                                <span class="input-group-text bg-theme-primary text-light">₱</span>
-                                                <input type="text" name="accommodation_total"
-                                                    id="edit_accommodation_total" value="0.00" class="form-control"
-                                                    readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <!-- Function Hall Section -->
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div
                                     class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
                                     <i class="fa fa-building-columns fa-2x"></i>
@@ -477,12 +402,11 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered border-dark">
                                         <thead class="bg-success text-light">
-                                            <tr>
-                                                <th class="bg-success text-light" width="5%">SELECT</th>
-                                                <th class="bg-success text-light">FUNCTION HALL</th>
-                                                <th class="bg-success text-light" width="20%">QTY</th>
-                                                <th class="bg-success text-light" width="15%">FEE</th>
-                                                <th class="bg-success text-light" width="15%">SUB-TOTAL</th>
+                                            <th class="bg-success text-light" width="5%">SELECT</th>
+                                            <th class="bg-success text-light">FUNCTION HALL</th>
+                                            <th class="bg-success text-light" width="20%">QTY</th>
+                                            <th class="bg-success text-light" width="15%">FEE</th>
+                                            <th class="bg-success text-light" width="15%">SUB-TOTAL</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -507,6 +431,7 @@
                                                     </td>
                                                     <td>
                                                         <input type="text" class="form-control edit-functionhall-fee"
+                                                            name="edit_functionhall_fees[]"
                                                             value="{{ number_format($hall['fee'], 2) }}" readonly>
                                                     </td>
                                                     <td>
@@ -543,6 +468,7 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="grand_total" id="edit_grand_total" value="0.00">
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Update</button>
@@ -769,150 +695,107 @@
         // ==================== EDIT MODAL FUNCTIONS ====================
 
         // Initialize Select2 for edit modal
-        $('#editAccommodationModal').on('shown.bs.modal', function() {
+        $('#editFunctionHallModal').on('shown.bs.modal', function() {
             $('#edit_visitor_id').select2({
                 theme: 'bootstrap4',
                 width: '100%',
                 placeholder: "Select a visitor",
                 allowClear: true,
-                dropdownParent: $('#editAccommodationModal')
+                dropdownParent: $('#editFunctionHallModal')
             });
         });
 
         // Populate edit modal
-        $('#editAccommodationModal').on('show.bs.modal', function(event) {
+        $('#editFunctionHallModal').on('show.bs.modal', function(event) {
             const button = event.relatedTarget;
             const modal = $(this);
 
             try {
                 // Get data from button
-                const accommodationId = button.getAttribute('data-id');
+                const functionhallId = button.getAttribute('data-id');
                 const visitorId = button.getAttribute('data-visitor-id');
                 const totalPayment = button.getAttribute('data-total-payment');
-                const accommodationTotal = button.getAttribute('data-accommodation-total') || '0';
-                const functionhallTotal = button.getAttribute('data-functionhall-total') || '0';
-                const accommodationStatus = button.getAttribute('data-accommodation-status') || '';
-                const functionhallStatus = button.getAttribute('data-functionhall-status') || '';
+                const status = button.getAttribute('data-functionhall-status');
 
-                // Parse JSON data
-                let rooms = [];
+                // Parse JSON data for function hall
+                let functionHallTypes = [];
                 let fees = [];
                 let quantities = [];
-                let serviceTypes = [];
 
                 try {
-                    rooms = JSON.parse(button.getAttribute('data-rooms') || '[]');
+                    functionHallTypes = JSON.parse(button.getAttribute('data-function-hall-type') ||
+                        '[]');
                     fees = JSON.parse(button.getAttribute('data-fees') || '[]');
                     quantities = JSON.parse(button.getAttribute('data-quantities') || '[]');
-                    serviceTypes = JSON.parse(button.getAttribute('data-service-types') || '[]');
+
+                    console.log('Parsed data:', {
+                        functionHallTypes,
+                        fees,
+                        quantities
+                    });
                 } catch (e) {
                     console.error('Error parsing JSON:', e);
-                    rooms = [];
+                    functionHallTypes = [];
                     fees = [];
                     quantities = [];
-                    serviceTypes = [];
                 }
 
                 // Set form values
-                modal.find('#edit_accommodation_id').val(accommodationId);
+                modal.find('#edit_accommodation_id').val(functionhallId);
                 modal.find('#edit_visitor_id').val(visitorId).trigger('change');
-                modal.find('#edit_accommodation_total').val(accommodationTotal);
-                modal.find('#edit_functionhall_total').val(functionhallTotal);
-                modal.find('#edit_grand_total').val(totalPayment);
-                modal.find('#edit_accommodation_payment_status').val(accommodationStatus);
-                modal.find('#edit_functionhall_payment_status').val(functionhallStatus);
 
                 // Reset all checkboxes and inputs
-                modal.find('.edit-accommodation-checkbox').prop('checked', false);
-                modal.find('.edit-accommodation-quantity').val('0');
-                modal.find('.edit-accommodation-subtotal').val('0.00');
                 modal.find('.edit-functionhall-checkbox').prop('checked', false);
                 modal.find('.edit-functionhall-quantity').val('0');
                 modal.find('.edit-functionhall-subtotal').val('0.00');
 
                 // Populate selected items
-                rooms.forEach((room, index) => {
-                    const fee = fees[index] || 0;
-                    const quantity = quantities[index] || 0;
-                    const serviceType = serviceTypes[index] || '';
+                for (let i = 0; i < functionHallTypes.length; i++) {
+                    const hallType = functionHallTypes[i];
+                    const fee = fees[i] || 0;
+                    const quantity = quantities[i] || 0;
 
-                    if (serviceType === 'accommodation') {
-                        const checkbox = modal.find(
-                            `.edit-accommodation-checkbox[value="${room}"]`);
-                        if (checkbox.length) {
-                            checkbox.prop('checked', true);
-                            const row = checkbox.closest('tr');
-                            row.find('.edit-accommodation-quantity').val(quantity);
-                            row.find('.edit-accommodation-subtotal').val(fee.toFixed(2));
-                        }
-                    } else if (serviceType === 'functionhall') {
-                        const checkbox = modal.find(
-                            `.edit-functionhall-checkbox[value="${room}"]`);
-                        if (checkbox.length) {
-                            checkbox.prop('checked', true);
-                            const row = checkbox.closest('tr');
-                            row.find('.edit-functionhall-quantity').val(quantity);
-                            row.find('.edit-functionhall-subtotal').val(fee.toFixed(2));
-                        }
+                    // Calculate subtotal (fee * quantity)
+                    const subtotal = fee * quantity;
+
+                    console.log(`Item ${i}: ${hallType}, Fee: ${fee}, Qty: ${quantity}`);
+
+                    // Find the checkbox with matching value
+                    const checkbox = modal.find(`.edit-functionhall-checkbox[value="${hallType}"]`);
+                    if (checkbox.length) {
+                        checkbox.prop('checked', true);
+                        const row = checkbox.closest('tr');
+                        row.find('.edit-functionhall-quantity').val(quantity);
+                        row.find('.edit-functionhall-subtotal').val(subtotal.toFixed(2));
+                        console.log(`Checked function hall: ${hallType}`);
+                    } else {
+                        console.log(`Function hall checkbox not found for: ${hallType}`);
                     }
-                });
+                }
 
-                updateEditTotals();
+                // Update totals after populating
+                updateEditFunctionHallTotal();
+                updateEditGrandTotal();
+
+                // Set payment status
+                if (status && status !== '') {
+                    modal.find('#edit_functionhall_payment_status').val(status);
+                }
+
+                // Set the total payment if needed
+                if (totalPayment) {
+                    modal.find('#edit_functionhall_total').val(totalPayment);
+                    modal.find('#edit_grand_total').val(totalPayment);
+                }
 
             } catch (error) {
                 console.error('Error initializing edit modal:', error);
-                alert('Error loading accommodation data. Please try again.');
+                alert('Error loading function hall data. Please try again.');
                 $(this).modal('hide');
             }
         });
 
-        // Calculate edit accommodation subtotal
-        $(document).on('input', '.edit-accommodation-quantity', function() {
-            const row = $(this).closest('tr');
-            const checkbox = row.find('.edit-accommodation-checkbox');
-            const quantity = parseFloat($(this).val()) || 0;
-            const feeText = row.find('.edit-accommodation-fee').val();
-            const fee = parseFloat(feeText.replace(/,/g, '')) || 0;
-            const subtotal = quantity * fee;
-
-            row.find('.edit-accommodation-subtotal').val(subtotal.toFixed(2));
-
-            if (quantity > 0) {
-                checkbox.prop('checked', true);
-            } else {
-                checkbox.prop('checked', false);
-            }
-
-            updateEditAccommodationTotal();
-            updateEditGrandTotal();
-        });
-
-        // Handle edit accommodation checkbox changes
-        $(document).on('change', '.edit-accommodation-checkbox', function() {
-            const row = $(this).closest('tr');
-            const quantityInput = row.find('.edit-accommodation-quantity');
-
-            if ($(this).is(':checked')) {
-                if (parseFloat(quantityInput.val()) === 0) {
-                    quantityInput.val('1').trigger('input');
-                }
-            } else {
-                quantityInput.val('0').trigger('input');
-            }
-        });
-
-        // Update edit accommodation total
-        function updateEditAccommodationTotal() {
-            let total = 0;
-            $('.edit-accommodation-checkbox:checked').each(function() {
-                const row = $(this).closest('tr');
-                const subtotal = parseFloat(row.find('.edit-accommodation-subtotal').val()) || 0;
-                total += subtotal;
-            });
-            $('#edit_accommodation_total').val(total.toFixed(2));
-        }
-
-        // Calculate edit function hall subtotal
+        // Calculate edit function hall subtotal on quantity change
         $(document).on('input', '.edit-functionhall-quantity', function() {
             const row = $(this).closest('tr');
             const checkbox = row.find('.edit-functionhall-checkbox');
@@ -921,14 +804,17 @@
             const fee = parseFloat(feeText.replace(/,/g, '')) || 0;
             const subtotal = quantity * fee;
 
+            // Update subtotal in the row
             row.find('.edit-functionhall-subtotal').val(subtotal.toFixed(2));
 
+            // Update checkbox state based on quantity
             if (quantity > 0) {
                 checkbox.prop('checked', true);
             } else {
                 checkbox.prop('checked', false);
             }
 
+            // Update totals
             updateEditFunctionHallTotal();
             updateEditGrandTotal();
         });
@@ -939,10 +825,12 @@
             const quantityInput = row.find('.edit-functionhall-quantity');
 
             if ($(this).is(':checked')) {
+                // If checked and quantity is 0, set to 1
                 if (parseFloat(quantityInput.val()) === 0) {
                     quantityInput.val('1').trigger('input');
                 }
             } else {
+                // If unchecked, set quantity to 0 and trigger update
                 quantityInput.val('0').trigger('input');
             }
         });
@@ -956,47 +844,39 @@
                 total += subtotal;
             });
             $('#edit_functionhall_total').val(total.toFixed(2));
+            console.log('Updated function hall total:', total.toFixed(2));
         }
 
         // Update edit grand total
         function updateEditGrandTotal() {
-            const accommodationTotal = parseFloat($('#edit_accommodation_total').val()) || 0;
             const functionhallTotal = parseFloat($('#edit_functionhall_total').val()) || 0;
-            const grandTotal = accommodationTotal + functionhallTotal;
-            $('#edit_grand_total').val(grandTotal.toFixed(2));
+            $('#edit_grand_total').val(functionhallTotal.toFixed(2));
+            console.log('Updated grand total:', functionhallTotal.toFixed(2));
         }
 
-        function updateEditTotals() {
-            updateEditAccommodationTotal();
-            updateEditFunctionHallTotal();
-            updateEditGrandTotal();
-        }
+        // Also add event listener for direct number input changes
+        $(document).on('keyup', '.edit-functionhall-quantity', function() {
+            $(this).trigger('input');
+        });
 
         // Validate edit form
         $('#editAccommodationForm').on('submit', function(e) {
-            const accommodationChecked = $(this).find('.edit-accommodation-checkbox:checked').length;
+            const visitorId = $('#edit_visitor_id').val();
+            if (!visitorId) {
+                e.preventDefault();
+                alert('Please select a visitor.');
+                return false;
+            }
+
             const functionhallChecked = $(this).find('.edit-functionhall-checkbox:checked').length;
 
-            if (accommodationChecked === 0 && functionhallChecked === 0) {
+            if (functionhallChecked === 0) {
                 e.preventDefault();
-                alert('Please select at least one service (Accommodation or Function Hall).');
+                alert('Please select at least one function hall.');
                 return false;
             }
 
             let invalid = false;
-
-            // Validate accommodation quantities
-            $('.edit-accommodation-checkbox:checked').each(function() {
-                const row = $(this).closest('tr');
-                const qty = parseFloat(row.find('.edit-accommodation-quantity').val());
-                if (qty <= 0) {
-                    invalid = true;
-                    alert(
-                        'Please enter valid quantity for all selected accommodation services.'
-                    );
-                    return false;
-                }
-            });
 
             // Validate function hall quantities
             $('.edit-functionhall-checkbox:checked').each(function() {
@@ -1004,9 +884,7 @@
                 const qty = parseFloat(row.find('.edit-functionhall-quantity').val());
                 if (qty <= 0) {
                     invalid = true;
-                    alert(
-                        'Please enter valid quantity for all selected function hall services.'
-                    );
+                    alert('Please enter valid quantity for all selected function halls.');
                     return false;
                 }
             });
@@ -1016,24 +894,14 @@
                 return false;
             }
 
-            // Validate payment status for selected sections
-            const accommodationTotal = parseFloat($('#edit_accommodation_total').val());
+            // Validate payment status
             const functionhallTotal = parseFloat($('#edit_functionhall_total').val());
-
-            if (accommodationTotal > 0) {
-                const accommodationStatus = $('#edit_accommodation_payment_status').val();
-                if (!accommodationStatus) {
-                    e.preventDefault();
-                    alert('Please select payment status for Accommodation section.');
-                    return false;
-                }
-            }
 
             if (functionhallTotal > 0) {
                 const functionhallStatus = $('#edit_functionhall_payment_status').val();
                 if (!functionhallStatus) {
                     e.preventDefault();
-                    alert('Please select payment status for Function Hall section.');
+                    alert('Please select payment status.');
                     return false;
                 }
             }

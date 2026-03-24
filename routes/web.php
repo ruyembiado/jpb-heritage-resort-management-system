@@ -55,12 +55,12 @@ Route::middleware(['auth'])->group(function () {
     // accommodations
     Route::get('/accommodations', [ServiceController::class, 'accommodations'])->name('accommodations');
     Route::post('/accommodation', [ServiceController::class, 'storeAccommodationFunctionHall'])->name('accommodation.store');
-    Route::put('/accommodation/update', [ServiceController::class, 'updateAccommodationFunctionHall'])->name('accommodation.update');
+    Route::put('/accommodation/update', [ServiceController::class, 'updateAccommodation'])->name('accommodation.update');
     Route::delete('/delete-accommodation/{id}', [ServiceController::class, 'destroyAccommodation'])->name('accommodation.destroy');
     // function halls
     Route::get('/function-halls', [ServiceController::class, 'functionhalls'])->name('functionhalls');
+    Route::put('/function-halls/update', [ServiceController::class, 'updateFunctionHall'])->name('functionhall.update');
     Route::delete('/delete-function-hall/{id}', [ServiceController::class, 'destroyFunctionHall'])->name('functionhall.destroy');
-
     // cottages
     Route::get('/cottages', [ServiceController::class, 'cottages'])->name('cottages');
     Route::post('/cottage', [ServiceController::class, 'storeCottage'])->name('cottage.store');

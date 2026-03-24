@@ -62,7 +62,7 @@
                         <tr>
                             <th class="bg-theme-primary text-light border-dark">NO.</th>
                             <th class="bg-theme-primary text-light border-dark">NAME OF GUEST</th>
-                            <th class="bg-theme-primary text-light border-dark text-center">MEMBERS</th>
+                            {{-- <th class="bg-theme-primary text-light border-dark text-center">MEMBERS</th> --}}
                             <th class="bg-theme-primary text-light border-dark">COTTAGE CATEGORY</th>
                             <th class="bg-theme-primary text-light border-dark">TOTAL FEE</th>
                             <th class="bg-theme-primary text-light border-dark">STATUS</th>
@@ -79,7 +79,7 @@
                                     {{ optional($cottage->visitor)->middle_name }}
                                     {{ optional($cottage->visitor)->last_name }}
                                 </td>
-                                <td class="text-center">{{ $cottage->visitor->members }}</td>
+                                {{-- <td class="text-center">{{ $cottage->visitor->members }}</td> --}}
                                 <td>
                                     @php
                                         $cottage_types = json_decode($cottage->cottage_type, true);
@@ -91,8 +91,6 @@
                                             @if ($quantities[$index] > 0)
                                                 <li>{{ $cottage_type }} -
                                                     ₱{{ number_format($fees[$index], 2) }}
-                                                    ×{{ $quantities[$index] }} =
-                                                    ₱{{ number_format($fees[$index] * $quantities[$index], 2) }}
                                                 </li>
                                             @endif
                                         @endforeach

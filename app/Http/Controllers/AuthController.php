@@ -103,7 +103,8 @@ class AuthController extends Controller
             'accommodation',
             'cottage',
             'meal',
-            'beverage'
+            'beverage',
+            'functionHall'
         ])->get();
 
         foreach ($visitorsForBills as $visitor) {
@@ -113,7 +114,8 @@ class AuthController extends Controller
                 $visitor->accommodation,
                 $visitor->cottage,
                 $visitor->meal,
-                $visitor->beverage
+                $visitor->beverage,
+                $visitor->functionHall,
             ];
 
             foreach ($services as $service) {
