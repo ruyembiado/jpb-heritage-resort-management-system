@@ -76,7 +76,8 @@ class AuthController extends Controller
                 $visitor->accommodation,
                 $visitor->cottage,
                 $visitor->meal,
-                $visitor->beverage
+                $visitor->beverage,
+                $visitor->functionHall
             ];
 
             foreach ($services as $service) {

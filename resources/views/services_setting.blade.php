@@ -222,7 +222,7 @@
     <!-- Add Service Modal -->
     <div class="modal fade" id="addServiceModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
-            <form action="{{ route('service.store') }}" method="POST">
+            <form action="{{ route('service.store') }}" method="POST" id="addServiceForm">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
@@ -276,7 +276,7 @@
                                     <div class="d-flex flex-wrap align-items-center gap-3">
                                         <label>Food Category:</label>
                                         <div class="col-4">
-                                            <select name="food_category" class="form-control">
+                                            <select name="food_category" class="form-control" disabled>
                                                 <option value="">Select Category</option>
                                                 <option value="noodles">Noodles</option>
                                                 <option value="soup">Soup</option>
@@ -285,7 +285,7 @@
                                         </div>
                                         <label>Food Type:</label>
                                         <div class="col-4">
-                                            <select name="food_type" class="form-control">
+                                            <select name="food_type" class="form-control" disabled>
                                                 <option value="">Select Type</option>
                                                 <option value="solo">Solo</option>
                                                 <option value="group">Group</option>
@@ -297,7 +297,7 @@
                                     <div class="d-flex align-items-center gap-3">
                                         <label>Drink Type:</label>
                                         <div class="col-8">
-                                            <select name="food_type" class="form-control">
+                                            <select name="food_type" class="form-control" disabled>
                                                 <option value="">Select Type</option>
                                                 <option value="solo">Solo</option>
                                                 <option value="group">Group</option>
@@ -312,7 +312,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="modal-footer">
@@ -333,37 +332,138 @@
         const foodFields = document.getElementById("foodFields");
         const drinkFields = document.getElementById("drinkFields");
 
+        // Get the select elements inside the fields
+        const foodCategorySelect = foodFields ? foodFields.querySelector('select[name="food_category"]') : null;
+        const foodTypeSelect = foodFields ? foodFields.querySelector('select[name="food_type"]') : null;
+        const drinkTypeSelect = drinkFields ? drinkFields.querySelector('select[name="food_type"]') : null;
+
         function toggleAddFields() {
             if (serviceType.value === "foods") {
+                // Show food fields, hide drink fields
                 foodFields.style.display = "block";
                 drinkFields.style.display = "none";
+
+                // Enable food fields, disable drink fields
+                if (foodCategorySelect) foodCategorySelect.disabled = false;
+                if (foodTypeSelect) foodTypeSelect.disabled = false;
+                if (drinkTypeSelect) drinkTypeSelect.disabled = true;
+
+                // Clear drink field values
+                if (drinkTypeSelect) drinkTypeSelect.value = "";
+
             } else if (serviceType.value === "drinks") {
+                // Show drink fields, hide food fields
                 drinkFields.style.display = "block";
                 foodFields.style.display = "none";
+
+                // Enable drink fields, disable food fields
+                if (drinkTypeSelect) drinkTypeSelect.disabled = false;
+                if (foodCategorySelect) foodCategorySelect.disabled = true;
+                if (foodTypeSelect) foodTypeSelect.disabled = true;
+
+                // Clear food field values
+                if (foodCategorySelect) foodCategorySelect.value = "";
+                if (foodTypeSelect) foodTypeSelect.value = "";
+
             } else {
+                // Hide both, disable both
                 foodFields.style.display = "none";
                 drinkFields.style.display = "none";
+
+                if (foodCategorySelect) foodCategorySelect.disabled = true;
+                if (foodTypeSelect) foodTypeSelect.disabled = true;
+                if (drinkTypeSelect) drinkTypeSelect.disabled = true;
+
+                // Clear all values
+                if (foodCategorySelect) foodCategorySelect.value = "";
+                if (foodTypeSelect) foodTypeSelect.value = "";
+                if (drinkTypeSelect) drinkTypeSelect.value = "";
             }
         }
 
-        serviceType.addEventListener("change", toggleAddFields);
+        // Initial call to set correct state
+        toggleAddFields();
+
+        // Add event listener for changes
+        if (serviceType) {
+            serviceType.addEventListener("change", toggleAddFields);
+        }
+
+        // Optional: Add validation before submit to ensure required fields are filled
+        const addServiceForm = document.getElementById('addServiceForm');
+        if (addServiceForm) {
+            addServiceForm.addEventListener('submit', function(e) {
+                const serviceTypeValue = serviceType.value;
+
+                if (serviceTypeValue === 'foods') {
+                    const foodCategory = foodCategorySelect ? foodCategorySelect.value : '';
+                    const foodType = foodTypeSelect ? foodTypeSelect.value : '';
+
+                    if (!foodCategory) {
+                        e.preventDefault();
+                        alert('Please select a food category.');
+                        return false;
+                    }
+                    if (!foodType) {
+                        e.preventDefault();
+                        alert('Please select a food type.');
+                        return false;
+                    }
+                }
+
+                if (serviceTypeValue === 'drinks') {
+                    const drinkType = drinkTypeSelect ? drinkTypeSelect.value : '';
+
+                    if (!drinkType) {
+                        e.preventDefault();
+                        alert('Please select a drink type.');
+                        return false;
+                    }
+                }
+            });
+        }
 
         // Edit Modals
         document.querySelectorAll('.edit_service_type').forEach(select => {
             select.addEventListener('change', function() {
                 let id = this.dataset.id;
-                let foodFields = document.getElementById('editFoodFields' + id);
-                let drinkFields = document.getElementById('editDrinkFields' + id);
+                let foodFieldsDiv = document.getElementById('editFoodFields' + id);
+                let drinkFieldsDiv = document.getElementById('editDrinkFields' + id);
+
+                // Get the select elements inside the fields
+                let foodCategorySelectEdit = foodFieldsDiv ? foodFieldsDiv.querySelector(
+                    'select[name="food_category"]') : null;
+                let foodTypeSelectEdit = foodFieldsDiv ? foodFieldsDiv.querySelector(
+                    'select[name="food_type"]') : null;
+                let drinkTypeSelectEdit = drinkFieldsDiv ? drinkFieldsDiv.querySelector(
+                    'select[name="drink_type"]') : null;
 
                 if (this.value === 'foods') {
-                    foodFields.style.display = 'block';
-                    drinkFields.style.display = 'none';
+                    if (foodFieldsDiv) foodFieldsDiv.style.display = 'block';
+                    if (drinkFieldsDiv) drinkFieldsDiv.style.display = 'none';
+
+                    // Enable food fields, disable drink fields
+                    if (foodCategorySelectEdit) foodCategorySelectEdit.disabled = false;
+                    if (foodTypeSelectEdit) foodTypeSelectEdit.disabled = false;
+                    if (drinkTypeSelectEdit) drinkTypeSelectEdit.disabled = true;
+
                 } else if (this.value === 'drinks') {
-                    drinkFields.style.display = 'block';
-                    foodFields.style.display = 'none';
+                    if (drinkFieldsDiv) drinkFieldsDiv.style.display = 'block';
+                    if (foodFieldsDiv) foodFieldsDiv.style.display = 'none';
+
+                    // Enable drink fields, disable food fields
+                    if (drinkTypeSelectEdit) drinkTypeSelectEdit.disabled = false;
+                    if (foodCategorySelectEdit) foodCategorySelectEdit.disabled = true;
+                    if (foodTypeSelectEdit) foodTypeSelectEdit.disabled = true;
+
                 } else {
-                    foodFields.style.display = 'none';
-                    drinkFields.style.display = 'none';
+                    if (foodFieldsDiv) foodFieldsDiv.style.display = 'none';
+                    if (drinkFieldsDiv) drinkFieldsDiv.style.display = 'none';
+
+                    // Disable all
+                    if (foodCategorySelectEdit) foodCategorySelectEdit.disabled = true;
+                    if (foodTypeSelectEdit) foodTypeSelectEdit.disabled = true;
+                    if (drinkTypeSelectEdit) drinkTypeSelectEdit.disabled = true;
                 }
             });
         });

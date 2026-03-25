@@ -3,23 +3,77 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text">Meals</h1>
-        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMeals">Add Meals Fee</a>
+        <div class="d-flex">
+            <i class="fas fa-bowl-food fa-2x text-dark me-2"></i>
+            <div class="d-flex flex-column">
+                <h1 class="h3 mb-0 text">AVAILED SERVICES</h1>
+                <h6 class="mb-0">Guest | Food Fees</h6>
+            </div>
+        </div>
+        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMeals">Add Meal Fee</a>
     </div>
 
     <!-- Content Row -->
+    @include('layouts.services-navigation')
     <div class="card shadow mb-4">
         <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <!-- Date Filter -->
+                <form method="GET" action="" id="dateRangeForm">
+                    <div class="d-flex justify-content-start gap-2 align-items-end mb-4">
+                        <div class="d-flex align-items-center">
+                            <label class="mb-0 me-0 p-1 bg-theme-primary text-light">From:</label>
+                            <input type="date" name="start_date" value="{{ request('start_date') }}"
+                                class="form-control form-control-sm rounded-0"
+                                onchange="document.getElementById('dateRangeForm').submit();">
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <label class="mb-0 me-0 p-1 bg-theme-primary text-light">To:</label>
+                            <input type="date" name="end_date" value="{{ request('end_date') }}"
+                                class="form-control form-control-sm rounded-0"
+                                onchange="document.getElementById('dateRangeForm').submit();">
+                        </div>
+                    </div>
+                    <!-- A-Z Filter -->
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <a href="{{ request()->fullUrlWithQuery(['letter' => null]) }}"
+                            class="btn btn-sm rounded-circle {{ request('letter') ? 'btn-dark' : 'btn-success' }}">
+                            All
+                        </a>
+                        @foreach (range('A', 'Z') as $letter)
+                            <a href="{{ request()->fullUrlWithQuery(['letter' => $letter]) }}"
+                                class="btn btn-sm rounded-circle 
+                                    {{ request('letter') == $letter ? 'btn-success' : 'btn-dark' }}"
+                                style="width:32px;height:32px;line-height:22px;">
+                                {{ $letter }}
+                            </a>
+                        @endforeach
+                    </div>
+                </form>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="{{ url('meals') }}" class="btn btn-success d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-bowl-food"></i>
+                    Foods
+                </a>
+                <a href="{{ url('beverages') }}" class="btn bg-theme-primary text-light d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-bottle-water"></i>
+                    Drinks
+                </a>
+            </div>
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+                <table class="table table-bordered border-dark" id="dataTable1" width="100%" cellspacing="0"
+                    style="min-width:1400px;">
                     <thead>
                         <tr>
-                            <th>No.</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Total Payment</th>
-                            <th>Date Created</th>
-                            <th>Action</th>
+                            <th class="bg-theme-primary text-light">NO.</th>
+                            <th class="bg-theme-primary text-light">NAME OF GUEST</th>
+                            <th class="bg-theme-primary text-light">MEMBERS</th>
+                            <th class="bg-theme-primary text-light">ORDER DETAILS</th>
+                            <th class="bg-theme-primary text-light">TOTAL FEE</th>
+                            <th class="bg-theme-primary text-light">STATUS</th>
+                            <th class="bg-theme-primary text-light">DATE CREATED</th>
+                            <th class="bg-theme-primary text-light sticky-action">ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,6 +84,9 @@
                                     {{ optional($meal->visitor)->first_name }}
                                     {{ optional($meal->visitor)->middle_name }}
                                     {{ optional($meal->visitor)->last_name }}
+                                </td>
+                                <td>
+                                    {{ optional($meal->visitor->members) }}
                                 </td>
                                 @php
                                     $item_names = json_decode($meal->item_name, true);
@@ -64,7 +121,7 @@
                                 </td>
                                 <td>₱ {{ number_format($meal->total_payment, 2) }}</td>
                                 <td>{{ \Carbon\Carbon::parse($meal->created_at)->format('F j, Y') }}</td>
-                                <td>
+                                <td class="sticky-action">
                                     <div class="d-flex align-items-center justify-c gap-2">
                                         <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#editMealsModal" data-meal-id="{{ $meal->id }}"
@@ -101,8 +158,18 @@
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addMealsLabel">Add Meals Fee</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="col-12">
+                            <div class="text-end">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 justify-content-center">
+                                <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
+                                <div class="d-flex flex-column">
+                                    <b class="modal-title mt-2 text-bold">JPB Heritage Inland Resort</b>
+                                    <span>Progreso Street Illauod, Bugasong, Antique</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">

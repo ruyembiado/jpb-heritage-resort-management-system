@@ -8,7 +8,7 @@
             <i class="fas fa-file-invoice"></i>
             Bill
         </a>
-        <a href="#" class="btn btn-outline-light d-flex align-items-center gap-2">
+        <a href="{{ url('meals') }}" class="btn {{ Request::is('meals') || Request::is('beverages') ? 'btn-success' : 'btn-outline-light ' }} d-flex align-items-center gap-2">
             <i class="fas fa-utensils"></i>
             Food & Drinks
         </a>

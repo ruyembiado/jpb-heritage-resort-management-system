@@ -173,34 +173,34 @@
         </div>
 
         <div id="incompleteBill" class="modal fade" tabindex="-1">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 1520px;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Incomplete Bills</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body p-0">
                         <div class="card mb-0">
-                            <div class="card-body">
+                            <div class="card-body p-1">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered border-dark" id="" width="100%">
+                                    <table class="table table-bordered border-dark m-0" width="100%">
                                         <thead>
                                             <tr>
                                                 <th rowspan="3"
-                                                    class="align-middle bg-theme-primary text-light text-uppercase">No.
-                                                </th>
+                                                    class="align-middle bg-theme-primary text-light text-uppercase"
+                                                    style="vertical-align: middle;">No.</th>
                                                 <th rowspan="3"
-                                                    class="align-middle bg-theme-primary text-light text-uppercase">Name of
-                                                    Guest</th>
+                                                    class="align-middle bg-theme-primary text-light text-uppercase"
+                                                    style="vertical-align: middle;">Name of Guest</th>
                                                 <th rowspan="3"
-                                                    class="align-middle bg-theme-primary text-light text-uppercase">Members
-                                                </th>
-                                                <th colspan="10"
+                                                    class="align-middle bg-theme-primary text-light text-uppercase"
+                                                    style="vertical-align: middle;">Members</th>
+                                                <th colspan="14"
                                                     class="text-center bg-theme-primary text-light text-uppercase">Availed
                                                     Services</th>
                                                 <th rowspan="3"
-                                                    class="align-middle bg-theme-primary text-light text-uppercase">Total
-                                                    Fee</th>
+                                                    class="align-middle bg-theme-primary text-light text-uppercase"
+                                                    style="vertical-align: middle;">Total Fee</th>
                                             </tr>
                                             <tr>
                                                 <th class="bg-theme-primary text-light text-uppercase" colspan="2">
@@ -208,13 +208,21 @@
                                                 <th class="bg-theme-primary text-light text-uppercase" colspan="2">Room
                                                     Accommodation</th>
                                                 <th class="bg-theme-primary text-light text-uppercase" colspan="2">
+                                                    Function Hall</th>
+                                                <th class="bg-theme-primary text-light text-uppercase" colspan="2">
                                                     Cottage Fee</th>
                                                 <th class="bg-theme-primary text-light text-uppercase" colspan="2">
                                                     Foods</th>
                                                 <th class="bg-theme-primary text-light text-uppercase" colspan="2">
                                                     Drinks</th>
+                                                <th class="bg-theme-primary text-light text-uppercase" colspan="2">
+                                                    Other Services</th>
                                             </tr>
                                             <tr>
+                                                <th class="bg-success text-light">Fee</th>
+                                                <th class="bg-success text-light">Status</th>
+                                                <th class="bg-success text-light">Fee</th>
+                                                <th class="bg-success text-light">Status</th>
                                                 <th class="bg-success text-light">Fee</th>
                                                 <th class="bg-success text-light">Status</th>
                                                 <th class="bg-success text-light">Fee</th>
@@ -227,24 +235,23 @@
                                                 <th class="bg-success text-light">Status</th>
                                             </tr>
                                         </thead>
-
                                         <tbody>
                                             @if ($visitorsWithUnpaidBills->isNotEmpty())
                                                 @foreach ($visitorsWithUnpaidBills as $visitor)
                                                     <tr>
-                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td class="text-center">{{ $loop->iteration }}</td>
                                                         <td>
-                                                            {{ $visitor->first_name . ' ' . $visitor->middle_name . ' ' . $visitor->last_name }}
+                                                            {{ $visitor->first_name }}
+                                                            {{ $visitor->middle_name ? $visitor->middle_name . ' ' : '' }}
+                                                            {{ $visitor->last_name }}
+                                                        </td>
+                                                        <td class="text-center">{{ $visitor->members ?? 'N/A' }}</td>
+
+                                                        <!-- Entrance Fee -->
+                                                        <td class="text-end">
+                                                            {{ $visitor->entrance ? '₱' . number_format($visitor->entrance->total_payment, 2) : '₱0.00' }}
                                                         </td>
                                                         <td class="text-center">
-                                                            {{ $visitor->members }}
-                                                        </td>
-
-                                                        <!-- Entrance -->
-                                                        <td>
-                                                            {{ $visitor->entrance ? '₱' . number_format($visitor->entrance->total_payment, 2) : 'N/A' }}
-                                                        </td>
-                                                        <td>
                                                             @if (isset($visitor->entrance->status))
                                                                 <span
                                                                     class="badge {{ $visitor->entrance->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
@@ -255,11 +262,11 @@
                                                             @endif
                                                         </td>
 
-                                                        <!-- Accommodation -->
-                                                        <td>
-                                                            {{ $visitor->accommodation ? '₱' . number_format($visitor->accommodation->total_payment, 2) : 'N/A' }}
+                                                        <!-- Room Accommodation -->
+                                                        <td class="text-end">
+                                                            {{ $visitor->accommodation ? '₱' . number_format($visitor->accommodation->total_payment, 2) : '₱0.00' }}
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             @if (isset($visitor->accommodation->status))
                                                                 <span
                                                                     class="badge {{ $visitor->accommodation->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
@@ -270,11 +277,26 @@
                                                             @endif
                                                         </td>
 
-                                                        <!-- Cottage -->
-                                                        <td>
-                                                            {{ $visitor->cottage ? '₱' . number_format($visitor->cottage->total_payment, 2) : 'N/A' }}
+                                                        <!-- Function Hall -->
+                                                        <td class="text-end">
+                                                            {{ $visitor->functionHall ? '₱' . number_format($visitor->functionHall->total_payment, 2) : '₱0.00' }}
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
+                                                            @if (isset($visitor->functionHall->status))
+                                                                <span
+                                                                    class="badge {{ $visitor->functionHall->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
+                                                                    {{ $visitor->functionHall->status }}
+                                                                </span>
+                                                            @else
+                                                                <span class="badge bg-secondary">N/A</span>
+                                                            @endif
+                                                        </td>
+
+                                                        <!-- Cottage Fee -->
+                                                        <td class="text-end">
+                                                            {{ $visitor->cottage ? '₱' . number_format($visitor->cottage->total_payment, 2) : '₱0.00' }}
+                                                        </td>
+                                                        <td class="text-center">
                                                             @if (isset($visitor->cottage->status))
                                                                 <span
                                                                     class="badge {{ $visitor->cottage->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
@@ -285,11 +307,11 @@
                                                             @endif
                                                         </td>
 
-                                                        <!-- Meals -->
-                                                        <td>
-                                                            {{ $visitor->meal ? '₱' . number_format($visitor->meal->total_payment, 2) : 'N/A' }}
+                                                        <!-- Foods -->
+                                                        <td class="text-end">
+                                                            {{ $visitor->meal ? '₱' . number_format($visitor->meal->total_payment, 2) : '₱0.00' }}
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             @if (isset($visitor->meal->status))
                                                                 <span
                                                                     class="badge {{ $visitor->meal->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
@@ -300,11 +322,11 @@
                                                             @endif
                                                         </td>
 
-                                                        <!-- Beverages -->
-                                                        <td>
-                                                            {{ $visitor->beverage ? '₱' . number_format($visitor->beverage->total_payment, 2) : 'N/A' }}
+                                                        <!-- Drinks -->
+                                                        <td class="text-end">
+                                                            {{ $visitor->beverage ? '₱' . number_format($visitor->beverage->total_payment, 2) : '₱0.00' }}
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             @if (isset($visitor->beverage->status))
                                                                 <span
                                                                     class="badge {{ $visitor->beverage->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
@@ -315,24 +337,29 @@
                                                             @endif
                                                         </td>
 
+                                                        <!-- Other Services (if needed) -->
+                                                        <td class="text-end">₱0.00</td>
+                                                        <td class="text-center"><span
+                                                                class="badge bg-secondary">N/A</span></td>
+
+                                                        <!-- Grand Total -->
                                                         @php
                                                             $grand_total =
                                                                 ($visitor->entrance->total_payment ?? 0) +
                                                                 ($visitor->accommodation->total_payment ?? 0) +
+                                                                ($visitor->functionHall->total_payment ?? 0) +
                                                                 ($visitor->cottage->total_payment ?? 0) +
                                                                 ($visitor->meal->total_payment ?? 0) +
                                                                 ($visitor->beverage->total_payment ?? 0);
                                                         @endphp
-                                                        <td>
-                                                            ₱{{ number_format($grand_total, 2) }}
+                                                        <td class="text-end fw-bold">₱{{ number_format($grand_total, 2) }}
                                                         </td>
                                                     </tr>
                                                 @endforeach
                                             @else
                                                 <tr>
-                                                    <td colspan="15" class="text-center text-muted">No visitors with
-                                                        unpaid bills.
-                                                    </td>
+                                                    <td colspan="20" class="text-center text-muted py-4">No visitors
+                                                        with unpaid bills.</td>
                                                 </tr>
                                             @endif
                                         </tbody>
