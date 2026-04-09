@@ -17,6 +17,7 @@ class Beverage extends Model
         'fee',
         'status',
         'quantity',
+        'type',
         'total_payment',
     ];
 

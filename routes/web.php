@@ -68,7 +68,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/delete-cottage/{id}', [ServiceController::class, 'destroyCottage'])->name('cottage.destroy');
     // meals
     Route::get('/meals', [ServiceController::class, 'meals'])->name('meals');
-    Route::post('/meal', [ServiceController::class, 'storeMeal'])->name('meal.store');
+    Route::post('/meal', [ServiceController::class, 'storeMealDrink'])->name('meal.store');
     Route::put('/meal/update', [ServiceController::class, 'updateMeal'])->name('meal.update');
     Route::delete('/delete-meal/{id}', [ServiceController::class, 'destroyMeal'])->name('meal.destroy');
     // Beverages

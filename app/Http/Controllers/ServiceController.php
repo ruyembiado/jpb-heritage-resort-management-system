@@ -629,12 +629,114 @@ class ServiceController extends Controller
         return redirect()->route('cottages')->with('success', 'Cottage fee deleted successfully.');
     }
 
-    public function meals()
+    public function meals(Request $request)
     {
-        $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
-        $meals = Meal::orderBy('created_at', 'desc')->with('visitor')->get();
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $letter = $request->letter;
 
-        return view('meals', compact('visitors', 'meals'));
+        $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
+        $meals = Meal::with('visitor')
+            ->when($start_date, function ($query) use ($start_date) {
+                $query->whereDate('created_at', '>=', $start_date);
+            })
+            ->when($end_date, function ($query) use ($end_date) {
+                $query->whereDate('created_at', '<=', $end_date);
+            })
+            ->when($letter, function ($query) use ($letter) {
+                $query->whereHas('visitor', function ($q) use ($letter) {
+                    $q->where('first_name', 'like', $letter . '%');
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $mealFees = Service::where('service_type', 'foods')->get();
+        $drinkFees = Service::where('service_type', 'drinks')->get();
+
+        return view('meals', compact('visitors', 'meals', 'mealFees', 'drinkFees'));
+    }
+
+    public function storeMealDrink(Request $request)
+    {
+        $mealNames = [];
+        $mealFees = [];
+        $mealQtys = [];
+        $mealTypes = [];
+
+        $drinkNames = [];
+        $drinkFees = [];
+        $drinkQtys = [];
+        $drinkTypes = [];
+
+        if ($request->has('meal_items')) {
+            foreach ($request->meal_items as $index => $item) {
+
+                $soloFee = floatval($item['solo_fee'] ?? 0);
+                $groupFee = floatval($item['group_fee'] ?? 0);
+
+                $soloQty = $request->input("meal_items.$index.solo_qty", 0);
+                $groupQty = $request->input("meal_items.$index.group_qty", 0);
+
+                $mealNames[] = $item['name'];
+                $mealFees[] = $soloFee;
+                $mealQtys[] = $soloQty;
+                $mealTypes[] = 'solo';
+
+                $mealNames[] = $item['name'];
+                $mealFees[] = $groupFee;
+                $mealQtys[] = $groupQty;
+                $mealTypes[] = 'group';
+            }
+
+            if (!empty($mealNames)) {
+                Meal::create([
+                    'visitor_id' => $request->visitor_id,
+                    'item_name' => json_encode($mealNames),
+                    'fee' => json_encode($mealFees),
+                    'quantity' => json_encode($mealQtys),
+                    'type' => json_encode($mealTypes),
+                    'status' => $request->meal_payment_status ?? 'Unpaid',
+                    'total_payment' => $request->meal_total_payment,
+                ]);
+            }
+        }
+
+        // ================= DRINKS =================
+        if ($request->has('drink_items')) {
+            foreach ($request->drink_items as $index => $item) {
+
+                $soloFee = floatval($item['solo_fee'] ?? 0);
+                $groupFee = floatval($item['group_fee'] ?? 0);
+
+                $soloQty = $request->input("drink_items.$index.solo_qty", 0);
+                $groupQty = $request->input("drink_items.$index.group_qty", 0);
+
+                $drinkNames[] = $item['name'];
+                $drinkFees[] = $soloFee;
+                $drinkQtys[] = $soloQty;
+                $drinkTypes[] = 'solo';
+
+                $drinkNames[] = $item['name'];
+                $drinkFees[] = $groupFee;
+                $drinkQtys[] = $groupQty;
+                $drinkTypes[] = 'group';
+            }
+
+            if (!empty($drinkNames)) {
+                Beverage::create([
+                    'visitor_id' => $request->visitor_id,
+                    'item_name' => json_encode($drinkNames),
+                    'fee' => json_encode($drinkFees),
+                    'quantity' => json_encode($drinkQtys),
+                    'type' => json_encode($drinkTypes),
+                    'status' => $request->drink_payment_status ?? 'Unpaid',
+                    'total_payment' => $request->drink_total_payment,
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Food and Drinks saved successfully!');
     }
 
     public function storeMeal(Request $request)
@@ -681,8 +783,8 @@ class ServiceController extends Controller
             'visitor_id' => 'required|exists:visitors,id',
             'meal_items' => 'required|array',
             'meal_items.*.name' => 'required|string',
-            'meal_items.*.price' => 'required|numeric',
-            'meal_items.*.quantity' => 'required|integer|min:0',
+            'meal_items.*.solo_qty' => 'nullable|integer|min:0',
+            'meal_items.*.group_qty' => 'nullable|integer|min:0',
             'total_payment' => 'required|numeric',
         ]);
 
@@ -691,44 +793,72 @@ class ServiceController extends Controller
         $items = $request->input('meal_items');
 
         $itemNames = [];
-        $prices = [];
+        $fees = [];
         $quantities = [];
-        $subtotals = [];
 
         foreach ($items as $item) {
-            if ($item['quantity'] > 0) {
-                $itemNames[] = $item['name'];
-                $prices[] = (float) $item['price'];
-                $quantities[] = (int) $item['quantity'];
-                $subtotals[] = (float) $item['price'] * (int) $item['quantity'];
-            }
+
+            $name = $item['name'];
+
+            $soloQty = intval($item['solo_qty'] ?? 0);
+            $groupQty = intval($item['group_qty'] ?? 0);
+
+            $soloFee = floatval($item['solo_fee'] ?? 0);
+            $groupFee = floatval($item['group_fee'] ?? 0);
+
+            $itemNames[] = $name;
+            $fees[] = $soloFee;
+            $quantities[] = $soloQty;
+
+            $itemNames[] = $name;
+            $fees[] = $groupFee;
+            $quantities[] = $groupQty;
         }
 
         $meal->update([
-            'visitor_id' => $request->input('visitor_id'),
+            'visitor_id' => $request->visitor_id,
             'item_name' => json_encode($itemNames),
-            'fee' => json_encode($prices),
+            'fee' => json_encode($fees),
             'quantity' => json_encode($quantities),
-            'subtotal' => json_encode($subtotals),
-            'total_payment' => $request->input('total_payment'),
+            'total_payment' => $request->total_payment,
         ]);
 
-        return redirect()->route('meals')->with('success', 'Meal record updated successfully.');
+        return redirect()->route('meals')
+            ->with('success', 'Food record updated successfully.');
     }
 
     public function destroyMeal($id)
     {
         $meal = Meal::findOrFail($id);
         $meal->delete();
-        return redirect()->route('meals')->with('success', 'Meal(s) record deleted successfully.');
+        return redirect()->route('meals')->with('success', 'Food record deleted successfully.');
     }
 
-    public function beverages()
+    public function beverages(Request $request)
     {
-        $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
-        $beverages = Beverage::orderBy('created_at', 'desc')->with('visitor')->get();
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $letter = $request->letter;
 
-        return view('beverages', compact('visitors', 'beverages'));
+        $visitors = Visitor::orderBy('created_at', 'desc')->limit(50)->get();
+        $beverages = Beverage::with('visitor')->when($start_date, function ($query) use ($start_date) {
+            $query->whereDate('created_at', '>=', $start_date);
+        })
+            ->when($end_date, function ($query) use ($end_date) {
+                $query->whereDate('created_at', '<=', $end_date);
+            })
+            ->when($letter, function ($query) use ($letter) {
+                $query->whereHas('visitor', function ($q) use ($letter) {
+                    $q->where('first_name', 'like', $letter . '%');
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $mealFees = Service::where('service_type', 'foods')->get();
+        $drinkFees = Service::where('service_type', 'drinks')->get();
+
+        return view('beverages', compact('visitors', 'beverages', 'mealFees', 'drinkFees'));
     }
 
     public function storeBeverage(Request $request)
@@ -773,47 +903,56 @@ class ServiceController extends Controller
         $request->validate([
             'beverage_id' => 'required|exists:beverages,id',
             'visitor_id' => 'required|exists:visitors,id',
-            'beverage_items' => 'required|array',
-            'beverage_items.*.name' => 'required|string',
-            'beverage_items.*.price' => 'required|numeric',
-            'beverage_items.*.quantity' => 'required|integer|min:0',
+            'drink_items' => 'required|array',
+            'drink_items.*.name' => 'required|string',
             'total_payment' => 'required|numeric',
         ]);
 
         $beverage = Beverage::findOrFail($request->beverage_id);
 
-        $items = $request->input('beverage_items');
+        $drinkNames = [];
+        $drinkFees = [];
+        $drinkQtys = [];
+        $drinkTypes = [];
 
-        $itemNames = [];
-        $prices = [];
-        $quantities = [];
-        $subtotals = [];
+        foreach ($request->drink_items as $index => $item) {
 
-        foreach ($items as $item) {
-            if ($item['quantity'] > 0) {
-                $itemNames[] = $item['name'];
-                $prices[] = (float) $item['price'];
-                $quantities[] = (int) $item['quantity'];
-                $subtotals[] = (float) $item['price'] * (int) $item['quantity'];
-            }
+            $soloFee = floatval($item['solo_fee'] ?? 0);
+            $groupFee = floatval($item['group_fee'] ?? 0);
+
+            $soloQty = $request->input("drink_items.$index.solo_qty", 0);
+            $groupQty = $request->input("drink_items.$index.group_qty", 0);
+
+            // SOLO
+            $drinkNames[] = $item['name'];
+            $drinkFees[] = $soloFee;
+            $drinkQtys[] = $soloQty;
+            $drinkTypes[] = 'solo';
+
+            // GROUP
+            $drinkNames[] = $item['name'];
+            $drinkFees[] = $groupFee;
+            $drinkQtys[] = $groupQty;
+            $drinkTypes[] = 'group';
         }
 
         $beverage->update([
-            'visitor_id' => $request->input('visitor_id'),
-            'item_name' => json_encode($itemNames),
-            'fee' => json_encode($prices),
-            'quantity' => json_encode($quantities),
-            'subtotal' => json_encode($subtotals),
-            'total_payment' => $request->input('total_payment'),
+            'visitor_id' => $request->visitor_id,
+            'item_name' => json_encode($drinkNames),
+            'fee' => json_encode($drinkFees),
+            'quantity' => json_encode($drinkQtys),
+            'type' => json_encode($drinkTypes),
+            'status' => $request->edit_payment_status ?? 'Unpaid',
+            'total_payment' => $request->total_payment,
         ]);
 
-        return redirect()->route('beverages')->with('success', 'Beverage record updated successfully.');
+        return redirect()->route('beverages')->with('success', 'Drink record updated successfully.');
     }
 
     public function destroyBeverage($id)
     {
         $beverage = Beverage::findOrFail($id);
         $beverage->delete();
-        return redirect()->route('beverages')->with('success', 'Beverage(s) record deleted successfully.');
+        return redirect()->route('beverages')->with('success', 'Drink(s) record deleted successfully.');
     }
 }

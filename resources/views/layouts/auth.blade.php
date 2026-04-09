@@ -47,13 +47,13 @@
                 <hr class="sidebar-hr text-light mt-1 mb-2">
                 <b class="text-light ms-2">GUEST</b>
                 <li class="sidebar-item mt-1">
-                    <a href="{{ url('/entrances') }}" class="sidebar-link {{ Request::is('entrances*') ? 'active' : '' }}">
+                    <a href="{{ url('/entrances') }}" class="sidebar-link {{ Request::is('entrances*') || Request::is('meals*') || Request::is('accommodations*') || Request::is('function-halls*') || Request::is('cottages*') || Request::is('beverages*') ? 'active' : '' }}">
                         <i class="fa fa-book"></i>
                         <span>Availed Services</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{{ url('/bills') }}" class="sidebar-link">
+                    <a href="{{ url('/bills') }}" class="sidebar-link {{ Request::is('bills*') ? 'active' : '' }}">
                         <i class="fa fa-money-bill"></i>
                         <span>Bill History</span>
                     </a>
@@ -61,7 +61,7 @@
                 <hr class="sidebar-hr text-light mt-1 mb-2">
                 <b class="text-light ms-2">STAFF</b>
                 <li class="sidebar-item">
-                    <a href="{{ url('/staff') }}" class="sidebar-link">
+                    <a href="{{ url('/staff') }}" class="sidebar-link {{ Request::is('staff*') ? 'active' : '' }}">
                         <i class="fa fa-users"></i>
                         <span>List & Attendance</span>
                     </a>

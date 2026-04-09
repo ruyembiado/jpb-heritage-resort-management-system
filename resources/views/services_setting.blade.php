@@ -44,7 +44,7 @@
                                     <!-- Edit Button -->
                                     <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#editServiceModal{{ $service->id }}">
-                                        Edit
+                                        <i class="fas fa-edit"></i>
                                     </button>
 
                                     <!-- Update Modal -->
@@ -145,6 +145,9 @@
                                                                                 <option value="main"
                                                                                     {{ $service->food_category == 'main' ? 'selected' : '' }}>
                                                                                     Main</option>
+                                                                                <option value="rice"
+                                                                                    {{ $service->food_category == 'rice' ? 'selected' : '' }}>
+                                                                                    Rice</option>
                                                                             </select>
                                                                         </div>
                                                                         <label>Food Type:</label>
@@ -206,7 +209,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">
-                                            Delete
+                                            <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
 
@@ -281,6 +284,7 @@
                                                 <option value="noodles">Noodles</option>
                                                 <option value="soup">Soup</option>
                                                 <option value="main">Main</option>
+                                                <option value="rice">Rice</option>
                                             </select>
                                         </div>
                                         <label>Food Type:</label>

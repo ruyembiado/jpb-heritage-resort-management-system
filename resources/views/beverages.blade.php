@@ -10,7 +10,7 @@
                 <h6 class="mb-0">Guest | Drink Fees</h6>
             </div>
         </div>
-        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBeverages">Add Beverages Fee</a>
+        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBeverages">Add Food & Drink Fee</a>
     </div>
 
     <!-- Content Row -->
@@ -70,7 +70,7 @@
                                 <th class="bg-theme-primary text-light">NO.</th>
                                 <th class="bg-theme-primary text-light">NAME OF GUEST</th>
                                 <th class="bg-theme-primary text-light">MEMBERS</th>
-                                <th class="bg-theme-primary text-light">ORDER DETAILS</th>
+                                <th class="bg-theme-primary text-light text-center">ORDER DETAILS</th>
                                 <th class="bg-theme-primary text-light">TOTAL FEE</th>
                                 <th class="bg-theme-primary text-light">STATUS</th>
                                 <th class="bg-theme-primary text-light">DATE CREATED</th>
@@ -81,48 +81,113 @@
                             @foreach ($beverages as $beverage)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
+
                                     <td>
                                         {{ optional($beverage->visitor)->first_name }}
                                         {{ optional($beverage->visitor)->middle_name }}
                                         {{ optional($beverage->visitor)->last_name }}
                                     </td>
+
                                     <td>
-                                        {{ optional($beverage->visitor->members) }}
+                                        {{ $beverage->visitor->members }}
                                     </td>
+
                                     @php
                                         $item_names = json_decode($beverage->item_name, true);
                                         $fee = json_decode($beverage->fee, true);
                                         $quantity = json_decode($beverage->quantity, true);
+                                        $type = json_decode($beverage->type, true);
+
+                                        $groupedItems = [];
+
+                                        foreach ($item_names as $index => $item) {
+                                            if (!isset($groupedItems[$item])) {
+                                                $groupedItems[$item] = [
+                                                    'solo_fee' => 0,
+                                                    'group_fee' => 0,
+                                                    'solo_qty' => 0,
+                                                    'group_qty' => 0,
+                                                ];
+                                            }
+
+                                            if (($type[$index] ?? '') === 'solo') {
+                                                $groupedItems[$item]['solo_fee'] = $fee[$index] ?? 0;
+                                                $groupedItems[$item]['solo_qty'] = $quantity[$index] ?? 0;
+                                            }
+
+                                            if (($type[$index] ?? '') === 'group') {
+                                                $groupedItems[$item]['group_fee'] = $fee[$index] ?? 0;
+                                                $groupedItems[$item]['group_qty'] = $quantity[$index] ?? 0;
+                                            }
+                                        }
                                     @endphp
-                                    <td style="padding: 10px;">
-                                        <table style="width: 100%; border-collapse: collapse;">
+
+                                    <td class="p-0">
+                                        <table class="table table-bordered border-dark m-0" style="width: 100%;">
                                             <thead>
                                                 <tr>
-                                                    <th style="padding: 5px;">Item Name</th>
-                                                    <th style="padding: 5px;">Price</th>
-                                                    <th style="padding: 5px;">Qty.</th>
-                                                    <th style="padding: 5px;">Sub-total</th>
+                                                    <th rowspan="2"
+                                                        class="align-middle text-center bg-success text-light"
+                                                        style="padding:5px;">Item</th>
+                                                    <th colspan="2" class="text-center bg-success text-light"
+                                                        style="padding:5px;">Price</th>
+                                                    <th colspan="2" class="text-center bg-success text-light"
+                                                        style="padding:5px;">Qty</th>
+                                                    <th rowspan="2"
+                                                        class="align-middle text-center bg-success text-light"
+                                                        style="padding:5px;">Subtotal</th>
+                                                </tr>
+                                                <tr>
+                                                    <th class="text-center bg-success text-light" style="padding:5px;">Solo
+                                                    </th>
+                                                    <th class="text-center bg-success text-light" style="padding:5px;">Group
+                                                    </th>
+                                                    <th class="text-center bg-success text-light" style="padding:5px;">Solo
+                                                    </th>
+                                                    <th class="text-center bg-success text-light" style="padding:5px;">Group
+                                                    </th>
                                                 </tr>
                                             </thead>
+
                                             <tbody>
-                                                @foreach ($item_names as $index => $item)
-                                                    @if (!empty($quantity[$index]))
-                                                        <tr>
-                                                            <td width="50%" style="padding: 8px;">{{ $item }}
-                                                            </td>
-                                                            <td style="padding: 8px;">{{ $fee[$index] }}</td>
-                                                            <td style="padding: 8px;">{{ $quantity[$index] ?? 'N/A' }}</td>
-                                                            <td style="padding: 8px;">
-                                                                ₱{{ number_format((float) ($fee[$index] ?? 0) * (float) ($quantity[$index] ?? 0), 2) }}
-                                                            </td>
-                                                        </tr>
-                                                    @endif
+                                                @foreach ($groupedItems as $name => $data)
+                                                    @php
+                                                        $subtotal =
+                                                            $data['solo_fee'] * $data['solo_qty'] +
+                                                            $data['group_fee'] * $data['group_qty'];
+                                                    @endphp
+
+                                                    <tr>
+                                                        <td style="padding:8px;">{{ $name }}</td>
+
+                                                        <td style="padding:8px;">₱{{ number_format($data['solo_fee'], 2) }}
+                                                        </td>
+                                                        <td style="padding:8px;">
+                                                            ₱{{ number_format($data['group_fee'], 2) }}</td>
+
+                                                        <td style="padding:8px;">{{ $data['solo_qty'] }}</td>
+                                                        <td style="padding:8px;">{{ $data['group_qty'] }}</td>
+
+                                                        <td style="padding:8px;">
+                                                            ₱{{ number_format($subtotal, 2) }}
+                                                        </td>
+                                                    </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
                                     </td>
+
                                     <td>₱ {{ number_format($beverage->total_payment, 2) }}</td>
+
+                                    <td>
+                                        <span
+                                            class="badge {{ $beverage->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
+                                            {{ $beverage->status }}
+                                        </span>
+                                    </td>
+
                                     <td>{{ \Carbon\Carbon::parse($beverage->created_at)->format('F j, Y') }}</td>
+
                                     <td class="sticky-action">
                                         <div class="d-flex align-items-center justify-c gap-2">
                                             <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
@@ -132,16 +197,20 @@
                                                     'item_name' => $item_names,
                                                     'fee' => $fee,
                                                     'quantity' => $quantity,
+                                                    'type' => $type,
                                                 ]); ?>'
-                                                data-total-payment="{{ $beverage->total_payment }}">
-                                                Edit
+                                                data-total-payment="{{ $beverage->total_payment }}"
+                                                data-payment-status="{{ $beverage->status }}">
+
+                                                <i class="fas fa-edit"></i>
                                             </a>
+
                                             <form action="{{ route('beverage.destroy', $beverage->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Are you sure you want to delete this beverage(s) record?')">
-                                                    Delete
+                                                    onclick="return confirm('Are you sure you want to delete this drink(s) record?')">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
                                         </div>
@@ -153,354 +222,686 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Add Meals Modal -->
-        <div class="modal fade" id="addBeverages" tabindex="-1" role="dialog" aria-labelledby="addBeveragesLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <form action="{{ route('beverage.store') }}" method="POST">
-                    @csrf
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addBeveragesLabel">Add Beverages Fee</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Add Meals Modal -->
+    <div class="modal fade" id="addBeverages" tabindex="-1" role="dialog" aria-labelledby="addBeveragesLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="max-width: 1500px;">
+            <form action="{{ route('meal.store') }}" method="POST">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="col-12">
+                            <div class="text-end">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 justify-content-center">
+                                <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
+                                <div class="d-flex flex-column">
+                                    <b class="modal-title mt-2 text-bold">JPB Heritage Inland Resort</b>
+                                    <span>Progreso Street Illauod, Bugasong, Antique</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group mb-3">
-                                <div class="d-flex align-items-start gap-1">
-                                    <div class="form-group col-6">
-                                        <label for="visitor_id">Name</label>
-                                        <select name="visitor_id" class="form-control select2" id="visitor_name" required
-                                            data-placeholder="Select a visitor">
-                                            <option></option>
-                                            @foreach ($visitors as $visitor)
-                                                <option value="{{ $visitor->id }}">{{ $visitor->first_name }}
-                                                    {{ $visitor->middle_name }}
-                                                    {{ $visitor->last_name }} -
-                                                    {{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}
-                                                </option>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <div class="d-flex align-items-start gap-1">
+                                <div class="col-4 d-flex align-items-center gap-3">
+                                    <label for="visitor_id">Name:</label>
+                                    <select name="visitor_id" class="form-control select2" id="visitor_name" required
+                                        data-placeholder="Select a visitor">
+                                        <option></option>
+                                        @foreach ($visitors as $visitor)
+                                            <option value="{{ $visitor->id }}">{{ $visitor->first_name }}
+                                                {{ $visitor->middle_name }}
+                                                {{ $visitor->last_name }} -
+                                                {{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Foods Section -->
+                            <div class="col-md-6">
+                                <div
+                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
+                                    <i class="fa fa-bowl-food fa-2x"></i>
+                                    <h3 class="m-0">FOODS</h3>
+                                </div>
+
+                                <div class="table-responsive">
+                                    @php
+                                        $grouped = $mealFees
+                                            ->groupBy('food_category')
+                                            ->map(fn($items) => $items->groupBy('service_name'));
+                                        $mealIndex = 0;
+                                    @endphp
+
+                                    <table class="table table-bordered border-dark">
+                                        <thead class="bg-success text-light">
+                                            <tr>
+                                                <th rowspan="2" class="align-middle text-center bg-success text-light">
+                                                    CATEGORY</th>
+                                                <th rowspan="2" width="30%"
+                                                    class="align-middle text-center bg-success text-light">MENU</th>
+                                                <th colspan="2" class="text-center bg-success text-light">PRICE
+                                                </th>
+                                                <th colspan="2" class="text-center bg-success text-light">QUANTITY
+                                                </th>
+                                                <th rowspan="2" class="align-middle text-center bg-success text-light">
+                                                    SUB TOTAL</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center bg-success text-light">SOLO</th>
+                                                <th class="text-center bg-success text-light">GROUP</th>
+                                                <th class="text-center bg-success text-light">SOLO</th>
+                                                <th class="text-center bg-success text-light">GROUP</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach ($grouped as $category => $menus)
+                                                @php $rowspan = count($menus); @endphp
+
+                                                @foreach ($menus as $name => $types)
+                                                    @php
+                                                        $solo = $types->firstWhere('food_type', 'solo');
+                                                        $group = $types->firstWhere('food_type', 'group');
+                                                    @endphp
+
+                                                    <tr>
+                                                        @if ($loop->first)
+                                                            <td rowspan="{{ $rowspan }}"
+                                                                class="align-middle text-center">
+                                                                {{ ucfirst($category) }}
+                                                            </td>
+                                                        @endif
+
+                                                        <!-- MENU -->
+                                                        <td>
+                                                            <input type="hidden"
+                                                                name="meal_items[{{ $mealIndex }}][name]"
+                                                                value="{{ $name }}">
+                                                            <input type="hidden"
+                                                                name="meal_items[{{ $mealIndex }}][category]"
+                                                                value="{{ $category }}">
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $name }}" readonly>
+                                                        </td>
+
+                                                        <!-- PRICE -->
+                                                        <td>
+                                                            <input type="text" class="form-control"
+                                                                name="meal_items[{{ $mealIndex }}][solo_fee]"
+                                                                value="{{ $solo->fee ?? 0 }}" readonly>
+                                                        </td>
+
+                                                        <td>
+                                                            <input type="text" class="form-control"
+                                                                name="meal_items[{{ $mealIndex }}][group_fee]"
+                                                                value="{{ $group->fee ?? 0 }}" readonly>
+                                                        </td>
+
+                                                        <!-- QUANTITY -->
+                                                        <td>
+                                                            <input type="number"
+                                                                name="meal_items[{{ $mealIndex }}][solo_qty]"
+                                                                class="form-control qty-input"
+                                                                data-price="{{ $solo->fee ?? 0 }}" min="0"
+                                                                value="0">
+                                                        </td>
+
+                                                        <td>
+                                                            <input type="number"
+                                                                name="meal_items[{{ $mealIndex }}][group_qty]"
+                                                                class="form-control qty-input"
+                                                                data-price="{{ $group->fee ?? 0 }}" min="0"
+                                                                value="0">
+                                                        </td>
+
+                                                        <!-- SUBTOTAL -->
+                                                        <td>
+                                                            <input type="text" class="form-control subtotal"
+                                                                value="0.00" readonly>
+                                                        </td>
+                                                    </tr>
+
+                                                    @php $mealIndex++; @endphp
+                                                @endforeach
                                             @endforeach
-                                        </select>
+                                        </tbody>
+                                    </table>
+
+                                    <!-- TOTAL -->
+                                    <div class="form-group">
+                                        <div class="d-flex align-items-center justify-content-end gap-3">
+                                            <label>Payment Status:</label>
+                                            <div class="col-3">
+                                                <select name="meal_payment_status" class="form-control">
+                                                    <option value="">Select status</option>
+                                                    <option value="Paid">Paid</option>
+                                                    <option value="Unpaid">Unpaid</option>
+                                                </select>
+                                            </div>
+
+                                            <label>Total Fee:</label>
+                                            <div class="col-3">
+                                                <div class="d-flex">
+                                                    <span class="input-group-text bg-theme-primary text-light">₱</span>
+                                                    <input type="text" name="meal_total_payment"
+                                                        id="meal_total_payment" value="0.00" class="form-control"
+                                                        readonly>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group mb-2">
-                                <table style="width: 100%; border-collapse: collapse;">
-                                    <thead>
-                                        <tr class="bg-secondary text-light">
-                                            <th style="padding: 10px;">ITEMS</th>
-                                            <th style="padding: 10px;">PRICE</th>
-                                            <th style="padding: 10px;">QUANTITY</th>
-                                            <th style="padding: 10px;">SUB-TOTAL</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php
-                                            $beverageItems = [
-                                                [
-                                                    'name' => 'Bottled Water',
-                                                    'price' => '25.00',
-                                                ],
-                                                [
-                                                    'name' => 'Sotfdrinks (12oz)',
-                                                    'price' => '35.00',
-                                                ],
-                                                [
-                                                    'name' => 'Softdrinks (1.5L)',
-                                                    'price' => '60.00',
-                                                ],
-                                                [
-                                                    'name' => 'Iced Tea (1 Pitcher)',
-                                                    'price' => '60.00',
-                                                ],
-                                                [
-                                                    'name' => 'Iced Tea (1 Glass)',
-                                                    'price' => '25.00',
-                                                ],
-                                                [
-                                                    'name' => 'Lemonade (1 Pitcher)',
-                                                    'price' => '60.00',
-                                                ],
-                                            ];
-                                        @endphp
+                            <!-- Drinks Section -->
+                            <div class="col-md-6">
+                                <div
+                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
+                                    <i class="fa fa-bottle-water fa-2x"></i>
+                                    <h3 class="m-0">DRINKS</h3>
+                                </div>
 
-                                        @foreach ($beverageItems as $index => $item)
+                                <div class="table-responsive">
+                                    @php
+                                        $groupedDrinks = $drinkFees->groupBy('service_name');
+                                        $drinkIndex = 0;
+                                    @endphp
+
+                                    <table class="table table-bordered border-dark">
+                                        <thead class="bg-success text-light">
                                             <tr>
-                                                <td width="50%" style="padding: 5px;">
-                                                    <input type="hidden"
-                                                        name="beverage_items[{{ $index }}][name]"
-                                                        value="{{ $item['name'] }}">
-                                                    <input readonly class="form-control" value="{{ $item['name'] }}">
-                                                </td>
-                                                <td width="15%" style="padding: 5px;">
-                                                    <input type="hidden"
-                                                        name="beverage_items[{{ $index }}][price]"
-                                                        value="{{ $item['price'] }}">
-                                                    <input class="form-control" type="text"
-                                                        value="{{ $item['price'] }}" readonly>
-                                                </td>
-                                                <td width="15%" style="padding: 5px;">
-                                                    <input class="form-control quantity-input" type="number"
-                                                        name="beverage_items[{{ $index }}][quantity]"
-                                                        min="0" value="0" data-price="{{ $item['price'] }}">
-                                                </td>
-                                                <td width="20%" style="padding: 5px;">
-                                                    <input type="text" class="form-control subtotal"
-                                                        name="beverage_items[{{ $index }}][subtotal]"
-                                                        value="0.00" readonly>
-                                                </td>
+                                                <th rowspan="2" width="30%"
+                                                    class="align-middle text-center bg-success text-light">DRINK</th>
+                                                <th colspan="2" class="text-center bg-success text-light">PRICE
+                                                </th>
+                                                <th colspan="2" class="text-center bg-success text-light">QUANTITY
+                                                </th>
+                                                <th rowspan="2" class="align-middletext-center bg-success text-light">
+                                                    SUB TOTAL</th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <div class="d-flex align-items-center justify-content-end mt-3">
-                                    <div class="col-3">
-                                        <label for="total_payment">Total Payment</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">₱</span>
-                                            <input type="text" name="total_payment" id="total_payment"
-                                                class="form-control" value="0.00" readonly>
+                                            <tr>
+                                                <th class="text-center bg-success text-light">SOLO</th>
+                                                <th class="text-center bg-success text-light">GROUP</th>
+                                                <th class="text-center bg-success text-light">SOLO</th>
+                                                <th class="text-center bg-success text-light">GROUP</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach ($groupedDrinks as $name => $types)
+                                                @php
+                                                    $solo = $types->firstWhere('food_type', 'solo');
+                                                    $group = $types->firstWhere('food_type', 'group');
+                                                @endphp
+
+                                                <tr>
+                                                    <!-- NAME -->
+                                                    <td>
+                                                        <input type="hidden"
+                                                            name="drink_items[{{ $drinkIndex }}][name]"
+                                                            value="{{ $name }}">
+                                                        <input type="text" class="form-control"
+                                                            value="{{ $name }}" readonly>
+                                                    </td>
+
+                                                    <!-- PRICE -->
+                                                    <td>
+                                                        <input type="text" class="form-control"
+                                                            name="drink_items[{{ $drinkIndex }}][solo_fee]"
+                                                            value="{{ $solo->fee ?? 0 }}" readonly>
+                                                    </td>
+
+                                                    <td>
+                                                        <input type="text" class="form-control"
+                                                            name="drink_items[{{ $drinkIndex }}][group_fee]"
+                                                            value="{{ $group->fee ?? 0 }}" readonly>
+                                                    </td>
+
+                                                    <!-- QUANTITY -->
+                                                    <td>
+                                                        <input type="number"
+                                                            name="drink_items[{{ $drinkIndex }}][solo_qty]"
+                                                            class="form-control drink-qty-input"
+                                                            data-price="{{ $solo->fee ?? 0 }}" min="0"
+                                                            value="0">
+                                                    </td>
+
+                                                    <td>
+                                                        <input type="number"
+                                                            name="drink_items[{{ $drinkIndex }}][group_qty]"
+                                                            class="form-control drink-qty-input"
+                                                            data-price="{{ $group->fee ?? 0 }}" min="0"
+                                                            value="0">
+                                                    </td>
+
+                                                    <!-- SUBTOTAL -->
+                                                    <td>
+                                                        <input type="text" class="form-control drink-subtotal"
+                                                            value="0.00" readonly>
+                                                    </td>
+                                                </tr>
+
+                                                @php $drinkIndex++; @endphp
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- TOTAL -->
+                                <div class="form-group mt-2">
+                                    <div class="d-flex align-items-center justify-content-end gap-3">
+                                        <label>Payment Status:</label>
+                                        <div class="col-3">
+                                            <select name="drink_payment_status" id="drink_payment_status"
+                                                class="form-control">
+                                                <option value="">Select status</option>
+                                                <option value="Paid">Paid</option>
+                                                <option value="Unpaid">Unpaid</option>
+                                            </select>
+                                        </div>
+
+                                        <label>Total Fee:</label>
+                                        <div class="col-3">
+                                            <div class="d-flex">
+                                                <span class="input-group-text bg-theme-primary text-light">₱</span>
+                                                <input type="text" name="drink_total_payment" id="drink_total_payment"
+                                                    value="0.00" class="form-control" readonly>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Add Beverage Fee</button>
-                        </div>
+                        <input type="hidden" name="grand_total" id="grand_total" value="0.00">
                     </div>
-                </form>
-            </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <!-- Edit Meals Modal -->
-        <div class="modal fade" id="editBeveragesModal" tabindex="-1" role="dialog"
-            aria-labelledby="editBeveragesModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <form action="{{ route('beverage.update') }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" name="beverage_id" id="edit_beverage_id">
-                    <input type="hidden" name="visitor_id" id="edit_visitor_id_hidden">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editBeveragesModalLabel">Edit Beverage Fee</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group mb-3">
-                                <div class="d-flex align-items-start gap-1">
-                                    <div class="form-group col-6">
-                                        <label for="visitor_id">Name</label>
-                                        <select disabled name="visitor_id_display" class="form-control select2"
-                                            id="edit_visitor_id" required data-placeholder="Select a visitor">
-                                            <option></option>
-                                            @foreach ($visitors as $visitor)
-                                                <option value="{{ $visitor->id }}">{{ $visitor->first_name }}
-                                                    {{ $visitor->middle_name }}
-                                                    {{ $visitor->last_name }} -
-                                                    {{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+    <!-- Edit Beverages Modal -->
+    <div class="modal fade" id="editBeveragesModal" tabindex="-1" role="dialog"
+        aria-labelledby="editBeveragesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <form action="{{ route('beverage.update') }}" method="POST">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="beverage_id" id="edit_beverage_id">
+                <input type="hidden" name="visitor_id" id="edit_visitor_id_hidden">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="col-12">
+                            <div class="text-end">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 justify-content-center">
+                                <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
+                                <div class="d-flex flex-column">
+                                    <b class="modal-title mt-2 text-bold">JPB Heritage Inland Resort</b>
+                                    <span>Progreso Street Illauod, Bugasong, Antique</span>
                                 </div>
                             </div>
-
-                            <div class="form-group mb-2">
-                                <table style="width: 100%; border-collapse: collapse;">
-                                    <thead>
-                                        <tr class="bg-secondary text-light">
-                                            <th style="padding: 10px;">ITEMS</th>
-                                            <th style="padding: 10px;">PRICE</th>
-                                            <th style="padding: 10px;">QUANTITY</th>
-                                            <th style="padding: 10px;">SUB-TOTAL</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="edit_beverage_items">
-                                        @foreach ($beverageItems as $index => $item)
-                                            <tr>
-                                                <td width="50%" style="padding: 5px;">
-                                                    <input type="hidden"
-                                                        name="beverage_items[{{ $index }}][name]"
-                                                        value="{{ $item['name'] }}">
-                                                    <input readonly class="form-control" value="{{ $item['name'] }}">
-                                                </td>
-                                                <td width="15%" style="padding: 5px;">
-                                                    <input type="hidden"
-                                                        name="beverage_items[{{ $index }}][price]"
-                                                        value="{{ $item['price'] }}">
-                                                    <input class="form-control" type="text"
-                                                        value="{{ $item['price'] }}" readonly>
-                                                </td>
-                                                <td width="15%" style="padding: 5px;">
-                                                    <input class="form-control edit-quantity-input" type="number"
-                                                        name="beverage_items[{{ $index }}][quantity]"
-                                                        min="0" value="0" data-price="{{ $item['price'] }}">
-                                                </td>
-                                                <td width="20%" style="padding: 5px;">
-                                                    <input type="text" class="form-control edit-subtotal"
-                                                        name="beverage_items[{{ $index }}][subtotal]"
-                                                        value="0.00" readonly>
-                                                </td>
-                                            </tr>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <div class="d-flex align-items-start gap-1">
+                                <div class="col-8 d-flex align-items-center gap-3">
+                                    <label for="visitor_id">Name:</label>
+                                    <select name="visitor_id_display" class="form-control select2" id="edit_visitor_id"
+                                        required data-placeholder="Select a visitor">
+                                        <option></option>
+                                        @foreach ($visitors as $visitor)
+                                            <option value="{{ $visitor->id }}">{{ $visitor->first_name }}
+                                                {{ $visitor->middle_name }}
+                                                {{ $visitor->last_name }} -
+                                                {{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}
+                                            </option>
                                         @endforeach
-                                    </tbody>
-                                </table>
-                                <div class="d-flex align-items-center justify-content-end mt-3">
-                                    <div class="col-3">
-                                        <label for="edit_total_payment">Total Payment</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">₱</span>
-                                            <input type="text" name="total_payment" id="edit_total_payment"
-                                                class="form-control" value="0.00" readonly>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Drinks Section -->
+                            <div class="">
+                                <div
+                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
+                                    <i class="fa fa-bottle-water fa-2x"></i>
+                                    <h3 class="m-0">DRINKS</h3>
+                                </div>
+
+                                <div class="table-responsive">
+                                    @php
+                                        $groupedDrinks = $drinkFees->groupBy('service_name');
+                                        $drinkIndex = 0;
+                                    @endphp
+
+                                    <table class="table table-bordered border-dark">
+                                        <thead class="bg-success text-light">
+                                            <tr>
+                                                <th rowspan="2" width="30%"
+                                                    class="align-middle text-center bg-success text-light">DRINK
+                                                </th>
+                                                <th colspan="2" class="text-center bg-success text-light">PRICE
+                                                </th>
+                                                <th colspan="2" class="text-center bg-success text-light">
+                                                    QUANTITY
+                                                </th>
+                                                <th rowspan="2" class="align-middletext-center bg-success text-light">
+                                                    SUB TOTAL</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center bg-success text-light">SOLO</th>
+                                                <th class="text-center bg-success text-light">GROUP</th>
+                                                <th class="text-center bg-success text-light">SOLO</th>
+                                                <th class="text-center bg-success text-light">GROUP</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach ($groupedDrinks as $name => $types)
+                                                @php
+                                                    $solo = $types->firstWhere('food_type', 'solo');
+                                                    $group = $types->firstWhere('food_type', 'group');
+                                                @endphp
+
+                                                <tr>
+                                                    <!-- NAME -->
+                                                    <td>
+                                                        <input type="hidden"
+                                                            name="drink_items[{{ $drinkIndex }}][name]"
+                                                            value="{{ $name }}">
+                                                        <input type="text" class="form-control"
+                                                            value="{{ $name }}" readonly>
+                                                    </td>
+
+                                                    <!-- PRICE -->
+                                                    <td>
+                                                        <input type="text" class="form-control"
+                                                            name="drink_items[{{ $drinkIndex }}][solo_fee]"
+                                                            value="{{ $solo->fee ?? 0 }}" readonly>
+                                                    </td>
+
+                                                    <td>
+                                                        <input type="text" class="form-control"
+                                                            name="drink_items[{{ $drinkIndex }}][group_fee]"
+                                                            value="{{ $group->fee ?? 0 }}" readonly>
+                                                    </td>
+
+                                                    <!-- QUANTITY -->
+                                                    <td>
+                                                        <input type="number"
+                                                            name="drink_items[{{ $drinkIndex }}][solo_qty]"
+                                                            class="form-control drink-qty-input"
+                                                            data-price="{{ $solo->fee ?? 0 }}" min="0"
+                                                            value="0">
+                                                    </td>
+
+                                                    <td>
+                                                        <input type="number"
+                                                            name="drink_items[{{ $drinkIndex }}][group_qty]"
+                                                            class="form-control drink-qty-input"
+                                                            data-price="{{ $group->fee ?? 0 }}" min="0"
+                                                            value="0">
+                                                    </td>
+
+                                                    <!-- SUBTOTAL -->
+                                                    <td>
+                                                        <input type="text" class="form-control drink-subtotal"
+                                                            value="0.00" readonly>
+                                                    </td>
+                                                </tr>
+
+                                                @php $drinkIndex++; @endphp
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- TOTAL -->
+                                <div class="form-group mt-2">
+                                    <div class="d-flex align-items-center justify-content-end gap-3">
+                                        <label>Payment Status:</label>
+                                        <div class="col-3">
+                                            <select name="edit_payment_status" id="edit_payment_status"
+                                                class="form-control">
+                                                <option value="">Select status</option>
+                                                <option value="Paid">Paid</option>
+                                                <option value="Unpaid">Unpaid</option>
+                                            </select>
+                                        </div>
+
+                                        <label>Total Fee:</label>
+                                        <div class="col-3">
+                                            <div class="d-flex">
+                                                <span class="input-group-text bg-theme-primary text-light">₱</span>
+                                                <input type="text" name="total_payment" id="edit_drink_total_payment"
+                                                    value="0.00" class="form-control" readonly>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Update Beverage Fee</button>
-                        </div>
                     </div>
-                </form>
-            </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </form>
         </div>
-    @endsection
+    </div>
+@endsection
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Select2 for visitor_name
-            $('#addBeverages').on('shown.bs.modal', function() {
-                $('#visitor_name').select2({
-                    theme: 'bootstrap4',
-                    width: '100%',
-                    placeholder: "Select a visitor",
-                    allowClear: true,
-                    dropdownParent: $('#addBeverages')
-                });
-            });
-
-            // Calculate subtotals and total when quantity changes
-            $(document).on('input', '.quantity-input', function() {
-                const quantity = parseInt($(this).val()) || 0;
-                const price = parseFloat($(this).data('price')) || 0;
-                const subtotal = quantity * price;
-
-                // Update subtotal for this row
-                $(this).closest('tr').find('.subtotal').val(subtotal.toFixed(2));
-
-                // Update total payment
-                updateTotalPayment();
-            });
-
-            function updateTotalPayment() {
-                let total = 0;
-                $('.subtotal').each(function() {
-                    total += parseFloat($(this).val()) || 0;
-                });
-                $('#total_payment').val(total.toFixed(2));
-            }
-
-            // Reset form when modal is closed
-            $('#addBeverages').on('hidden.bs.modal', function() {
-                $(this).find('form')[0].reset();
-                $('.subtotal').val('0.00');
-                $('#total_payment').val('0.00');
-                $('#visitor_name').val(null).trigger('change');
-            });
-
-            // Edit Meal Modal Handling
-            $('#editBeveragesModal').on('show.bs.modal', function(event) {
-                // First reset all quantities and subtotals to 0
-                $('.edit-quantity-input').val(0);
-                $('.edit-subtotal').val('0.00');
-                $('#edit_total_payment').val('0.00');
-
-                // Then load the new data
-                const button = event.relatedTarget;
-                const mealId = button.getAttribute('data-meal-id');
-                const visitorId = button.getAttribute('data-visitor-id');
-                const items = JSON.parse(button.getAttribute('data-items'));
-                const totalPayment = button.getAttribute('data-total-payment');
-
-                // Set hidden inputs
-                $('#edit_beverage_id').val(mealId);
-                $('#edit_visitor_id_hidden').val(visitorId);
-
-                // Set visitor select
-                $('#edit_visitor_id').val(visitorId).trigger('change');
-
-                // Create a map of item names to their data
-                const itemMap = {};
-                items.item_name.forEach((name, index) => {
-                    itemMap[name] = {
-                        quantity: items.quantity[index],
-                        fee: items.fee[index]
-                    };
-                });
-
-                // Populate meal items by matching names
-                $('#edit_beverage_items tr').each(function() {
-                    const row = $(this);
-                    const itemName = row.find('input[type="hidden"][name*="[name]"]').val();
-
-                    if (itemMap[itemName]) {
-                        const quantity = itemMap[itemName].quantity;
-                        const price = parseFloat(itemMap[itemName].fee) || 0;
-                        const subtotal = quantity * price;
-
-                        row.find('.edit-quantity-input').val(quantity);
-                        row.find('.edit-subtotal').val(subtotal.toFixed(2));
-                    }
-                });
-
-                // Set total payment
-                $('#edit_total_payment').val(totalPayment);
-            });
-
-            // Reset edit modal when closed
-            $('#editBeveragesModal').on('hidden.bs.modal', function() {
-                $('.edit-quantity-input').val(0);
-                $('.edit-subtotal').val('0.00');
-                $('#edit_total_payment').val('0.00');
-                $('#edit_visitor_id').val(null).trigger('change');
-            });
-
-            // Calculate subtotals and total when quantity changes in edit modal
-            $(document).on('input', '.edit-quantity-input', function() {
-                const quantity = parseInt($(this).val()) || 0;
-                const price = parseFloat($(this).data('price')) || 0;
-                const subtotal = quantity * price;
-
-                // Update subtotal for this row
-                $(this).closest('tr').find('.edit-subtotal').val(subtotal.toFixed(2));
-
-                // Update total payment
-                updateEditTotalPayment();
-            });
-
-            function updateEditTotalPayment() {
-                let total = 0;
-                $('.edit-subtotal').each(function() {
-                    total += parseFloat($(this).val()) || 0;
-                });
-                $('#edit_total_payment').val(total.toFixed(2));
-            }
-
-            // Initialize Select2 for edit visitor select
-            $('#editBeveragesModal').on('shown.bs.modal', function() {
-                $('#edit_visitor_id').select2({
-                    theme: 'bootstrap4',
-                    width: '100%',
-                    placeholder: "Select a visitor",
-                    allowClear: true,
-                    dropdownParent: $('#editBeveragesModal')
-                });
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // -------------------
+        // Initialize Select2
+        // -------------------
+        $('#addBeverages').on('shown.bs.modal', function() {
+            $('#visitor_name').select2({
+                theme: 'bootstrap4',
+                width: '100%',
+                placeholder: "Select a visitor",
+                allowClear: true,
+                dropdownParent: $('#addBeverages')
             });
         });
-    </script>
+
+        $('#editBeveragesModal').on('shown.bs.modal', function() {
+            $('#edit_visitor_id').select2({
+                theme: 'bootstrap4',
+                width: '100%',
+                placeholder: "Select a visitor",
+                allowClear: true,
+                dropdownParent: $('#editBeveragesModal')
+            });
+        });
+
+        // -------------------
+        // ADD MODAL CALCULATIONS
+        // -------------------
+
+        // Foods quantity change
+        $(document).on('input', '.qty-input', function() {
+            const row = $(this).closest('tr');
+
+            const soloQty = parseFloat(row.find('input.qty-input').first().val()) || 0;
+            const soloPrice = parseFloat(row.find('input.qty-input').first().data('price')) || 0;
+
+            const groupQty = parseFloat(row.find('input.qty-input').last().val()) || 0;
+            const groupPrice = parseFloat(row.find('input.qty-input').last().data('price')) || 0;
+
+            const subtotal = (soloQty * soloPrice) + (groupQty * groupPrice);
+            row.find('.subtotal').val(subtotal.toFixed(2));
+
+            updateAddTotalPayment();
+        });
+
+        // Drinks quantity change
+        $(document).on('input', '.drink-qty-input', function() {
+            const row = $(this).closest('tr');
+
+            const soloQty = parseFloat(row.find('.drink-qty-input').first().val()) || 0;
+            const soloPrice = parseFloat(row.find('.drink-qty-input').first().data('price')) || 0;
+
+            const groupQty = parseFloat(row.find('.drink-qty-input').last().val()) || 0;
+            const groupPrice = parseFloat(row.find('.drink-qty-input').last().data('price')) || 0;
+
+            const subtotal = (soloQty * soloPrice) + (groupQty * groupPrice);
+            row.find('.drink-subtotal').val(subtotal.toFixed(2));
+
+            updateAddTotalPayment();
+        });
+
+        // Update total payment for Add Modal
+        function updateAddTotalPayment() {
+            let foodTotal = 0;
+            let drinkTotal = 0;
+
+            $('.subtotal').each(function() {
+                foodTotal += parseFloat($(this).val()) || 0;
+            });
+
+            $('.drink-subtotal').each(function() {
+                drinkTotal += parseFloat($(this).val()) || 0;
+            });
+
+            $('#meal_total_payment').val(foodTotal.toFixed(2));
+            $('#drink_total_payment').val(drinkTotal.toFixed(2));
+            $('#grand_total').val((foodTotal + drinkTotal).toFixed(2));
+        }
+
+        // Reset Add Modal
+        $('#addBeverages').on('hidden.bs.modal', function() {
+            $(this).find('form')[0].reset();
+            $('.subtotal, .drink-subtotal').val('0.00');
+            $('#meal_total_payment, #drink_total_payment, #grand_total').val('0.00');
+            $('#visitor_name').val(null).trigger('change');
+        });
+
+        // -------------------
+        // OPEN EDIT BEVERAGES MODAL
+        // -------------------
+        $('#editBeveragesModal').on('show.bs.modal', function(event) {
+
+            const button = event.relatedTarget;
+
+            const beverageId = button.getAttribute('data-meal-id');
+            const visitorId = button.getAttribute('data-visitor-id');
+            const items = JSON.parse(button.getAttribute('data-items'));
+            const status = button.getAttribute('data-payment-status');
+
+            $('#edit_beverage_id').val(beverageId);
+            $('#edit_visitor_id_hidden').val(visitorId);
+            $('#edit_visitor_id').val(visitorId).trigger('change');
+            $('#edit_payment_status').val(status).trigger('change');
+
+            // Reset all fields
+            $('#editBeveragesModal .drink-qty-input').val(0);
+            $('#editBeveragesModal .drink-subtotal').val('0.00');
+
+            // -------------------
+            // GROUP DATA CORRECTLY
+            // -------------------
+            let grouped = {};
+
+            items.item_name.forEach((name, index) => {
+
+                if (!grouped[name]) {
+                    grouped[name] = {
+                        solo_qty: 0,
+                        group_qty: 0,
+                        solo_fee: 0,
+                        group_fee: 0
+                    };
+                }
+
+                if (items.type[index] === 'solo') {
+                    grouped[name].solo_qty = parseFloat(items.quantity[index]) || 0;
+                    grouped[name].solo_fee = parseFloat(items.fee[index]) || 0;
+                }
+
+                if (items.type[index] === 'group') {
+                    grouped[name].group_qty = parseFloat(items.quantity[index]) || 0;
+                    grouped[name].group_fee = parseFloat(items.fee[index]) || 0;
+                }
+            });
+
+            // -------------------
+            // APPLY TO TABLE
+            // -------------------
+            $('#editBeveragesModal tbody tr').each(function() {
+
+                const row = $(this);
+                const name = row.find('input[name*="[name]"]').val();
+
+                if (grouped[name]) {
+
+                    const soloQty = grouped[name].solo_qty;
+                    const groupQty = grouped[name].group_qty;
+
+                    row.find('input[name*="[solo_qty]"]').val(soloQty);
+                    row.find('input[name*="[group_qty]"]').val(groupQty);
+
+                    const soloPrice = parseFloat(row.find('input[name*="[solo_fee]"]').val()) ||
+                        0;
+                    const groupPrice = parseFloat(row.find('input[name*="[group_fee]"]')
+                        .val()) || 0;
+
+                    const subtotal = (soloQty * soloPrice) + (groupQty * groupPrice);
+
+                    row.find('.drink-subtotal').val(subtotal.toFixed(2));
+                }
+            });
+            updateEditDrinkTotal();
+        });
+
+        // -------------------
+        // EDIT QTY CHANGE (DRINKS)
+        // -------------------
+        $(document).on('input', '#editBeveragesModal .drink-qty-input', function() {
+            const row = $(this).closest('tr');
+            const soloQty = parseFloat(row.find('input[name*="[solo_qty]"]').val()) || 0;
+            const groupQty = parseFloat(row.find('input[name*="[group_qty]"]').val()) || 0;
+            const soloPrice = parseFloat(row.find('input[name*="[solo_fee]"]').val()) || 0;
+            const groupPrice = parseFloat(row.find('input[name*="[group_fee]"]').val()) || 0;
+            const subtotal = (soloQty * soloPrice) + (groupQty * groupPrice);
+            row.find('.drink-subtotal').val(subtotal.toFixed(2));
+            updateEditDrinkTotal();
+        });
+        // -------------------
+        // UPDATE TOTAL
+        // -------------------
+        function updateEditDrinkTotal() {
+            let total = 0;
+            $('#editBeveragesModal .drink-subtotal').each(function() {
+                total += parseFloat($(this).val()) || 0;
+            });
+            $('#editBeveragesModal #edit_drink_total_payment').val(total.toFixed(2));
+        }
+        // -------------------
+        // RESET MODAL
+        // -------------------
+        $('#editBeveragesModal').on('hidden.bs.modal', function() {
+            $(this).find('form')[0].reset();
+            $('#edit_visitor_id').val(null).trigger('change');
+        });
+    });
+</script>

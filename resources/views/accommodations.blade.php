@@ -374,7 +374,6 @@
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="accommodation_id" id="edit_accommodation_id">
-
                         <div class="form-group mb-3">
                             <div class="col-8 d-flex align-items-center gap-3">
                                 <label for="edit_visitor_id">Name:</label>
@@ -391,7 +390,6 @@
                                 </select>
                             </div>
                         </div>
-
                         <div class="row">
                             <!-- Room Accommodation Section -->
                             <div class="">

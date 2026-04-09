@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('fee');
             $table->string('status');
             $table->string('quantity');
+            $table->text('type')->nullable();
             $table->string('total_payment')->nullable();
             $table->timestamps();
 

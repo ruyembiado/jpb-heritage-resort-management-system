@@ -17,6 +17,7 @@ class Meal extends Model
         'fee',
         'status',
         'quantity',
+        'type',
         'total_payment',
     ];
 

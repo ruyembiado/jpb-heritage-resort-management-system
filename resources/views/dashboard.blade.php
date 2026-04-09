@@ -497,7 +497,7 @@
                                         <td>{{ \Carbon\Carbon::parse($entrance->created_at)->format('M d, Y') }}</td>
                                         <td class="sticky-action">
                                             <div class="d-flex align-items-center gap-1">
-                                                <button class="btn btn-primary btn-sm editEntranceBtn"
+                                                <button class="btn btn-warning btn-sm editEntranceBtn"
                                                     data-id="{{ $entrance->id }}"
                                                     data-first_name="{{ $entrance->visitor->first_name }}"
                                                     data-middle_name="{{ $entrance->visitor->middle_name }}"
@@ -1095,7 +1095,10 @@
                 responsive: true,
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
                     }
                 }
             }
