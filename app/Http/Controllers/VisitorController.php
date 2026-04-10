@@ -33,7 +33,7 @@ class VisitorController extends Controller
     {
         $request->validate([
             'first_name' => 'required',
-            'middle_name' => 'required',
+            'middle_name' => 'nullable',
             'last_name' => 'required',
             'contact_number' => 'required',
             'gender' => 'required',

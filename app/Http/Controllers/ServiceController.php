@@ -107,7 +107,7 @@ class ServiceController extends Controller
     {
         $visitor = Visitor::create([
             'first_name' => $request->guest_first_name,
-            'middle_name' => $request->guest_middle_name,
+            'middle_name' => $request->guest_middle_name ?? '',
             'last_name' => $request->guest_last_name,
             'contact_number' => $request->guest_contact_number,
             'gender' => $request->guest_gender,

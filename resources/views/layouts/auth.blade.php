@@ -53,7 +53,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{{ url('/bills') }}" class="sidebar-link {{ Request::is('bills*') ? 'active' : '' }}">
+                    <a href="{{ url('/bill-history') }}" class="sidebar-link {{ Request::is('bill-history') ? 'active' : '' }}">
                         <i class="fa fa-money-bill"></i>
                         <span>Bill History</span>
                     </a>
@@ -91,14 +91,14 @@
             </ul>
         </aside>
         <div class="main bg-gradient">
-            <nav class="navbar navbar-expand px-4 py-3 bg-theme-secondary">
+            <nav class="navbar navbar-expand px-4 py-3 bg-dark">
                 <div class="navbar-collapse collapse">
                     <button class="toggle-btn" type="button">
-                        <i class="fa-solid text-dark fa fa-bars fs-5"></i>
+                        <i class="fa-solid text-light fa fa-bars fs-5"></i>
                     </button>
                     <ul class="navbar-nav ms-auto">
                         @auth
-                            <span class="m-auto me-1">
+                            <span class="m-auto me-1 text-light">
                                 @auth
                                     {{ auth()->user()->name }}
                                 @endauth
@@ -106,7 +106,7 @@
                         @endauth
                         <li class="nav-item dropdown">
                             <a href="#" data-bs-toggle="dropdown" class="nav-stat-icon pe-md-0">
-                                <i class="text-dark fas fa-user-circle avatar"></i>
+                                <i class="text-light fas fa-user-circle avatar"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end rounded animated--fade-in">
                                 {{-- <a class="dropdown-item" href="">
@@ -137,9 +137,9 @@
                     @yield('content')
                 </div>
             </main>
-            <footer class="footer py-3 shadow text-center">
+            <footer class="footer bg-dark py-3 shadow text-center">
                 <div class="d-flex justify-content-center px-3">
-                    <div class="">© {{ date('Y') }}. Developed by IS-FLUTTERTECH INFINITY. All rights
+                    <div class="text-light">© {{ date('Y') }}. Developed by IS-FLUTTERTECH INFINITY. All rights
                         reserved.</div>
                 </div>
             </footer>
@@ -160,6 +160,9 @@
 
     <!-- Print.js JS -->
     <script src="{{ asset('public/js/print.min.js') }}"></script>
+
+    <!-- FullCalendar JS -->
+    <script src="{{ asset('public/js/index.global.min.js') }}"></script>
 
     <!--Custom Script -->
     <script src="{{ asset('public/js/script.js') }}"></script>

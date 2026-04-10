@@ -79,6 +79,7 @@ Route::middleware(['auth'])->group(function () {
 
     // BillController routes
     Route::get('/bills', [BillController::class, 'index'])->name('bill');
+    Route::get('/bill-history', [BillController::class, 'bill_history'])->name('bill.history');
 
     // ReportController routes
     Route::get('/report', [ReportController::class, 'index'])->name('report');

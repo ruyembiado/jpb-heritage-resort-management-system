@@ -15,7 +15,7 @@
 
     <!-- Content Row -->
     @include('layouts.services-navigation')
-    <div class="card shadow mb-4">
+    <div class="card shadow mb-4">  
         <div class="card-body">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">

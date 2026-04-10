@@ -346,3 +346,7 @@ h1.home-title {
     background: white;
     z-index: 2 !important;
 }
+
+.visitor-card {
+    display: none;
+}
