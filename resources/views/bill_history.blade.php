@@ -15,7 +15,7 @@
 
     <!-- Content Row -->
     <div class="row justify-content-center">
-        <div class="card col-6 shadow mb-4 text-center">
+        <div class="card col-8 shadow mb-4 text-center">
             <div class="card-body">
                 <div id="calendar"></div>
                 <button class="btn btn-primary mt-3 d-none" data-bs-toggle="modal" data-bs-target="#viewBillModal">
@@ -137,6 +137,10 @@
                             </div>
                         </div>
                     @endforeach
+                    <div id="noVisitorsMessage" class="w-100 text-center py-5">
+                        <h5 class="text-muted">No visitors found</h5>
+                        <small class="text-secondary">There are no records for this selected date.</small>
+                    </div>
                 </div>
             </div>
         </div>
@@ -164,13 +168,23 @@
 
             dateClick: function(info) {
                 let selectedDate = info.dateStr;
+                let hasVisitor = false;
+
                 document.querySelectorAll('.visitor-card').forEach(card => {
                     if (card.dataset.date === selectedDate) {
                         card.style.display = 'block';
+                        hasVisitor = true;
                     } else {
                         card.style.display = 'none';
                     }
                 });
+
+                const message = document.getElementById('noVisitorsMessage');
+                if (hasVisitor) {
+                    message.style.display = 'none';
+                } else {
+                    message.style.display = 'block';
+                }
 
                 var modal = new bootstrap.Modal(document.getElementById('viewBillModal'));
                 modal.show();

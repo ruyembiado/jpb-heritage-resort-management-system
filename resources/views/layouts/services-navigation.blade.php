@@ -1,4 +1,4 @@
-<div class="d-flex align-items-center justify-content-center gap-5 bg-theme-primary p-2">
+<div class="d-flex align-items-center justify-content-between gap-5 bg-theme-primary p-2">
     <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="60" alt="jbp-logo">
     <div class="d-flex gap-2">
         <a href="{{ url()->current() }}" class="btn btn-danger">

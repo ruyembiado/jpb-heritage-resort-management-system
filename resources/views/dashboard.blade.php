@@ -458,24 +458,31 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach ($entrance->companions as $index => $companion)
+                                                        @if ($entrance->companions->isNotEmpty())
+                                                            @foreach ($entrance->companions as $index => $companion)
+                                                                <tr>
+                                                                    <td>{{ $index + 1 }}</td>
+                                                                    <td>{{ $companion->name }}</td>
+                                                                    <td>
+                                                                        @if ($companion->age <= 15)
+                                                                            Child
+                                                                        @elseif ($companion->isPWD)
+                                                                            PWD
+                                                                        @else
+                                                                            Adult
+                                                                        @endif
+                                                                    </td>
+                                                                    <td>{{ $companion->gender }}</td>
+                                                                    <td>{{ $companion->age }}</td>
+                                                                    <td>{{ $companion->address }}</td>
+                                                                </tr>
+                                                            @endforeach
+                                                        @else
                                                             <tr>
-                                                                <td>{{ $index + 1 }}</td>
-                                                                <td>{{ $companion->name }}</td>
-                                                                <td>
-                                                                    @if ($companion->age <= 15)
-                                                                        Child
-                                                                    @elseif ($companion->isPWD)
-                                                                        PWD
-                                                                    @else
-                                                                        Adult
-                                                                    @endif
-                                                                </td>
-                                                                <td>{{ $companion->gender }}</td>
-                                                                <td>{{ $companion->age }}</td>
-                                                                <td>{{ $companion->address }}</td>
+                                                                <td colspan="6" class="text-center text-muted">No
+                                                                    companions</td>
                                                             </tr>
-                                                        @endforeach
+                                                        @endif
                                                     </tbody>
                                                 </table>
                                             @else

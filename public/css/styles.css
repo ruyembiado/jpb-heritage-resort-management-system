@@ -17,9 +17,14 @@ li {
 }
 
 body {
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Raleway', sans-serif !important;
+    font-style: normal !important;
     overflow: hidden;
     height: 100%;
+}
+
+table {
+    border: 1px solid #000 !important;
 }
 
 .wrapper {

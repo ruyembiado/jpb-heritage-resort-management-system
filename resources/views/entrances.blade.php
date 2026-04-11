@@ -89,7 +89,7 @@
                                 <td class="text-center px-0 pb-0">
                                     {{ $entrance->visitor->members ?? 0 }}
                                     @if (!empty($entrance->companions))
-                                        <table class="table table-bordered border-dark mt-2 mb-0">
+                                        <table class="table table-bordered border-none mt-2 mb-0">
                                             <thead>
                                                 <tr>
                                                     <th class="bg-success text-light">No.</th>
@@ -101,24 +101,31 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($entrance->companions as $index => $companion)
+                                                @if ($entrance->companions->isNotEmpty())
+                                                    @foreach ($entrance->companions as $index => $companion)
+                                                        <tr>
+                                                            <td>{{ $index + 1 }}</td>
+                                                            <td>{{ $companion->name }}</td>
+                                                            <td>
+                                                                @if ($companion->age <= 15)
+                                                                    Child
+                                                                @elseif ($companion->isPWD)
+                                                                    PWD
+                                                                @else
+                                                                    Adult
+                                                                @endif
+                                                            </td>
+                                                            <td>{{ $companion->gender }}</td>
+                                                            <td>{{ $companion->age }}</td>
+                                                            <td>{{ $companion->address }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                @else
                                                     <tr>
-                                                        <td>{{ $index + 1 }}</td>
-                                                        <td>{{ $companion->name }}</td>
-                                                        <td>
-                                                            @if ($companion->age <= 15)
-                                                                Child
-                                                            @elseif ($companion->isPWD)
-                                                                PWD
-                                                            @else
-                                                                Adult
-                                                            @endif
-                                                        </td>
-                                                        <td>{{ $companion->gender }}</td>
-                                                        <td>{{ $companion->age }}</td>
-                                                        <td>{{ $companion->address }}</td>
+                                                        <td colspan="6" class="text-center text-muted">No
+                                                            companions</td>
                                                     </tr>
-                                                @endforeach
+                                                @endif
                                             </tbody>
                                         </table>
                                     @else
@@ -156,8 +163,7 @@
                                             data-bs-target="#editEntranceModal">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <form action="{{ route('visitor.destroy', $entrance->visitor_id) }}"
-                                            method="POST"
+                                        <form action="{{ route('visitor.destroy', $entrance->visitor_id) }}" method="POST"
                                             onsubmit="return confirm('Are you sure you want to delete this visitor record?');">
                                             @csrf
                                             @method('DELETE')
@@ -756,12 +762,13 @@
                 document.querySelector("[name='edit_guest_contact_number']").value = this
                     .dataset.contact || '';
                 document.querySelector("[name='edit_guest_age']").value = this.dataset.age ||
-                '';
+                    '';
                 document.querySelector("[name='edit_guest_gender']").value = this.dataset
                     .gender || '';
                 document.querySelector("[name='edit_guest_address']").value = this.dataset
                     .address || '';
-                document.querySelector("[name='edit_payment_status']").value = this.dataset.status ||
+                document.querySelector("[name='edit_payment_status']").value = this.dataset
+                    .status ||
                     '';
 
                 // PWD checkbox
