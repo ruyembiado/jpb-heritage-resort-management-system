@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
+use App\Models\Entrance;
 use App\Models\Visitor;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -320,5 +321,58 @@ class ReportController extends Controller
             'start_date' => $startDate->format('F d, Y'),
             'end_date' => $endDate->format('F d, Y'),
         ]);
+    }
+
+    public function reportType(Request $request)
+    {
+        $now = Carbon::now();
+        $route = match ($request->report_type) {
+            'daily' => route('daily.report', [
+                'year' => $now->year,
+                'month' => $now->month,
+                'day' => $now->day,
+            ]),
+            'weekly' => route('weekly.report', [
+                'year' => $now->year,
+                'month' => $now->month,
+                'week' => $now->weekOfMonth,
+            ]),
+            'monthly' => route('monthly.report', [
+                'year' => $now->year,
+                'month' => $now->month,
+            ]),
+            'yearly' => route('yearly.report', [
+                'year' => $now->year,
+            ]),
+            default => abort(404, 'Invalid report type'),
+        };
+
+        return redirect($route);
+    }
+
+    public function guestReport(Request $request)
+    {
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+
+        if (!$end_date) {
+            $end_date = Carbon::today()->toDateString();
+        }
+
+        if (!$start_date) {
+            $start_date = $end_date;
+        }
+
+        $entrances = Entrance::with('visitor', 'companions')
+            ->when($start_date, function ($query) use ($start_date) {
+                $query->whereDate('created_at', '>=', $start_date);
+            })
+            ->when($end_date, function ($query) use ($end_date) {
+                $query->whereDate('created_at', '<=', $end_date);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('guest_report', compact('entrances', 'start_date', 'end_date'));
     }
 }

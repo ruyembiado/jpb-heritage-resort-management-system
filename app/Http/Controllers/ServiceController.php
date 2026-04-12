@@ -149,7 +149,7 @@ class ServiceController extends Controller
         $visitor = $entrance->visitor;
         $visitor->update([
             'first_name' => $request->edit_guest_first_name,
-            'middle_name' => $request->edit_guest_middle_name,
+            'middle_name' => $request->edit_guest_middle_name ?? '',
             'last_name' => $request->edit_guest_last_name,
             'contact_number' => $request->edit_guest_contact_number,
             'gender' => $request->edit_guest_gender,

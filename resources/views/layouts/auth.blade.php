@@ -69,13 +69,13 @@
                 <hr class="sidebar-hr text-light mt-1 mb-2">
                 <b class="text-light ms-2">REPORT</b>
                 <li class="sidebar-item">
-                    <a href="{{ url('/bills') }}" class="sidebar-link">
+                    <a href="{{ url('/report') }}" class="sidebar-link {{ Request::is('report*') ? 'active' : '' }}">
                         <i class="fa fa-money-bill"></i>
                         <span>Bill Income</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{{ url('/report') }}" class="sidebar-link">
+                    <a href="{{ url('/guest-report') }}" class="sidebar-link {{ Request::is('guest-report') ? 'active' : '' }}">
                         <i class="fa fa-file"></i>
                         <span>List of Guest</span>
                     </a>

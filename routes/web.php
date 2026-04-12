@@ -86,8 +86,10 @@ Route::middleware(['auth'])->group(function () {
 
     // ReportController routes
     Route::get('/report', [ReportController::class, 'index'])->name('report');
+    Route::get('/report-type', [ReportController::class, 'reportType'])->name('reportType');
     Route::get('/daily-report', [ReportController::class, 'dailyReport'])->name('daily.report');
     Route::get('/weekly-report', [ReportController::class, 'weeklyReport'])->name('weekly.report');
     Route::get('/monthly-report', [ReportController::class, 'monthlyReport'])->name('monthly.report');
     Route::get('/yearly-report', [ReportController::class, 'yearlyReport'])->name('yearly.report');
+    Route::get('/guest-report', [ReportController::class, 'guestReport'])->name('guest.report');
 });

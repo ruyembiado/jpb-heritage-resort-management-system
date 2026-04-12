@@ -111,11 +111,11 @@
                                 <td>₱{{ number_format($grand_total, 2) }}</td>
                                 <td>
                                     <a href="#" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#viewBillModal" data-visitor="{{ $visitor->id }}">
+                                        data-bs-target="#viewBillModal_{{ $visitor->id }}" data-visitor="{{ $visitor->id }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     <!-- View Bill Modal -->
-                                    <div class="modal fade" id="viewBillModal" tabindex="-1" role="dialog"
+                                    <div class="modal fade" id="viewBillModal_{{ $visitor->id }}" tabindex="-1" role="dialog"
                                         aria-labelledby="viewBillModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-md" role="document">
                                             <div class="modal-content">

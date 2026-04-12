@@ -2,7 +2,13 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0">Yearly Report</h1>
+        <div class="d-flex">
+            <i class="fa fa-money-bill fa-2x text-dark me-2"></i>
+            <div class="d-flex flex-column">
+                <h1 class="h3 mb-0 text">BILL INCOME</h1>
+                <h6 class="mb-0">Report | Yearly Report</h6>
+            </div>
+        </div>
     </div>
 
     <div class="card shadow mb-4">
@@ -25,7 +31,7 @@
                 </form>
 
                 <div class="print-buttons">
-                    <button onclick="printReport()" class="btn btn-sm btn-primary d-print-none">
+                    <button onclick="printReport()" class="btn btn-sm btn-success d-print-none bg-theme-primary">
                         <i class="fas fa-print"></i> Print Report
                     </button>
                 </div>
@@ -98,7 +104,8 @@
                                     <td class="h6">Grand Total:</td>
                                     <td class="h6">{{ $monthlyBreakdown->sum('visitors') }}</td>
                                     <td class="h6">₱{{ number_format($monthlyBreakdown->sum('entrance_fee'), 2) }}</td>
-                                    <td class="h6">₱{{ number_format($monthlyBreakdown->sum('accommodation'), 2) }}</td>
+                                    <td class="h6">₱{{ number_format($monthlyBreakdown->sum('accommodation'), 2) }}
+                                    </td>
                                     <td class="h6">₱{{ number_format($monthlyBreakdown->sum('rental'), 2) }}</td>
                                     <td class="h6">₱{{ number_format($monthlyBreakdown->sum('meal'), 2) }}</td>
                                     <td class="h6">₱{{ number_format($monthlyBreakdown->sum('beverage'), 2) }}</td>

@@ -29,24 +29,24 @@
                 <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th rowspan="2" style="background-color: #084D00 !important;"
-                                class="bg-theme-primary text-light align-middle text-center">NO.</th>
-                            <th rowspan="2" style="background-color: #084D00 !important;"
-                                class="bg-theme-primary text-light align-middle text-center">STAFF ID</th>
-                            <th rowspan="2" style="background-color: #084D00 !important;"
-                                class="bg-theme-primary text-light align-middle text-center">NAME</th>
-                            <th style="background-color: #084D00 !important;"
-                                class="bg-theme-primary text-light align-middle text-center">TIME-IN</th>
-                            <th style="background-color: #084D00 !important;"
-                                class="bg-theme-primary text-light align-middle text-center">TIME-OUT</th>
-                            <th rowspan="2" style="background-color: #084D00 !important;"
-                                class="bg-theme-primary text-light align-middle text-center">ACTION</th>
+                            <th rowspan="2"
+                                class="text-light bg-theme-primary align-middle text-center">NO.</th>
+                            <th rowspan="2"
+                                class="text-light bg-theme-primary align-middle text-center">STAFF ID</th>
+                            <th rowspan="2"
+                                class="text-light bg-theme-primary align-middle text-center">NAME</th>
+                            <th
+                                class="text-light bg-theme-primary align-middle text-center">TIME-IN</th>
+                            <th
+                                class="text-light bg-theme-primary align-middle text-center">TIME-OUT</th>
+                            <th rowspan="2"
+                                class="text-light bg-theme-primary align-middle text-center">ACTION</th>
                         </tr>
                         <tr>
-                            <th style="background-color: #084D00 !important;"
-                                class="bg-theme-primary text-light align-middle text-center">8:00 AM</th>
-                            <th style="background-color: #084D00 !important;"
-                                class="bg-theme-primary text-light align-middle text-center">5:00 PM</th>
+                            <th
+                                class="text-light bg-theme-primary align-middle text-center">8:00 AM</th>
+                            <th
+                                class="text-light bg-theme-primary align-middle text-center">5:00 PM</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -143,17 +143,17 @@
                                                                 cellspacing="0">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th style="background-color: #084D00 !important;"
-                                                                            class="bg-theme-primary text-light text-center">
+                                                                        <th
+                                                                            class="text-dark text-center">
                                                                             DAYS</th>
-                                                                        <th style="background-color: #084D00 !important;"
-                                                                            class="bg-theme-primary text-light text-center">
+                                                                        <th
+                                                                            class="text-dark text-center">
                                                                             TIME-IN</th>
-                                                                        <th style="background-color: #084D00 !important;"
-                                                                            class="bg-theme-primary text-light text-center">
+                                                                        <th
+                                                                            class="text-dark text-center">
                                                                             TIME-OUT</th>
-                                                                        <th style="background-color: #084D00 !important;"
-                                                                            class="bg-theme-primary text-light text-center">
+                                                                        <th
+                                                                            class="text-dark text-center">
                                                                             HOURS</th>
                                                                     </tr>
                                                                 </thead>
@@ -314,17 +314,17 @@
                                                                 cellspacing="0">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th style="background-color: #084D00 !important;"
-                                                                            class="bg-theme-primary text-light text-center">
+                                                                        <th
+                                                                            class="text-dark text-center">
                                                                             DAYS</th>
-                                                                        <th style="background-color: #084D00 !important;"
-                                                                            class="bg-theme-primary text-light text-center">
+                                                                        <th
+                                                                            class="text-dark text-center">
                                                                             TIME-IN</th>
-                                                                        <th style="background-color: #084D00 !important;"
-                                                                            class="bg-theme-primary text-light text-center">
+                                                                        <th
+                                                                            class="text-dark text-center">
                                                                             TIME-OUT</th>
-                                                                        <th style="background-color: #084D00 !important;"
-                                                                            class="bg-theme-primary text-light text-center">
+                                                                        <th
+                                                                            class="text-dark text-center">
                                                                             HOURS</th>
                                                                     </tr>
                                                                 </thead>

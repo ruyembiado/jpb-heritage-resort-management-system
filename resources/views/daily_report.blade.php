@@ -2,7 +2,13 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0">Daily Report</h1>
+        <div class="d-flex">
+            <i class="fa fa-money-bill fa-2x text-dark me-2"></i>
+            <div class="d-flex flex-column">
+                <h1 class="h3 mb-0 text">BILL INCOME</h1>
+                <h6 class="mb-0">Report | Daily Report</h6>
+            </div>
+        </div>
     </div>
 
     <div class="card shadow mb-4">
@@ -17,7 +23,7 @@
                 </form>
 
                 <div class="print-buttons">
-                    <button onclick="printReport()" class="btn btn-sm btn-primary d-print-none">
+                    <button onclick="printReport()" class="btn btn-sm btn-success d-print-none bg-theme-primary">
                         <i class="fas fa-print"></i> Print Report
                     </button>
                 </div>
