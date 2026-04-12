@@ -22,15 +22,15 @@
                 <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>No.</th>
-                            <th>Staff ID</th>
-                            <th>Name</th>
-                            <th>Status</th>
-                            <th>Designation</th>
-                            <th>Date Hired</th>
-                            <th>Date Resigned</th>
-                            {{-- <th>Service Duration</th> --}}
-                            <th>Action</th>
+                            <th class="bg-theme-primary text-light">NO.</th>
+                            <th class="bg-theme-primary text-light">STAFF ID</th>
+                            <th class="bg-theme-primary text-light">NAME</th>
+                            <th class="bg-theme-primary text-light">STATUS</th>
+                            <th class="bg-theme-primary text-light">DESIGNATION</th>
+                            <th class="bg-theme-primary text-light">DATE HIRED</th>
+                            <th class="bg-theme-primary text-light">DATE RESIGNED</th>
+                            {{-- <th class="bg-theme-primary text-light">Service Duration</th> --}}
+                            <th class="bg-theme-primary text-light">Action</th>
                         </tr>
                     </thead>
                     <tbody>

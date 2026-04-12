@@ -109,7 +109,7 @@
                 type: 'html',
                 css: [
                     '{{ asset('public/css/styles.css') }}',
-                    'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css'
+                    '{{ asset('public/css/bootstrap.min.css') }}'
                 ],
             });
         }

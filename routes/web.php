@@ -40,6 +40,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/add-staff', [StaffController::class, 'store'])->name('staff.store');
     Route::post('/update-staff', [StaffController::class, 'update'])->name('staff.update');
     Route::delete('/delete-staff/{id}', [StaffController::class, 'destroy'])->name('staff.destroy');
+    Route::get('/attendance', [StaffController::class, 'attendance'])->name('attendance.index');
+    Route::post('/time-in/{id}', [StaffController::class, 'timeIn'])->name('time.in');
+    Route::post('/time-out/{id}', [StaffController::class, 'timeOut'])->name('time.out');
 
     // ServiceController routes
     Route::get('/services', [ServiceController::class, 'index'])->name('services');

@@ -4,7 +4,7 @@
         <a href="{{ url()->current() }}" class="btn btn-danger">
             <i class="fas fa-refresh"></i> Reload
         </a>
-        <a href="{{ url('bills') }}" class="btn {{ Request::is('bills') ? 'btn-success' : 'btn-outline-light ' }} d-flex align-items-center gap-2">
+        <a href="{{ url('attendance') }}" class="btn {{ Request::is('attendance') ? 'btn-success' : 'btn-outline-light ' }} d-flex align-items-center gap-2">
             <i class="fas fa-calendar-alt"></i>
             Attendance
         </a>

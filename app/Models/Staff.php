@@ -26,4 +26,19 @@ class Staff extends Model
         'designation',
         'status'
     ];
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class, 'staff_id');
+    }
+
+    public function attendancesMonth()
+    {
+        return $this->hasMany(Attendance::class, 'staff_id');
+    }
+
+    public function attendanceToday()
+    {
+        return $this->hasOne(Attendance::class, 'staff_id');
+    }
 }

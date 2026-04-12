@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\Staff;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 
 class StaffController extends Controller
@@ -70,5 +73,87 @@ class StaffController extends Controller
         $staff = Staff::findOrFail($id);
         $staff->delete();
         return redirect()->route('staff')->with('success', 'Staff deleted successfully.');
+    }
+
+    public function attendance(Request $request)
+    {
+        $date = $request->date ?? date('Y-m-d');
+        $carbon = Carbon::parse($date);
+
+        $monthName = $carbon->format('F');
+        $year = $carbon->year;
+
+        $startMonth = $carbon->copy()->startOfMonth();
+        $endMonth = $carbon->copy()->endOfMonth();
+
+        $midMonth = $startMonth->copy()->addDays(14);
+
+        $period1 = "{$monthName} 1 - 15, {$year}";
+        $period2 = "{$monthName} 16 - {$carbon->format('t')}, {$year}";
+
+        $dates = collect(CarbonPeriod::create($startMonth, $endMonth))
+            ->map(fn($d) => $d->format('Y-m-d'));
+
+        $staffs = Staff::where('status', 'Hired')
+            ->with([
+                'attendancesMonth' => function ($query) use ($carbon) {
+                    $query->whereMonth('date', $carbon->month)
+                        ->whereYear('date', $carbon->year);
+                },
+                'attendanceToday' => function ($query) use ($date) {
+                    $query->whereDate('date', $date);
+                }
+            ])
+            ->get();
+
+        return view('attendance', compact(
+            'staffs',
+            'date',
+            'dates',
+            'midMonth',
+            'period1',
+            'period2'
+        ));
+    }
+
+    public function timeIn(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'time_in' => 'required|date_format:H:i',
+            'date' => 'required|date',
+        ]);
+
+        Attendance::updateOrCreate(
+            [
+                'staff_id' => $id,
+                'date' => $validated['date'],
+            ],
+            [
+                'time_in' => $validated['time_in'],
+            ]
+        );
+
+        return back()->with('success', 'Time-in saved.');
+    }
+
+    public function timeOut(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'time_out' => 'required|date_format:H:i',
+            'date' => 'required|date',
+        ]);
+
+        $attendance = Attendance::firstOrCreate(
+            [
+                'staff_id' => $id,
+                'date' => $validated['date'],
+            ]
+        );
+
+        $attendance->update([
+            'time_out' => $validated['time_out'],
+        ]);
+
+        return back()->with('success', 'Time-out saved.');
     }
 }
