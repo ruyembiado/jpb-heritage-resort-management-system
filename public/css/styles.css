@@ -321,29 +321,7 @@ h1.home-title {
         bottom: 0;
         right: 0;
     }
-
-    .dtr-area #print-section {
-        display: flex !important;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 10px;
-        width: 100%;
-        padding: 0;
-    }
-
-    .dtr-area .staff-card {
-        width: 49% !important;
-        break-inside: avoid;
-    }
-
-    .dtr-area #print-buttons {
-        display: none !important;
-    }
-
-    .dtr-area .bg-light {
-        background: white !important;
-    }
-
+    
     @page {
         size: A4 portrait;
         margin: 5mm;

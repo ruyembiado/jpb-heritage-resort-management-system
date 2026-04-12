@@ -102,21 +102,21 @@
                                                         data-bs-dismiss="modal"></button>
                                                 </div>
                                                 <div class="d-flex gap-3 bg-light p-3 rounded align-items-center"
-                                                     id="print-section">
+                                                    id="print-section">
 
                                                     {{-- ================= CUT-OFF 1 CARD ================= --}}
-                                                    <div class="card staff-card px-1 py-2 shadow-sm mb-0">
+                                                    <div style="width: 500px;" class="card staff-card px-1 py-2 shadow-sm mb-0">
 
                                                         {{-- HEADER --}}
                                                         <div class="col-12">
                                                             <div
-                                                                class="d-flex align-items-center gap-2 justify-content-center">
+                                                                class="p-3 d-flex align-items-center gap-2 justify-content-center">
                                                                 <img src="{{ asset('public/img/jbp-icon.jpg') }}"
-                                                                    width="70" alt="jbp-logo">
+                                                                    width="40" alt="jbp-logo">
                                                                 <div class="d-flex flex-column">
                                                                     <b class="modal-title mt-2 text-bold">JPB Heritage
                                                                         Inland Resort</b>
-                                                                    <span>Progreso Street Illauod, Bugasong, Antique</span>
+                                                                    <span style="font-size: 10px;">Progreso Street Illauod, Bugasong, Antique</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -124,7 +124,7 @@
                                                         <hr>
 
                                                         <div class="d-flex align-items-center gap-2 justify-content-center">
-                                                            <h3 class="m-0">DAILY TIME RECORD (DTR)</h3>
+                                                            <h3 style="font-size: 18px; font-weight: 700;" class="m-0">DAILY TIME RECORD (DTR)</h3>
                                                         </div>
 
                                                         {{-- STAFF INFO --}}
@@ -275,17 +275,18 @@
                                                     </div>
 
                                                     {{-- ================= CUT-OFF 2 CARD ================= --}}
-                                                    <div class="card staff-card px-1 py-2 shadow-sm mb-0">
+                                                    <div style="width: 500px;" class="card staff-card px-1 py-2 shadow-sm mb-0">
+
                                                         {{-- HEADER --}}
                                                         <div class="col-12">
                                                             <div
-                                                                class="d-flex align-items-center gap-2 justify-content-center">
+                                                                class="p-3 d-flex align-items-center gap-2 justify-content-center">
                                                                 <img src="{{ asset('public/img/jbp-icon.jpg') }}"
-                                                                    width="70" alt="jbp-logo">
+                                                                    width="40" alt="jbp-logo">
                                                                 <div class="d-flex flex-column">
                                                                     <b class="modal-title mt-2 text-bold">JPB Heritage
                                                                         Inland Resort</b>
-                                                                    <span>Progreso Street Illauod, Bugasong, Antique</span>
+                                                                    <span style="font-size: 10px;">Progreso Street Illauod, Bugasong, Antique</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -294,7 +295,7 @@
 
                                                         <div
                                                             class="d-flex align-items-center gap-2 justify-content-center">
-                                                            <h3 class="m-0">DAILY TIME RECORD (DTR)</h3>
+                                                            <h3 style="font-size: 18px; font-weight: 700;" class="m-0">DAILY TIME RECORD (DTR)</h3>
                                                         </div>
 
                                                         {{-- STAFF INFO --}}
