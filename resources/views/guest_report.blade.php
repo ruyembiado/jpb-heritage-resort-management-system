@@ -71,14 +71,14 @@
                     <table class="table table-bordered" id="" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th class="text-dark">NO.</th>
-                                <th class="text-dark">NAME OF GUEST</th>
-                                <th class="text-dark">SEX</th>
-                                <th class="text-dark">AGE</th>
-                                <th class="text-dark">MEMBERS</th>
-                                <th class="text-dark">ADDRESS</th>
-                                <th class="text-dark">CONTACT NO.</th>
-                                <th class="text-dark">CHECK-IN</th>
+                                <th class="text-dark text-center">NO.</th>
+                                <th class="text-dark text-center">NAME OF GUEST</th>
+                                <th class="text-dark text-center">SEX</th>
+                                <th class="text-dark text-center">AGE</th>
+                                <th class="text-dark text-center">MEMBERS</th>
+                                <th class="text-dark text-center">ADDRESS</th>
+                                <th class="text-dark text-center">CONTACT NO.</th>
+                                <th class="text-dark text-center">CHECK-IN</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,35 +89,35 @@
                             @else
                                 @foreach ($entrances as $entrance)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td class="text-center">
                                             {{ $entrance->visitor?->first_name ?? '' }}
                                             {{ $entrance->visitor?->middle_name ?? '' }}
                                             {{ $entrance->visitor?->last_name ?? '' }}
                                         </td>
-                                        <td>{{ $entrance->visitor->gender }}</td>
-                                        <td>{{ $entrance->visitor->age }}</td>
+                                        <td class="text-center">{{ $entrance->visitor->gender }}</td>
+                                        <td class="text-center">{{ $entrance->visitor->age }}</td>
                                         <td class="text-center px-0 pb-0">
                                             {{ $entrance->visitor->members ?? 0 }}
                                             @if (!empty($entrance->companions))
                                                 <table class="table table-bordered border-none mt-2 mb-0">
                                                     <thead>
                                                         <tr>
-                                                            <th class="bg-success text-light">No.</th>
-                                                            <th class="bg-success text-light">Name</th>
-                                                            <th class="bg-success text-light">Category</th>
-                                                            <th class="bg-success text-light">Sex</th>
-                                                            <th class="bg-success text-light">Age</th>
-                                                            <th class="bg-success text-light">Address</th>
+                                                            <th class="text-dark text-center">No.</th>
+                                                            <th class="text-dark text-center">Name</th>
+                                                            <th class="text-dark text-center">Category</th>
+                                                            <th class="text-dark text-center">Sex</th>
+                                                            <th class="text-dark text-center">Age</th>
+                                                            <th class="text-dark text-center">Address</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @if ($entrance->companions->isNotEmpty())
                                                             @foreach ($entrance->companions as $index => $companion)
                                                                 <tr>
-                                                                    <td>{{ $index + 1 }}</td>
-                                                                    <td>{{ $companion->name }}</td>
-                                                                    <td>
+                                                                    <td class="text-center">{{ $index + 1 }}</td>
+                                                                    <td class="text-center">{{ $companion->name }}</td>
+                                                                    <td class="text-center">
                                                                         @if ($companion->age <= 15)
                                                                             Child
                                                                         @elseif ($companion->isPWD)
@@ -126,9 +126,9 @@
                                                                             Adult
                                                                         @endif
                                                                     </td>
-                                                                    <td>{{ $companion->gender }}</td>
-                                                                    <td>{{ $companion->age }}</td>
-                                                                    <td>{{ $companion->address }}</td>
+                                                                    <td class="text-center">{{ $companion->gender }}</td>
+                                                                    <td class="text-center">{{ $companion->age }}</td>
+                                                                    <td class="text-center">{{ $companion->address }}</td>
                                                                 </tr>
                                                             @endforeach
                                                         @else
@@ -143,9 +143,9 @@
                                                 <span class="text-muted">No companions</span>
                                             @endif
                                         </td>
-                                        <td>{{ $entrance->visitor->address }}</td>
-                                        <td>{{ $entrance->visitor->contact_number }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($entrance->visitor->created_at)->format('h:i A') }}
+                                        <td class="text-center">{{ $entrance->visitor->address }}</td>
+                                        <td class="text-center">{{ $entrance->visitor->contact_number }}</td>
+                                        <td class="text-center">{{ \Carbon\Carbon::parse($entrance->visitor->created_at)->format('h:i A') }}
                                         </td>
                                     </tr>
                                 @endforeach

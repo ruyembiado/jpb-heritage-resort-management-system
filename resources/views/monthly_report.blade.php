@@ -84,47 +84,58 @@
                     </tr>
                 </table>
 
-                <div class="table-responsive">
+                <div class="table-responsive report-table">
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead class="">
                             <tr>
-                                <th>Week</th>
-                                <th>No. of Visitors</th>
-                                <th>Entrance Fee</th>
-                                <th>Accommodation</th>
-                                <th>Cottage Rental</th>
-                                <th>Meals</th>
-                                <th>Beverages</th>
-                                <th>Total</th>
+                                <th class="text-center align-middle" rowspan="2">WEEK</th>
+                                <th class="text-center align-middle" rowspan="2">NO. OF VISITORS</th>
+                                <th class="text-center text-center" colspan="6">SERVICES</th>
+                                <th class="text-center align-middle" rowspan="2">TOTAL BILL INCOME</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center">ENTRANCE FEE</th>
+                                <th class="text-center">COTTAGE FEE</th>
+                                <th class="text-center">FUNCTION HALL</th>
+                                <th class="text-center">ROOM ACCOMMODATION</th>
+                                <th class="text-center">FOODS</th>
+                                <th class="text-center">DRINKS</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if ($weeklyBreakdown->isEmpty())
                                 <tr>
-                                    <td colspan="8" class="text-center">No data available for this month.</td>
+                                    <td colspan="9" class="text-center">No data available for this month.</td>
                                 </tr>
                             @else
                                 @foreach ($weeklyBreakdown as $weekNumber => $weekData)
                                     <tr>
-                                        <td>Week {{ $weekNumber }}</td>
-                                        <td>{{ $weekData['visitors'] }}</td>
-                                        <td>₱{{ number_format($weekData['entrance_fee'], 2) }}</td>
-                                        <td>₱{{ number_format($weekData['accommodation'], 2) }}</td>
-                                        <td>₱{{ number_format($weekData['rental'], 2) }}</td>
-                                        <td>₱{{ number_format($weekData['meal'], 2) }}</td>
-                                        <td>₱{{ number_format($weekData['beverage'], 2) }}</td>
-                                        <td>₱{{ number_format($weekData['total'], 2) }}</td>
+                                        <td class="text-center">Week {{ $weekNumber }}</td>
+                                        <td class="text-center">{{ $weekData['visitors'] }}</td>
+                                        <td class="text-center">₱{{ number_format($weekData['entrance_fee'], 2) }}</td>
+                                        <td class="text-center">₱{{ number_format($weekData['rental'], 2) }}</td>
+                                        <td class="text-center">₱{{ number_format($weekData['functionHall'], 2) }}</td>
+                                        <td class="text-center">₱{{ number_format($weekData['accommodation'], 2) }}</td>
+                                        <td class="text-center">₱{{ number_format($weekData['meal'], 2) }}</td>
+                                        <td class="text-center">₱{{ number_format($weekData['beverage'], 2) }}</td>
+                                        <td class="text-center">₱{{ number_format($weekData['total'], 2) }}</td>
                                     </tr>
                                 @endforeach
                                 <tr class="">
-                                    <td class="h6">Grand Total:</td>
-                                    <td class="h6">{{ $weeklyBreakdown->sum('visitors') }}</td>
-                                    <td class="h6">₱{{ number_format($weeklyBreakdown->sum('entrance_fee'), 2) }}</td>
-                                    <td class="h6">₱{{ number_format($weeklyBreakdown->sum('accommodation'), 2) }}</td>
-                                    <td class="h6">₱{{ number_format($weeklyBreakdown->sum('rental'), 2) }}</td>
-                                    <td class="h6">₱{{ number_format($weeklyBreakdown->sum('meal'), 2) }}</td>
-                                    <td class="h6">₱{{ number_format($weeklyBreakdown->sum('beverage'), 2) }}</td>
-                                    <td class="h6">₱{{ number_format($weeklyBreakdown->sum('total'), 2) }}</td>
+                                    <td class="h6 text-center">Grand Total</td>
+                                    <td class="h6 text-center">{{ $weeklyBreakdown->sum('visitors') }}</td>
+                                    <td class="h6 text-center">
+                                        ₱{{ number_format($weeklyBreakdown->sum('entrance_fee'), 2) }}</td>
+                                    <td class="h6 text-center">₱{{ number_format($weeklyBreakdown->sum('rental'), 2) }}
+                                    </td>
+                                    <td class="h6 text-center">
+                                        ₱{{ number_format($weeklyBreakdown->sum('functionHall'), 2) }}</td>
+                                    <td class="h6 text-center">
+                                        ₱{{ number_format($weeklyBreakdown->sum('accommodation'), 2) }}</td>
+                                    <td class="h6 text-center">₱{{ number_format($weeklyBreakdown->sum('meal'), 2) }}</td>
+                                    <td class="h6 text-center">₱{{ number_format($weeklyBreakdown->sum('beverage'), 2) }}
+                                    </td>
+                                    <td class="h6 text-center">₱{{ number_format($weeklyBreakdown->sum('total'), 2) }}</td>
                                 </tr>
                             @endif
                         </tbody>
@@ -150,6 +161,11 @@
                     '{{ asset('public/css/styles.css') }}',
                     '{{ asset('public/css/bootstrap.min.css') }}'
                 ],
+                style: `
+                    .report-table table td, .report-table table th {
+                        border: 1px solid #000;
+                    }
+                `
             });
         }
     </script>

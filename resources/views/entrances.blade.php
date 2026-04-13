@@ -158,6 +158,7 @@
                                             data-pwd="{{ $entrance->visitor->isPWD ?? 0 }}"
                                             data-fee="{{ $entrance->total_payment }}"
                                             data-status="{{ $entrance->status }}"
+                                            data-date_visit="{{ $entrance->visitor->date_visit }}"
                                             data-companions="{{ json_encode($entrance->companions) }}"
                                             data-members="{{ $entrance->visitor->members ?? 0 }}" data-bs-toggle="modal"
                                             data-bs-target="#editEntranceModal">
@@ -352,7 +353,7 @@
                         </div>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" name="edit_date_visit" value="{{ now()->toDateString() }}"
+                        <input type="hidden" id="edit_date_visit" name="edit_date_visit" value=""
                             class="form-control" required />
                         <div
                             class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
@@ -753,6 +754,7 @@
             button.addEventListener("click", function() {
                 // Basic information
                 document.getElementById("edit_entrance_id").value = this.dataset.id;
+                document.getElementById("edit_date_visit").value = this.dataset.date_visit;
                 document.querySelector("[name='edit_guest_first_name']").value = this.dataset
                     .first_name || '';
                 document.querySelector("[name='edit_guest_middle_name']").value = this.dataset

@@ -29,24 +29,16 @@
                 <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th rowspan="2"
-                                class="text-light bg-theme-primary align-middle text-center">NO.</th>
-                            <th rowspan="2"
-                                class="text-light bg-theme-primary align-middle text-center">STAFF ID</th>
-                            <th rowspan="2"
-                                class="text-light bg-theme-primary align-middle text-center">NAME</th>
-                            <th
-                                class="text-light bg-theme-primary align-middle text-center">TIME-IN</th>
-                            <th
-                                class="text-light bg-theme-primary align-middle text-center">TIME-OUT</th>
-                            <th rowspan="2"
-                                class="text-light bg-theme-primary align-middle text-center">ACTION</th>
+                            <th rowspan="2" class="text-light bg-theme-primary align-middle text-center">NO.</th>
+                            <th rowspan="2" class="text-light bg-theme-primary align-middle text-center">STAFF ID</th>
+                            <th rowspan="2" class="text-light bg-theme-primary align-middle text-center">NAME</th>
+                            <th class="text-light bg-theme-primary align-middle text-center">TIME-IN</th>
+                            <th class="text-light bg-theme-primary align-middle text-center">TIME-OUT</th>
+                            <th rowspan="2" class="text-light bg-theme-primary align-middle text-center">ACTION</th>
                         </tr>
                         <tr>
-                            <th
-                                class="text-light bg-theme-primary align-middle text-center">8:00 AM</th>
-                            <th
-                                class="text-light bg-theme-primary align-middle text-center">5:00 PM</th>
+                            <th class="text-light bg-theme-primary align-middle text-center">8:00 AM</th>
+                            <th class="text-light bg-theme-primary align-middle text-center">5:00 PM</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -102,10 +94,11 @@
                                                         data-bs-dismiss="modal"></button>
                                                 </div>
                                                 <div class="d-flex gap-3 bg-light p-3 rounded align-items-center"
-                                                    id="print-section">
+                                                    id="print-dtr-section">
 
                                                     {{-- ================= CUT-OFF 1 CARD ================= --}}
-                                                    <div style="width: 500px;" class="card staff-card px-1 py-2 shadow-sm mb-0">
+                                                    <div style="width: 500px;"
+                                                        class="card staff-card px-1 py-2 shadow-sm mb-0">
 
                                                         {{-- HEADER --}}
                                                         <div class="col-12">
@@ -116,7 +109,8 @@
                                                                 <div class="d-flex flex-column">
                                                                     <b class="modal-title mt-2 text-bold">JPB Heritage
                                                                         Inland Resort</b>
-                                                                    <span style="font-size: 10px;">Progreso Street Illauod, Bugasong, Antique</span>
+                                                                    <span style="font-size: 10px;">Progreso Street Illauod,
+                                                                        Bugasong, Antique</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -124,7 +118,8 @@
                                                         <hr>
 
                                                         <div class="d-flex align-items-center gap-2 justify-content-center">
-                                                            <h3 style="font-size: 18px; font-weight: 700;" class="m-0">DAILY TIME RECORD (DTR)</h3>
+                                                            <h3 style="font-size: 18px; font-weight: 700;" class="m-0">
+                                                                DAILY TIME RECORD (DTR)</h3>
                                                         </div>
 
                                                         {{-- STAFF INFO --}}
@@ -138,22 +133,18 @@
                                                         </div>
 
                                                         {{-- TABLE --}}
-                                                        <div class="table-responsive py-0 px-2">
+                                                        <div class="table-responsive dtr-table py-0 px-2">
                                                             <table class="table table-bordered" width="100%"
                                                                 cellspacing="0">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th
-                                                                            class="text-dark text-center">
+                                                                        <th class="text-dark text-center">
                                                                             DAYS</th>
-                                                                        <th
-                                                                            class="text-dark text-center">
+                                                                        <th class="text-dark text-center">
                                                                             TIME-IN</th>
-                                                                        <th
-                                                                            class="text-dark text-center">
+                                                                        <th class="text-dark text-center">
                                                                             TIME-OUT</th>
-                                                                        <th
-                                                                            class="text-dark text-center">
+                                                                        <th class="text-dark text-center">
                                                                             HOURS</th>
                                                                     </tr>
                                                                 </thead>
@@ -275,7 +266,8 @@
                                                     </div>
 
                                                     {{-- ================= CUT-OFF 2 CARD ================= --}}
-                                                    <div style="width: 500px;" class="card staff-card px-1 py-2 shadow-sm mb-0">
+                                                    <div style="width: 500px;"
+                                                        class="card staff-card px-1 py-2 shadow-sm mb-0">
 
                                                         {{-- HEADER --}}
                                                         <div class="col-12">
@@ -286,7 +278,8 @@
                                                                 <div class="d-flex flex-column">
                                                                     <b class="modal-title mt-2 text-bold">JPB Heritage
                                                                         Inland Resort</b>
-                                                                    <span style="font-size: 10px;">Progreso Street Illauod, Bugasong, Antique</span>
+                                                                    <span style="font-size: 10px;">Progreso Street Illauod,
+                                                                        Bugasong, Antique</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -295,7 +288,8 @@
 
                                                         <div
                                                             class="d-flex align-items-center gap-2 justify-content-center">
-                                                            <h3 style="font-size: 18px; font-weight: 700;" class="m-0">DAILY TIME RECORD (DTR)</h3>
+                                                            <h3 style="font-size: 18px; font-weight: 700;" class="m-0">
+                                                                DAILY TIME RECORD (DTR)</h3>
                                                         </div>
 
                                                         {{-- STAFF INFO --}}
@@ -309,22 +303,18 @@
                                                         </div>
 
                                                         {{-- TABLE --}}
-                                                        <div class="table-responsive py-0 px-2">
+                                                        <div class="table-responsive dtr-table py-0 px-2">
                                                             <table class="table table-bordered" width="100%"
                                                                 cellspacing="0">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th
-                                                                            class="text-dark text-center">
+                                                                        <th class="text-dark text-center">
                                                                             DAYS</th>
-                                                                        <th
-                                                                            class="text-dark text-center">
+                                                                        <th class="text-dark text-center">
                                                                             TIME-IN</th>
-                                                                        <th
-                                                                            class="text-dark text-center">
+                                                                        <th class="text-dark text-center">
                                                                             TIME-OUT</th>
-                                                                        <th
-                                                                            class="text-dark text-center">
+                                                                        <th class="text-dark text-center">
                                                                             HOURS</th>
                                                                     </tr>
                                                                 </thead>
@@ -463,15 +453,23 @@
     <script>
         function printDTR() {
             printJS({
-                printable: 'print-section',
+                printable: 'print-dtr-section',
                 type: 'html',
                 targetStyles: ['*'],
+                scanStyles: true,
+                ignoreElements: ['print-buttons'],
                 css: [
-                    "{{ asset('public/css/styles.css') }}",
                     '{{ asset('public/css/bootstrap.min.css') }}'
                 ],
-                scanStyles: true,
-                ignoreElements: ['print-buttons']
+                style: `
+                    @page {
+                        size: A4 portrait;
+                        margin: 5mm;
+                    }
+                    .dtr-table table td, .dtr-table table th {
+                        border: 1px solid #000;
+                    }                    
+                `
             });
         }
     </script>

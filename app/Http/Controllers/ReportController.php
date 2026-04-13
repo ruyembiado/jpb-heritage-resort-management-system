@@ -17,7 +17,7 @@ class ReportController extends Controller
     public function dailyReport(Request $request)
     {
         $date = $request->input('date') ?? Carbon::today()->toDateString();
-        $visitors = Visitor::with('entrance', 'accommodation', 'cottage', 'meal', 'beverage')
+        $visitors = Visitor::with('entrance', 'accommodation', 'cottage', 'meal', 'beverage', 'functionHall')
             ->whereDate('date_visit', $date)
             ->get();
 
@@ -36,6 +36,10 @@ class ReportController extends Controller
 
         $totalAccommodation = $visitors->sum(function ($visitor) {
             return $visitor->accommodation ? (float) ($visitor->accommodation->total_payment ?? 0) : 0;
+        });
+
+        $totalFunctionHall = $visitors->sum(function ($visitor) {
+            return $visitor->functionHall ? (float) ($visitor->functionHall->total_payment ?? 0) : 0;
         });
 
         $totalRental = $visitors->sum(function ($visitor) {
@@ -58,7 +62,8 @@ class ReportController extends Controller
             'rental' => $totalRental,
             'meal' => $totalMeal,
             'beverage' => $totalBeverage,
-            'total' => $totalEntrance + $totalAccommodation + $totalRental + $totalMeal + $totalBeverage,
+            'function_hall' => $totalFunctionHall,
+            'total' => $totalEntrance + $totalAccommodation + $totalRental + $totalMeal + $totalBeverage + $totalFunctionHall,
         ];
 
         $dayName = Carbon::parse($date)->format('l');
@@ -74,12 +79,12 @@ class ReportController extends Controller
     {
         $selectedYear = $request->input('year') ?? Carbon::now()->year;
         $selectedMonth = $request->input('month') ?? Carbon::now()->month;
-        $selectedWeek = $request->input('week'); // optional filtering
+        $selectedWeek = $request->input('week');
 
         $startDate = Carbon::createFromDate($selectedYear, $selectedMonth, 1)->startOfMonth();
         $endDate = $startDate->copy()->endOfMonth();
 
-        $visitors = Visitor::with('entrance', 'accommodation', 'cottage', 'meal', 'beverage')
+        $visitors = Visitor::with('entrance', 'accommodation', 'cottage', 'meal', 'beverage', 'functionHall')
             ->whereDate('date_visit', '>=', $startDate)
             ->whereDate('date_visit', '<=', $endDate)
             ->get();
@@ -96,6 +101,7 @@ class ReportController extends Controller
             $rental = $visitor->cottage->total_payment ?? 0;
             $meal = $visitor->meal->total_payment ?? 0;
             $beverage = $visitor->beverage->total_payment ?? 0;
+            $functionHall = $visitor->functionHall->total_payment ?? 0;
 
             if (!$report->has($weekNumber)) {
                 $report->put($weekNumber, collect());
@@ -111,6 +117,7 @@ class ReportController extends Controller
                     'rental' => 0,
                     'meal' => 0,
                     'beverage' => 0,
+                    'functionHall' => 0,
                     'total' => 0,
                 ]);
             }
@@ -123,7 +130,8 @@ class ReportController extends Controller
             $dayData['rental'] += (float) $rental;
             $dayData['meal'] += (float) $meal;
             $dayData['beverage'] += (float) $beverage;
-            $dayData['total'] = $dayData['entrance_fee'] + $dayData['accommodation'] + $dayData['rental'] + $dayData['meal'] + $dayData['beverage'];
+            $dayData['functionHall'] += (float) $functionHall;
+            $dayData['total'] = $dayData['entrance_fee'] + $dayData['accommodation'] + $dayData['rental'] + $dayData['meal'] + $dayData['beverage'] + $dayData['functionHall'];
 
             $weekData->put($dayName, $dayData);
             $report->put($weekNumber, $weekData);
@@ -143,6 +151,7 @@ class ReportController extends Controller
                 'rental' => $weekDays->sum('rental'),
                 'meal' => $weekDays->sum('meal'),
                 'beverage' => $weekDays->sum('beverage'),
+                'functionHall' => $weekDays->sum('functionHall'),
                 'total' => $weekDays->sum('total'),
             ];
         });
@@ -154,6 +163,7 @@ class ReportController extends Controller
             'rental' => $weeklyTotal->sum('rental'),
             'meal' => $weeklyTotal->sum('meal'),
             'beverage' => $weeklyTotal->sum('beverage'),
+            'functionHall' => $weeklyTotal->sum('functionHall'),
             'total' => $weeklyTotal->sum('total'),
         ];
 
@@ -179,7 +189,7 @@ class ReportController extends Controller
         $startDate = Carbon::createFromDate($selectedYear, $selectedMonth, 1)->startOfMonth();
         $endDate = $startDate->copy()->endOfMonth();
 
-        $visitors = Visitor::with('entrance', 'accommodation', 'cottage', 'meal', 'beverage')
+        $visitors = Visitor::with('entrance', 'accommodation', 'cottage', 'meal', 'beverage', 'functionHall')
             ->whereDate('date_visit', '>=', $startDate)
             ->whereDate('date_visit', '<=', $endDate)
             ->get();
@@ -192,6 +202,7 @@ class ReportController extends Controller
             'rental' => 0,
             'meal' => 0,
             'beverage' => 0,
+            'functionHall' => 0,
             'total' => 0,
         ];
 
@@ -203,9 +214,10 @@ class ReportController extends Controller
             $monthlyData['rental'] += (float) ($visitor->cottage->total_payment ?? 0);
             $monthlyData['meal'] += (float) ($visitor->meal->total_payment ?? 0);
             $monthlyData['beverage'] += (float) ($visitor->beverage->total_payment ?? 0);
+            $monthlyData['functionHall'] += (float) ($visitor->functionHall->total_payment ?? 0);
         }
 
-        $monthlyData['total'] = $monthlyData['entrance_fee'] + $monthlyData['accommodation'] + $monthlyData['rental'] + $monthlyData['meal'] + $monthlyData['beverage'];
+        $monthlyData['total'] = $monthlyData['entrance_fee'] + $monthlyData['accommodation'] + $monthlyData['rental'] + $monthlyData['meal'] + $monthlyData['beverage'] + $monthlyData['functionHall'];
 
         // Also group by week for weekly breakdown within the month
         $weeklyBreakdown = $visitors->groupBy(function ($visitor) {
@@ -218,6 +230,7 @@ class ReportController extends Controller
                 'rental' => 0,
                 'meal' => 0,
                 'beverage' => 0,
+                'functionHall' => 0,
                 'total' => 0,
             ];
 
@@ -228,9 +241,10 @@ class ReportController extends Controller
                 $weekData['rental'] += (float) ($visitor->cottage->total_payment ?? 0);
                 $weekData['meal'] += (float) ($visitor->meal->total_payment ?? 0);
                 $weekData['beverage'] += (float) ($visitor->beverage->total_payment ?? 0);
+                $weekData['functionHall'] += (float) ($visitor->functionHall->total_payment ?? 0);
             }
 
-            $weekData['total'] = $weekData['entrance_fee'] + $weekData['accommodation'] + $weekData['rental'] + $weekData['meal'] + $weekData['beverage'];
+            $weekData['total'] = $weekData['entrance_fee'] + $weekData['accommodation'] + $weekData['rental'] + $weekData['meal'] + $weekData['beverage'] + $weekData['functionHall'];
 
             return $weekData;
         });
@@ -253,7 +267,7 @@ class ReportController extends Controller
         $startDate = Carbon::createFromDate($selectedYear, 1, 1)->startOfYear();
         $endDate = $startDate->copy()->endOfYear();
 
-        $visitors = Visitor::with('entrance', 'accommodation', 'cottage', 'meal', 'beverage')
+        $visitors = Visitor::with('entrance', 'accommodation', 'cottage', 'meal', 'beverage', 'functionHall')
             ->whereBetween('date_visit', [$startDate, $endDate])
             ->get();
 
@@ -265,6 +279,7 @@ class ReportController extends Controller
             'rental' => 0,
             'meal' => 0,
             'beverage' => 0,
+            'functionHall' => 0,
             'total' => 0,
         ];
 
@@ -279,6 +294,7 @@ class ReportController extends Controller
                 'rental' => 0,
                 'meal' => 0,
                 'beverage' => 0,
+                'functionHall' => 0,
                 'total' => 0,
                 'month_name' => Carbon::create()->month($monthNumber)->format('F')
             ];
@@ -290,9 +306,10 @@ class ReportController extends Controller
                 $monthData['rental'] += (float) ($visitor->cottage->total_payment ?? 0);
                 $monthData['meal'] += (float) ($visitor->meal->total_payment ?? 0);
                 $monthData['beverage'] += (float) ($visitor->beverage->total_payment ?? 0);
+                $monthData['functionHall'] += (float) ($visitor->functionHall->total_payment ?? 0);
             }
 
-            $monthData['total'] = $monthData['entrance_fee'] + $monthData['accommodation'] + $monthData['rental'] + $monthData['meal'] + $monthData['beverage'];
+            $monthData['total'] = $monthData['entrance_fee'] + $monthData['accommodation'] + $monthData['rental'] + $monthData['meal'] + $monthData['beverage']+ $monthData['functionHall'];
 
             return $monthData;
         });
@@ -305,8 +322,9 @@ class ReportController extends Controller
             $yearlyData['rental'] += $monthData['rental'];
             $yearlyData['meal'] += $monthData['meal'];
             $yearlyData['beverage'] += $monthData['beverage'];
+            $yearlyData['functionHall'] += $monthData['functionHall'];
         }
-        $yearlyData['total'] = $yearlyData['entrance_fee'] + $yearlyData['accommodation'] + $yearlyData['rental'] + $yearlyData['meal'] + $yearlyData['beverage'];
+        $yearlyData['total'] = $yearlyData['entrance_fee'] + $yearlyData['accommodation'] + $yearlyData['rental'] + $yearlyData['meal'] + $yearlyData['beverage'] + $yearlyData['functionHall'];
 
         // Sort monthly breakdown by month number (01-12)
         $monthlyBreakdown = $monthlyBreakdown->sortBy(function ($item, $key) {

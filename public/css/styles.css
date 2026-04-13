@@ -321,9 +321,9 @@ h1.home-title {
         bottom: 0;
         right: 0;
     }
-    
+
     @page {
-        size: A4 portrait;
+        size: A4 landscape;
         margin: 5mm;
     }
 }

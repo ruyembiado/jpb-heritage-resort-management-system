@@ -61,37 +61,42 @@
                     </tr>
                 </table>
 
-                <div class="table-responsive">
+                <div class="table-responsive report-table">
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>No. of Visitors</th>
-                                <th>Entrance Fee</th>
-                                <th>Accommodation</th>
-                                <th>Cottage Rental</th>
-                                <th>Meals</th>
-                                <th>Beverages</th>
-                                <th>Total</th>
+                                <th rowspan="2" class="text-center align-middle">NO. OF VISITORS</th>
+                                <th colspan="6" class="text-center">SERVICES</th>
+                                <th rowspan="2" class="text-center align-middle">TOTAL BILL INCOME</th>
+                            </tr>
+                            <tr>
+                                <th>ENTRANCE FEE</th>
+                                <th>COTTAGE FEE</th>
+                                <th>FUNCTION HALL</th>
+                                <th>ROOM ACCOMMODATION</th>
+                                <th>FOODS</th>
+                                <th>DRINKS</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if ($report['visitors'] == 0)
                                 <tr>
-                                    <td colspan="7" class="text-center">No data available for this date.</td>
+                                    <td colspan="8" class="text-center">No data available for this date.</td>
                                 </tr>
                             @else
                                 <tr>
-                                    <td>{{ $report['visitors'] }}</td>
-                                    <td>₱{{ number_format($report['entrance_fee'], 2) }}</td>
-                                    <td>₱{{ number_format($report['accommodation'], 2) }}</td>
-                                    <td>₱{{ number_format($report['rental'], 2) }}</td>
-                                    <td>₱{{ number_format($report['meal'], 2) }}</td>
-                                    <td>₱{{ number_format($report['beverage'], 2) }}</td>
-                                    <td>₱{{ number_format($report['total'], 2) }}</td>
+                                    <td class="text-center">{{ $report['visitors'] }}</td>
+                                    <td class="text-center">₱{{ number_format($report['entrance_fee'], 2) }}</td>
+                                    <td class="text-center">₱{{ number_format($report['rental'], 2) }}</td>
+                                    <td class="text-center">₱{{ number_format($report['function_hall'], 2) }}</td>
+                                    <td class="text-center">₱{{ number_format($report['accommodation'], 2) }}</td>
+                                    <td class="text-center">₱{{ number_format($report['meal'], 2) }}</td>
+                                    <td class="text-center">₱{{ number_format($report['beverage'], 2) }}</td>
+                                    <td class="text-center">₱{{ number_format($report['total'], 2) }}</td>
                                 </tr>
                                 <tr class="bg-light">
-                                    <td colspan="6" class="text-start h6">Grand Total:</td>
-                                    <td class="h6">₱{{ number_format($report['total'], 2) }}</td>
+                                    <td colspan="7" class="text-start h6">Grand Total:</td>
+                                    <td class="h6 text-center">₱{{ number_format($report['total'], 2) }}</td>
                                 </tr>
                             @endif
                         </tbody>
@@ -117,6 +122,11 @@
                     '{{ asset('public/css/styles.css') }}',
                     '{{ asset('public/css/bootstrap.min.css') }}'
                 ],
+                style: `
+                    .report-table table td, .report-table table th {
+                        border: 1px solid #000;
+                    }
+                `
             });
         }
     </script>

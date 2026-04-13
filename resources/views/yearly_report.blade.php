@@ -68,18 +68,22 @@
                     </tr>
                 </table>
 
-                <div class="table-responsive">
+                <div class="table-responsive report-table">
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead class="">
                             <tr>
-                                <th>Month</th>
-                                <th>No. of Visitors</th>
-                                <th>Entrance Fee</th>
-                                <th>Accommodation</th>
-                                <th>Cottage Rental</th>
-                                <th>Meals</th>
-                                <th>Beverages</th>
-                                <th>Total</th>
+                                <th class="text-center align-middle" rowspan="2">MONTH</th>
+                                <th class="text-center align-middle" rowspan="2">NO. OF VISITORS</th>
+                                <th class="text-center text-center" colspan="6">SERVICES</th>
+                                <th class="text-center align-middle" rowspan="2">TOTAL BILL INCOME</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center">ENTRANCE FEE</th>
+                                <th class="text-center">FUNCTION HALL</th>
+                                <th class="text-center">ROOM ACCOMMODATION</th>
+                                <th class="text-center">COTTAGE FEE</th>
+                                <th class="text-center">FOODS</th>
+                                <th class="text-center">DRINKS</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -90,26 +94,27 @@
                             @else
                                 @foreach ($monthlyBreakdown as $monthNumber => $monthData)
                                     <tr>
-                                        <td>{{ $monthData['month_name'] }}</td>
-                                        <td>{{ $monthData['visitors'] }}</td>
-                                        <td>₱{{ number_format($monthData['entrance_fee'], 2) }}</td>
-                                        <td>₱{{ number_format($monthData['accommodation'], 2) }}</td>
-                                        <td>₱{{ number_format($monthData['rental'], 2) }}</td>
-                                        <td>₱{{ number_format($monthData['meal'], 2) }}</td>
-                                        <td>₱{{ number_format($monthData['beverage'], 2) }}</td>
-                                        <td>₱{{ number_format($monthData['total'], 2) }}</td>
+                                        <td class="text-center">{{ $monthData['month_name'] }}</td>
+                                        <td class="text-center">{{ $monthData['visitors'] }}</td>
+                                        <td class="text-center">₱{{ number_format($monthData['entrance_fee'], 2) }}</td>
+                                        <td class="text-center">₱{{ number_format($monthData['rental'], 2) }}</td>
+                                        <td class="text-center">₱{{ number_format($monthData['functionHall'], 2) }}</td>
+                                        <td class="text-center">₱{{ number_format($monthData['accommodation'], 2) }}</td>
+                                        <td class="text-center">₱{{ number_format($monthData['meal'], 2) }}</td>
+                                        <td class="text-center">₱{{ number_format($monthData['beverage'], 2) }}</td>
+                                        <td class="text-center">₱{{ number_format($monthData['total'], 2) }}</td>
                                     </tr>
                                 @endforeach
                                 <tr class="">
-                                    <td class="h6">Grand Total:</td>
-                                    <td class="h6">{{ $monthlyBreakdown->sum('visitors') }}</td>
-                                    <td class="h6">₱{{ number_format($monthlyBreakdown->sum('entrance_fee'), 2) }}</td>
-                                    <td class="h6">₱{{ number_format($monthlyBreakdown->sum('accommodation'), 2) }}
-                                    </td>
-                                    <td class="h6">₱{{ number_format($monthlyBreakdown->sum('rental'), 2) }}</td>
-                                    <td class="h6">₱{{ number_format($monthlyBreakdown->sum('meal'), 2) }}</td>
-                                    <td class="h6">₱{{ number_format($monthlyBreakdown->sum('beverage'), 2) }}</td>
-                                    <td class="h6">₱{{ number_format($monthlyBreakdown->sum('total'), 2) }}</td>
+                                    <td class="h6 text-center">Grand Total:</td>
+                                    <td class="h6 text-center">{{ $monthlyBreakdown->sum('visitors') }}</td>
+                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('entrance_fee'), 2) }}</td>
+                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('rental'), 2) }}</td>
+                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('functionHall'), 2) }}</td>
+                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('accommodation'), 2) }}</td>
+                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('meal'), 2) }}</td>
+                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('beverage'), 2) }}</td>
+                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('total'), 2) }}</td>
                                 </tr>
                             @endif
                         </tbody>
@@ -135,6 +140,11 @@
                     '{{ asset('public/css/styles.css') }}',
                     '{{ asset('public/css/bootstrap.min.css') }}'
                 ],
+                style: `
+                    .report-table table td, .report-table table th {
+                        border: 1px solid #000;
+                    }
+                `
             });
         }
     </script>
