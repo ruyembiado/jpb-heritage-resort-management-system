@@ -30,9 +30,12 @@
                     </div>
                 </form>
 
-                <div class="print-buttons">
+                <div class="print-buttons d-flex gap-1">
                     <button onclick="printReport()" class="btn btn-sm btn-success d-print-none bg-theme-primary">
                         <i class="fas fa-print"></i> Print Report
+                    </button>
+                    <button onclick="exportExcel()" class="btn btn-sm btn-success d-print-none">
+                        <i class="fas fa-file-excel"></i> Export Excel
                     </button>
                 </div>
             </div>
@@ -108,13 +111,19 @@
                                 <tr class="">
                                     <td class="h6 text-center">Grand Total:</td>
                                     <td class="h6 text-center">{{ $monthlyBreakdown->sum('visitors') }}</td>
-                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('entrance_fee'), 2) }}</td>
-                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('rental'), 2) }}</td>
-                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('functionHall'), 2) }}</td>
-                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('accommodation'), 2) }}</td>
+                                    <td class="h6 text-center">
+                                        ₱{{ number_format($monthlyBreakdown->sum('entrance_fee'), 2) }}</td>
+                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('rental'), 2) }}
+                                    </td>
+                                    <td class="h6 text-center">
+                                        ₱{{ number_format($monthlyBreakdown->sum('functionHall'), 2) }}</td>
+                                    <td class="h6 text-center">
+                                        ₱{{ number_format($monthlyBreakdown->sum('accommodation'), 2) }}</td>
                                     <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('meal'), 2) }}</td>
-                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('beverage'), 2) }}</td>
-                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('total'), 2) }}</td>
+                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('beverage'), 2) }}
+                                    </td>
+                                    <td class="h6 text-center">₱{{ number_format($monthlyBreakdown->sum('total'), 2) }}
+                                    </td>
                                 </tr>
                             @endif
                         </tbody>
@@ -146,6 +155,62 @@
                     }
                 `
             });
+        }
+
+        function exportExcel() {
+            let headers = [
+                "Month",
+                "No. of Visitors",
+                "Entrance Fee",
+                "Cottage Fee",
+                "Function Hall",
+                "Room Accommodation",
+                "Foods",
+                "Drinks",
+                "Total Bill Income"
+            ];
+
+            let data = [
+                @if ($monthlyBreakdown->isEmpty())
+                    ["No data available for this year."]
+                @else
+                    @foreach ($monthlyBreakdown as $monthNumber => $monthData)
+                        [
+                            "{{ $monthData['month_name'] }}",
+                            "{{ $monthData['visitors'] }}",
+                            "₱{{ number_format($monthData['entrance_fee'], 2) }}",
+                            "₱{{ number_format($monthData['rental'], 2) }}",
+                            "₱{{ number_format($monthData['functionHall'], 2) }}",
+                            "₱{{ number_format($monthData['accommodation'], 2) }}",
+                            "₱{{ number_format($monthData['meal'], 2) }}",
+                            "₱{{ number_format($monthData['beverage'], 2) }}",
+                            "₱{{ number_format($monthData['total'], 2) }}"
+                        ],
+                    @endforeach
+
+                    [
+                        "Grand Total",
+                        "{{ $monthlyBreakdown->sum('visitors') }}",
+                        "₱{{ number_format($monthlyBreakdown->sum('entrance_fee'), 2) }}",
+                        "₱{{ number_format($monthlyBreakdown->sum('rental'), 2) }}",
+                        "₱{{ number_format($monthlyBreakdown->sum('functionHall'), 2) }}",
+                        "₱{{ number_format($monthlyBreakdown->sum('accommodation'), 2) }}",
+                        "₱{{ number_format($monthlyBreakdown->sum('meal'), 2) }}",
+                        "₱{{ number_format($monthlyBreakdown->sum('beverage'), 2) }}",
+                        "₱{{ number_format($monthlyBreakdown->sum('total'), 2) }}"
+                    ]
+                @endif
+            ];
+
+            let worksheet = XLSX.utils.aoa_to_sheet([headers, ...data]);
+            let workbook = XLSX.utils.book_new();
+
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Yearly Report");
+
+            XLSX.writeFile(
+                workbook,
+                "yearly_report_{{ $selected_year }}.xlsx"
+            );
         }
     </script>
 @endsection

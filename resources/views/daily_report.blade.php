@@ -22,9 +22,12 @@
                     </div>
                 </form>
 
-                <div class="print-buttons">
+                <div class="print-buttons d-flex gap-1">
                     <button onclick="printReport()" class="btn btn-sm btn-success d-print-none bg-theme-primary">
                         <i class="fas fa-print"></i> Print Report
+                    </button>
+                    <button onclick="exportExcel()" class="btn btn-sm btn-success d-print-none">
+                        <i class="fas fa-file-excel"></i> Export Excel
                     </button>
                 </div>
             </div>
@@ -128,6 +131,53 @@
                     }
                 `
             });
+        }
+
+        function exportExcel() {
+            let headers = [
+                "No. of Visitors",
+                "Entrance Fee",
+                "Cottage Fee",
+                "Function Hall",
+                "Room Accommodation",
+                "Foods",
+                "Drinks",
+                "Total Bill Income"
+            ];
+
+            let data = [
+                @if ($report['visitors'] == 0)
+                    ["No data available for this date."]
+                @else
+                    [
+                        "{{ $report['visitors'] }}",
+                        "₱{{ number_format($report['entrance_fee'], 2) }}",
+                        "₱{{ number_format($report['rental'], 2) }}",
+                        "₱{{ number_format($report['function_hall'], 2) }}",
+                        "₱{{ number_format($report['accommodation'], 2) }}",
+                        "₱{{ number_format($report['meal'], 2) }}",
+                        "₱{{ number_format($report['beverage'], 2) }}",
+                        "₱{{ number_format($report['total'], 2) }}"
+                    ],
+                    [
+                        "Grand Total",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "₱{{ number_format($report['total'], 2) }}"
+                    ]
+                @endif
+            ];
+
+            let worksheet = XLSX.utils.aoa_to_sheet([headers, ...data]);
+            let workbook = XLSX.utils.book_new();
+
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Daily Report");
+
+            XLSX.writeFile(workbook, "daily_report_{{ $date }}.xlsx");
         }
     </script>
 @endsection

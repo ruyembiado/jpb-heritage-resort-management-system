@@ -35,9 +35,13 @@
                         </div>
                     </div>
                 </form>
-                <div class="print-buttons">
+
+                <div class="print-buttons d-flex gap-1">
                     <button onclick="printReport()" class="btn btn-sm btn-success d-print-none bg-theme-primary">
                         <i class="fas fa-print"></i> Print Report
+                    </button>
+                    <button onclick="exportExcel()" class="btn btn-sm btn-success d-print-none">
+                        <i class="fas fa-file-excel"></i> Export Excel
                     </button>
                 </div>
             </div>
@@ -61,7 +65,8 @@
                     </tr>
                     <tr>
                         <td class="text-center">
-                            <h2 class="mb-0 mt-2">LIST OF GUEST AS OF {{ \Carbon\Carbon::parse($end_date)->format('F d, Y') }}
+                            <h2 class="mb-0 mt-2">LIST OF GUEST AS OF
+                                {{ \Carbon\Carbon::parse($end_date)->format('F d, Y') }}
                             </h2>
                         </td>
                     </tr>
@@ -145,7 +150,8 @@
                                         </td>
                                         <td class="text-center">{{ $entrance->visitor->address }}</td>
                                         <td class="text-center">{{ $entrance->visitor->contact_number }}</td>
-                                        <td class="text-center">{{ \Carbon\Carbon::parse($entrance->visitor->created_at)->format('h:i A') }}
+                                        <td class="text-center">
+                                            {{ \Carbon\Carbon::parse($entrance->visitor->created_at)->format('h:i A') }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -167,6 +173,62 @@
                     '{{ asset('public/css/bootstrap.min.css') }}'
                 ],
             });
+        }
+
+        function exportExcel() {
+            let headers = [
+                "No.",
+                "Name of Guest",
+                "Sex",
+                "Age",
+                "Members",
+                "Companions (Name | Category | Sex | Age | Address)",
+                "Address",
+                "Contact No.",
+                "Check-in"
+            ];
+
+            let data = [
+                @if ($entrances->isEmpty())
+                    ["No data available for this date."]
+                @else
+                    @foreach ($entrances as $index => $entrance)
+                        [
+                            "{{ $index + 1 }}",
+                            "{{ $entrance->visitor?->first_name ?? '' }} {{ $entrance->visitor?->middle_name ?? '' }} {{ $entrance->visitor?->last_name ?? '' }}",
+                            "{{ $entrance->visitor->gender }}",
+                            "{{ $entrance->visitor->age }}",
+                            "{{ $entrance->visitor->members ?? 0 }}",
+
+                            `{{ $entrance->companions->map(function ($c) {
+                                    return $c->name .
+                                        ' | ' .
+                                        ($c->age <= 15 ? 'Child' : ($c->isPWD ? 'PWD' : 'Adult')) .
+                                        ' | ' .
+                                        $c->gender .
+                                        ' | ' .
+                                        $c->age .
+                                        ' | ' .
+                                        $c->address;
+                                })->implode('\n') }}`,
+
+                            "{{ $entrance->visitor->address }}",
+                            "{{ $entrance->visitor->contact_number }}",
+                            "{{ \Carbon\Carbon::parse($entrance->visitor->created_at)->format('h:i A') }}"
+                        ],
+                    @endforeach
+                @endif
+            ];
+
+            let worksheet = XLSX.utils.aoa_to_sheet([headers, ...data]);
+            let workbook = XLSX.utils.book_new();
+
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Guest Report");
+
+            XLSX.writeFile(
+                workbook,
+                "guest_report_{{ $start_date }}_to_{{ $end_date }}.xlsx"
+            );
         }
     </script>
     <!-- Content Row -->

@@ -161,6 +161,9 @@
     <!-- Print.js JS -->
     <script src="{{ asset('public/js/print.min.js') }}"></script>
 
+    {{-- Excel Js --}}
+    <script src="{{ asset('public/js/xlsx.full.min.js') }}"></script>
+
     <!-- FullCalendar JS -->
     <script src="{{ asset('public/js/index.global.min.js') }}"></script>
 

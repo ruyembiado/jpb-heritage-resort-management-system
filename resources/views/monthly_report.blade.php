@@ -45,9 +45,12 @@
                     </div>
                 </form>
 
-                <div class="print-buttons">
+                <div class="print-buttons d-flex gap-1">
                     <button onclick="printReport()" class="btn btn-sm btn-success d-print-none bg-theme-primary">
                         <i class="fas fa-print"></i> Print Report
+                    </button>
+                    <button onclick="exportExcel()" class="btn btn-sm btn-success d-print-none">
+                        <i class="fas fa-file-excel"></i> Export Excel
                     </button>
                 </div>
             </div>
@@ -167,6 +170,62 @@
                     }
                 `
             });
+        }
+
+        function exportExcel() {
+            let headers = [
+                "Week",
+                "No. of Visitors",
+                "Entrance Fee",
+                "Cottage Fee",
+                "Function Hall",
+                "Room Accommodation",
+                "Foods",
+                "Drinks",
+                "Total Bill Income"
+            ];
+
+            let data = [
+                @if ($weeklyBreakdown->isEmpty())
+                    ["No data available for this month."]
+                @else
+                    @foreach ($weeklyBreakdown as $weekNumber => $weekData)
+                        [
+                            "Week {{ $weekNumber }}",
+                            "{{ $weekData['visitors'] }}",
+                            "₱{{ number_format($weekData['entrance_fee'], 2) }}",
+                            "₱{{ number_format($weekData['rental'], 2) }}",
+                            "₱{{ number_format($weekData['functionHall'], 2) }}",
+                            "₱{{ number_format($weekData['accommodation'], 2) }}",
+                            "₱{{ number_format($weekData['meal'], 2) }}",
+                            "₱{{ number_format($weekData['beverage'], 2) }}",
+                            "₱{{ number_format($weekData['total'], 2) }}"
+                        ],
+                    @endforeach
+
+                    [
+                        "Grand Total",
+                        "{{ $weeklyBreakdown->sum('visitors') }}",
+                        "₱{{ number_format($weeklyBreakdown->sum('entrance_fee'), 2) }}",
+                        "₱{{ number_format($weeklyBreakdown->sum('rental'), 2) }}",
+                        "₱{{ number_format($weeklyBreakdown->sum('functionHall'), 2) }}",
+                        "₱{{ number_format($weeklyBreakdown->sum('accommodation'), 2) }}",
+                        "₱{{ number_format($weeklyBreakdown->sum('meal'), 2) }}",
+                        "₱{{ number_format($weeklyBreakdown->sum('beverage'), 2) }}",
+                        "₱{{ number_format($weeklyBreakdown->sum('total'), 2) }}"
+                    ]
+                @endif
+            ];
+
+            let worksheet = XLSX.utils.aoa_to_sheet([headers, ...data]);
+            let workbook = XLSX.utils.book_new();
+
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Monthly Report");
+
+            XLSX.writeFile(
+                workbook,
+                "monthly_report_{{ $month_name }}_{{ $selected_year }}.xlsx"
+            );
         }
     </script>
 @endsection

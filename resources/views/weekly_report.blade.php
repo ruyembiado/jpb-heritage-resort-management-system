@@ -60,9 +60,12 @@
                     </div>
                 </form>
 
-                <div class="print-buttons">
+                <div class="print-buttons d-flex gap-1">
                     <button onclick="printReport()" class="btn btn-sm btn-success d-print-none bg-theme-primary">
                         <i class="fas fa-print"></i> Print Report
+                    </button>
+                    <button onclick="exportExcel()" class="btn btn-sm btn-success d-print-none">
+                        <i class="fas fa-file-excel"></i> Export Excel
                     </button>
                 </div>
             </div>
@@ -187,6 +190,64 @@
                     }
                 `
             });
+        }
+
+        function exportExcel() {
+            let headers = [
+                "Day",
+                "No. of Visitors",
+                "Entrance Fee",
+                "Cottage Fee",
+                "Function Hall",
+                "Room Accommodation",
+                "Foods",
+                "Drinks",
+                "Total Bill Income"
+            ];
+
+            let data = [
+                @if ($report->isEmpty())
+                    ["No data available for this week."]
+                @else
+                    @foreach ($report as $weekNumber => $weekDays)
+                        @foreach ($weekDays as $dayName => $dayData)
+                            [
+                                "{{ $dayName }}",
+                                "{{ $dayData['visitors'] }}",
+                                "₱{{ number_format($dayData['entrance_fee'], 2) }}",
+                                "₱{{ number_format($dayData['rental'], 2) }}",
+                                "₱{{ number_format($dayData['functionHall'], 2) }}",
+                                "₱{{ number_format($dayData['accommodation'], 2) }}",
+                                "₱{{ number_format($dayData['meal'], 2) }}",
+                                "₱{{ number_format($dayData['beverage'], 2) }}",
+                                "₱{{ number_format($dayData['total'], 2) }}"
+                            ],
+                        @endforeach
+                    @endforeach
+
+                    [
+                        "Grand Total",
+                        "{{ $grandTotal['visitors'] }}",
+                        "₱{{ number_format($grandTotal['entrance_fee'], 2) }}",
+                        "₱{{ number_format($grandTotal['rental'], 2) }}",
+                        "₱{{ number_format($grandTotal['functionHall'], 2) }}",
+                        "₱{{ number_format($grandTotal['accommodation'], 2) }}",
+                        "₱{{ number_format($grandTotal['meal'], 2) }}",
+                        "₱{{ number_format($grandTotal['beverage'], 2) }}",
+                        "₱{{ number_format($grandTotal['total'], 2) }}"
+                    ]
+                @endif
+            ];
+
+            let worksheet = XLSX.utils.aoa_to_sheet([headers, ...data]);
+            let workbook = XLSX.utils.book_new();
+
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Weekly Report");
+
+            XLSX.writeFile(
+                workbook,
+                "weekly_report_Week{{ $selected_week }}_{{ $month_name }}_{{ $selected_year }}.xlsx"
+            );
         }
     </script>
 @endsection
