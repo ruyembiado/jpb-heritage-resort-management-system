@@ -82,9 +82,9 @@
                             </tr>
                             <tr>
                                 <th class="text-center">ENTRANCE FEE</th>
+                                <th class="text-center">COTTAGE FEE</th>
                                 <th class="text-center">FUNCTION HALL</th>
                                 <th class="text-center">ROOM ACCOMMODATION</th>
-                                <th class="text-center">COTTAGE FEE</th>
                                 <th class="text-center">FOODS</th>
                                 <th class="text-center">DRINKS</th>
                             </tr>
