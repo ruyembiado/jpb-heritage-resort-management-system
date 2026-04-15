@@ -80,6 +80,8 @@
                                                             <h3 class="m-0">UPDATE SERVICE</h3>
                                                         </div>
 
+                                                        @include('layouts.note')
+
                                                         <!-- Name + Service Type -->
                                                         <div class="form-group mb-2">
                                                             <div class="d-flex align-items-center gap-3">
@@ -249,6 +251,8 @@
                             <i class="fa fa-book fa-2x"></i>
                             <h3 class="m-0">ADD SERVICE</h3>
                         </div>
+
+                        @include('layouts.note')
 
                         <div class="form-group mb-2">
                             <div class="d-flex align-items-center gap-3">
