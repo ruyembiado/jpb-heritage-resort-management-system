@@ -3,7 +3,8 @@
 @section('content')
     <!-- Start the content section -->
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-sm-flex align-items-center justify-content-start gap-2 mb-4">
+        <i class="fas fa-dashboard fa-2x text-dark"></i>
         <h1 class="h3 mb-0 text">Dashboard</h1>
     </div>
 
