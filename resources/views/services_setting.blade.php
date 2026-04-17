@@ -6,8 +6,8 @@
         <div class="d-flex">
             <i class="fas fa-money-bill fa-2x text-dark me-2"></i>
             <div class="d-flex flex-column">
-                <h1 class="h3 mb-0 text">SETTINGS</h1>
-                <h6 class="mb-0">Dashboard | Services</h6>
+                <h1 class="h3 mb-0 text">SETTING</h1>
+                <h6 class="mb-0">Setting | Services</h6>
             </div>
         </div>
         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addServiceModal">Add Service</a>
