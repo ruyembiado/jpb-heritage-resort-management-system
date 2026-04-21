@@ -254,15 +254,15 @@ class ServiceController extends Controller
     {
         $request->validate([
             'visitor_id' => 'required|exists:visitors,id',
-            'accommodation_service_names' => 'required|array',
-            'accommodation_quantities' => 'required|array',
-            'accommodation_fees' => 'required|array',
-            'accommodation_total' => 'required|numeric|min:0',
+            'accommodation_service_names' => 'nullable|array',
+            'accommodation_quantities' => 'nullable|array',
+            'accommodation_fees' => 'nullable|array',
+            'accommodation_total' => 'nullable|numeric|min:0',
             'accommodation_payment_status' => 'nullable|in:Paid,Unpaid',
-            'functionhall_service_names' => 'required|array',
-            'functionhall_quantities' => 'required|array',
-            'functionhall_fees' => 'required|array',
-            'functionhall_total' => 'required|numeric|min:0',
+            'functionhall_service_names' => 'nullable|array',
+            'functionhall_quantities' => 'nullable|array',
+            'functionhall_fees' => 'nullable|array',
+            'functionhall_total' => 'nullable|numeric|min:0',
             'functionhall_payment_status' => 'nullable|in:Paid,Unpaid',
         ]);
 
