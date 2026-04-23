@@ -326,6 +326,10 @@ h1.home-title {
         size: A4 landscape;
         margin: 5mm;
     }
+
+    .report-table td, .report-table th {
+        font-size: 1vw;
+    }
 }
 
 .bg-brown {
