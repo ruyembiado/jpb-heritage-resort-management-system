@@ -150,7 +150,7 @@
                                     @endforeach
                                 @endforeach
                                 <tr class="bg-light">
-                                    <td class="text-center h6">Grand Total</td>
+                                    <td class="text-center h6 text-uppercase">Grand Total</td>
                                     <td class="h6 text-center">{{ $grandTotal['visitors'] }}</td>
                                     <td class="h6 text-center">₱{{ number_format($grandTotal['entrance_fee'], 2) }}</td>
                                     <td class="h6 text-center">₱{{ number_format($grandTotal['rental'], 2) }}</td>

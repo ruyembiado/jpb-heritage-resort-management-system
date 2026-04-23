@@ -109,7 +109,7 @@
                                     </tr>
                                 @endforeach
                                 <tr class="">
-                                    <td class="h6 text-center">Grand Total:</td>
+                                    <td class="h6 text-center text-uppercase">Grand Total:</td>
                                     <td class="h6 text-center">{{ $monthlyBreakdown->sum('visitors') }}</td>
                                     <td class="h6 text-center">
                                         ₱{{ number_format($monthlyBreakdown->sum('entrance_fee'), 2) }}</td>

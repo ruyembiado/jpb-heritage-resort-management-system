@@ -98,7 +98,7 @@
                                     <td class="text-center">₱{{ number_format($report['total'], 2) }}</td>
                                 </tr>
                                 <tr class="bg-light">
-                                    <td colspan="7" class="text-start h6">Grand Total:</td>
+                                    <td colspan="7" class="text-start h6 text-uppercase">Grand Total:</td>
                                     <td class="h6 text-center">₱{{ number_format($report['total'], 2) }}</td>
                                 </tr>
                             @endif

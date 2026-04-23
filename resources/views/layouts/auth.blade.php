@@ -76,7 +76,7 @@
                 </li>
                 <li class="sidebar-item">
                     <a href="{{ url('/guest-report') }}" class="sidebar-link {{ Request::is('guest-report') ? 'active' : '' }}">
-                        <i class="fa fa-file"></i>
+                        <i class="fa fa-address-book"></i>
                         <span>List of Guest</span>
                     </a>
                 </li>

@@ -5,7 +5,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="d-flex">
-            <i class="fa fa-file fa-2x text-dark me-2"></i>
+            <i class="fa fa-address-book fa-2x text-dark me-2"></i>
             <div class="d-flex flex-column">
                 <h1 class="h3 mb-0 text">LIST OF GUEST</h1>
                 <h6 class="mb-0">Report | Guest Report</h6>
