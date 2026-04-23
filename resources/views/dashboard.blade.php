@@ -216,12 +216,8 @@
                                                     Foods</th>
                                                 <th class="bg-theme-primary text-light text-uppercase" colspan="2">
                                                     Drinks</th>
-                                                <th class="bg-theme-primary text-light text-uppercase" colspan="2">
-                                                    Other Services</th>
                                             </tr>
                                             <tr>
-                                                <th class="bg-success text-light">Fee</th>
-                                                <th class="bg-success text-light">Status</th>
                                                 <th class="bg-success text-light">Fee</th>
                                                 <th class="bg-success text-light">Status</th>
                                                 <th class="bg-success text-light">Fee</th>
@@ -337,12 +333,7 @@
                                                                 <span class="badge bg-secondary">N/A</span>
                                                             @endif
                                                         </td>
-
-                                                        <!-- Other Services (if needed) -->
-                                                        <td class="text-end">₱0.00</td>
-                                                        <td class="text-center"><span
-                                                                class="badge bg-secondary">N/A</span></td>
-
+                                                      
                                                         <!-- Grand Total -->
                                                         @php
                                                             $grand_total =
