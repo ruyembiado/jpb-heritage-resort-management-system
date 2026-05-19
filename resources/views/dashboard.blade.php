@@ -196,7 +196,7 @@
                                                 <th rowspan="3"
                                                     class="align-middle bg-theme-primary text-light text-uppercase"
                                                     style="vertical-align: middle;">Members</th>
-                                                <th colspan="14"
+                                                <th colspan="12"
                                                     class="text-center bg-theme-primary text-light text-uppercase">Availed
                                                     Services</th>
                                                 <th rowspan="3"

@@ -66,8 +66,7 @@ class AuthController extends Controller
         $visitorsThisYear = Visitor::where('created_at', '>=', $startOfYear)->count();
 
         // Visitors table
-        $visitorsMonth = Visitor::where('created_at', '>=', $startOfMonth)
-            ->orderBy('created_at', 'desc')
+        $visitorsMonth = Visitor::orderBy('created_at', 'desc')
             ->get();
 
         $visitorsWithUnpaidBills = $visitorsMonth->filter(function ($visitor) {
@@ -81,7 +80,7 @@ class AuthController extends Controller
             ];
 
             foreach ($services as $service) {
-                if ($service && isset($service->status) && $service->status !== 'Paid') {
+                if ($service && isset($service->status) && $service->status == "Unpaid") {
                     return true; 
                 }
             }
