@@ -13,12 +13,12 @@
 
     <div class="card shadow mb-4">
         <div class="card-body">
-            <div class="d-flex justify-content-between align-items-start mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 bg-theme-primary p-4">
                 <form method="GET" action="{{ route('weekly.report') }}" class="d-print-none">
                     <div class="d-flex gap-2 align-items-center flex-row">
                         <!-- Year Selector -->
                         <div class="d-flex flex-column">
-                            <label for="year" class="form-label mb-0">Select Year:</label>
+                            <label for="year" class="form-label mb-0 text-light">Select Year:</label>
                             <select name="year" id="year" class="form-control form-control-sm"
                                 onchange="this.form.submit()">
                                 @for ($y = date('Y'); $y >= 2024; $y--)
@@ -32,7 +32,7 @@
 
                         <!-- Month Selector -->
                         <div class="d-flex flex-column">
-                            <label for="month" class="form-label mb-0">Select Month:</label>
+                            <label for="month" class="form-label mb-0 text-light">Select Month:</label>
                             <select name="month" id="month" class="form-control form-control-sm"
                                 onchange="this.form.submit()">
                                 @for ($m = 1; $m <= 12; $m++)
@@ -46,7 +46,7 @@
 
                         <!-- Week Selector -->
                         <div class="d-flex flex-column">
-                            <label for="week" class="form-label mb-0">Select Week:</label>
+                            <label for="week" class="form-label mb-0 text-light">Select Week:</label>
                             <select name="week" id="week" class="form-control form-control-sm"
                                 onchange="this.form.submit()">
                                 @foreach (range(1, \Carbon\Carbon::createFromDate($selected_year, $selected_month, 1)->endOfMonth()->weekOfMonth) as $week)
@@ -61,7 +61,7 @@
                 </form>
 
                 <div class="print-buttons d-flex gap-1">
-                    <button onclick="printReport()" class="btn btn-sm btn-success d-print-none bg-theme-primary">
+                    <button onclick="printReport()" class="btn btn-sm btn-secondary d-print-none text-light">
                         <i class="fas fa-print"></i> Print Report
                     </button>
                     <button onclick="exportExcel()" class="btn btn-sm btn-success d-print-none">
@@ -114,18 +114,18 @@
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th class="text-center align-middle" rowspan="2">DAY</th>
-                                <th class="text-center align-middle" rowspan="2">NO. OF VISITORS</th>
-                                <th class="text-center text-center" colspan="6">SERVICES</th>
-                                <th class="text-center align-middle" rowspan="2">TOTAL BILL INCOME</th>
+                                <th class="text-center align-middle bg-theme-primary text-light" rowspan="2">DAY</th>
+                                <th class="text-center align-middle bg-theme-primary text-light" rowspan="2">NO. OF VISITORS</th>
+                                <th class="text-center align-middle bg-theme-primary text-light" colspan="6">SERVICES</th>
+                                <th class="text-center align-middle bg-theme-primary text-light" rowspan="2">TOTAL BILL INCOME</th>
                             </tr>
                             <tr>
-                                <th class="text-center align-middle">ENTRANCE FEE</th>
-                                <th class="text-center align-middle">COTTAGE FEE</th>
-                                <th class="text-center align-middle">FUNCTION HALL</th>
-                                <th class="text-center align-middle">ROOM ACCOMMODATION</th>
-                                <th class="text-center align-middle">FOODS</th>
-                                <th class="text-center align-middle">DRINKS</th>
+                                <th class="text-center align-middle bg-success text-light">ENTRANCE FEE</th>
+                                <th class="text-center align-middle bg-success text-light">COTTAGE FEE</th>
+                                <th class="text-center align-middle bg-success text-light">FUNCTION HALL</th>
+                                <th class="text-center align-middle bg-success text-light">ROOM ACCOMMODATION</th>
+                                <th class="text-center align-middle bg-success text-light">FOODS</th>
+                                <th class="text-center align-middle bg-success text-light">DRINKS</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -150,15 +150,15 @@
                                     @endforeach
                                 @endforeach
                                 <tr class="bg-light">
-                                    <td class="text-center h6 text-uppercase">Grand Total</td>
-                                    <td class="h6 text-center">{{ $grandTotal['visitors'] }}</td>
-                                    <td class="h6 text-center">₱{{ number_format($grandTotal['entrance_fee'], 2) }}</td>
-                                    <td class="h6 text-center">₱{{ number_format($grandTotal['rental'], 2) }}</td>
-                                    <td class="h6 text-center">₱{{ number_format($grandTotal['functionHall'], 2) }}</td>
-                                    <td class="h6 text-center">₱{{ number_format($grandTotal['accommodation'], 2) }}</td>
-                                    <td class="h6 text-center">₱{{ number_format($grandTotal['meal'], 2) }}</td>
-                                    <td class="h6 text-center">₱{{ number_format($grandTotal['beverage'], 2) }}</td>
-                                    <td class="h6 text-center">₱{{ number_format($grandTotal['total'], 2) }}</td>
+                                    <td class="text-center fw-bold text-uppercase">Grand Total</td>
+                                    <td class="fw-bold text-center">{{ $grandTotal['visitors'] }}</td>
+                                    <td class="fw-bold text-center">₱{{ number_format($grandTotal['entrance_fee'], 2) }}</td>
+                                    <td class="fw-bold text-center">₱{{ number_format($grandTotal['rental'], 2) }}</td>
+                                    <td class="fw-bold text-center">₱{{ number_format($grandTotal['functionHall'], 2) }}</td>
+                                    <td class="fw-bold text-center">₱{{ number_format($grandTotal['accommodation'], 2) }}</td>
+                                    <td class="fw-bold text-center">₱{{ number_format($grandTotal['meal'], 2) }}</td>
+                                    <td class="fw-bold text-center">₱{{ number_format($grandTotal['beverage'], 2) }}</td>
+                                    <td class="fw-bold text-center">₱{{ number_format($grandTotal['total'], 2) }}</td>
                                 </tr>
                             @endif
                         </tbody>

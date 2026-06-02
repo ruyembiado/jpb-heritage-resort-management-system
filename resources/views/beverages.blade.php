@@ -123,7 +123,7 @@
                                     @endphp
 
                                     <td class="p-0">
-                                        <table class="table table-bordered border-dark m-0" style="width: 100%;">
+                                        <table class="table table-bordered m-0" style="width: 100%;">
                                             <thead>
                                                 <tr>
                                                     <th rowspan="2"
@@ -231,20 +231,7 @@
             <form action="{{ route('meal.store') }}" method="POST">
                 @csrf
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="col-12">
-                            <div class="text-end">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="d-flex align-items-center gap-2 justify-content-center">
-                                <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
-                                <div class="d-flex flex-column">
-                                    <b class="modal-title mt-2 text-bold">JPB Heritage Inland Resort</b>
-                                    <span>Progreso Street Illauod, Bugasong, Antique</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @include('layouts.modal-header')
                     <div class="modal-body">
                         <div class="form-group mb-3">
                             <div class="d-flex align-items-start gap-1">
@@ -257,7 +244,7 @@
                                             <option value="{{ $visitor->id }}">{{ $visitor->first_name }}
                                                 {{ $visitor->middle_name }}
                                                 {{ $visitor->last_name }} -
-                                                {{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}
+                                                {{ \Carbon\Carbon::parse($visitor->created_at)->format('F j, Y') }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -269,7 +256,7 @@
                             <!-- Foods Section -->
                             <div class="col-md-6">
                                 <div
-                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
+                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                                     <i class="fa fa-bowl-food fa-2x"></i>
                                     <h3 class="m-0">FOODS</h3>
                                 </div>
@@ -282,7 +269,7 @@
                                         $mealIndex = 0;
                                     @endphp
 
-                                    <table class="table table-bordered border-dark">
+                                    <table class="table table-bordered">
                                         <thead class="bg-success text-light">
                                             <tr>
                                                 <th rowspan="2" class="align-middle text-center bg-success text-light">
@@ -406,7 +393,7 @@
                             <!-- Drinks Section -->
                             <div class="col-md-6">
                                 <div
-                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
+                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                                     <i class="fa fa-bottle-water fa-2x"></i>
                                     <h3 class="m-0">DRINKS</h3>
                                 </div>
@@ -417,7 +404,7 @@
                                         $drinkIndex = 0;
                                     @endphp
 
-                                    <table class="table table-bordered border-dark">
+                                    <table class="table table-bordered">
                                         <thead class="bg-success text-light">
                                             <tr>
                                                 <th rowspan="2" width="30%"
@@ -543,20 +530,7 @@
                 <input type="hidden" name="beverage_id" id="edit_beverage_id">
                 <input type="hidden" name="visitor_id" id="edit_visitor_id_hidden">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="col-12">
-                            <div class="text-end">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="d-flex align-items-center gap-2 justify-content-center">
-                                <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
-                                <div class="d-flex flex-column">
-                                    <b class="modal-title mt-2 text-bold">JPB Heritage Inland Resort</b>
-                                    <span>Progreso Street Illauod, Bugasong, Antique</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @include('layouts.modal-header')
                     <div class="modal-body">
                         <div class="form-group mb-3">
                             <div class="d-flex align-items-start gap-1">
@@ -569,7 +543,7 @@
                                             <option value="{{ $visitor->id }}">{{ $visitor->first_name }}
                                                 {{ $visitor->middle_name }}
                                                 {{ $visitor->last_name }} -
-                                                {{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}
+                                                {{ \Carbon\Carbon::parse($visitor->created_at)->format('F j, Y') }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -580,7 +554,7 @@
                             <!-- Drinks Section -->
                             <div class="">
                                 <div
-                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
+                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                                     <i class="fa fa-bottle-water fa-2x"></i>
                                     <h3 class="m-0">DRINKS</h3>
                                 </div>
@@ -591,7 +565,7 @@
                                         $drinkIndex = 0;
                                     @endphp
 
-                                    <table class="table table-bordered border-dark">
+                                    <table class="table table-bordered">
                                         <thead class="bg-success text-light">
                                             <tr>
                                                 <th rowspan="2" width="30%"

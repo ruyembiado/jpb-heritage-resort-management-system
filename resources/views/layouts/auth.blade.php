@@ -83,7 +83,7 @@
                 <hr class="sidebar-hr text-light mt-1 mb-2">
                 <b class="text-light ms-2">SETTINGS</b>
                 <li class="sidebar-item">
-                    <a href="{{ url('/services') }}" class="sidebar-link">
+                    <a href="{{ url('/services?filter=all') }}" class="sidebar-link">
                         <i class="fa fa-cog"></i>
                         <span>Services</span>
                     </a>

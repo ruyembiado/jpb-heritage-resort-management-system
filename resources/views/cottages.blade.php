@@ -60,14 +60,14 @@
                     style="min-width:1000px;">
                     <thead>
                         <tr>
-                            <th class="bg-theme-primary text-light border-dark">NO.</th>
-                            <th class="bg-theme-primary text-light border-dark">NAME OF GUEST</th>
-                            {{-- <th class="bg-theme-primary text-light border-dark text-center">MEMBERS</th> --}}
-                            <th class="bg-theme-primary text-light border-dark">COTTAGE CATEGORY</th>
-                            <th class="bg-theme-primary text-light border-dark">TOTAL FEE</th>
-                            <th class="bg-theme-primary text-light border-dark">STATUS</th>
-                            <th class="bg-theme-primary text-light border-dark">DATE CREATED</th>
-                            <th class="bg-theme-primary text-light border-dark sticky-action">ACTION</th>
+                            <th class="bg-theme-primary text-light">NO.</th>
+                            <th class="bg-theme-primary text-light">NAME OF GUEST</th>
+                            {{-- <th class="bg-theme-primary text-light text-center">MEMBERS</th> --}}
+                            <th class="bg-theme-primary text-light">COTTAGE CATEGORY</th>
+                            <th class="bg-theme-primary text-light">TOTAL FEE</th>
+                            <th class="bg-theme-primary text-light">STATUS</th>
+                            <th class="bg-theme-primary text-light">DATE CREATED</th>
+                            <th class="bg-theme-primary text-light sticky-action">ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -140,20 +140,7 @@
             <form action="{{ route('cottage.store') }}" method="POST" id="cottageAddForm">
                 @csrf
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="col-12">
-                            <div class="text-end">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="d-flex align-items-center gap-2 justify-content-center">
-                                <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
-                                <div class="d-flex flex-column">
-                                    <b class="modal-title mt-2 text-bold">JPB Heritage Inland Resort</b>
-                                    <span>Progreso Street Illauod, Bugasong, Antique</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @include('layouts.modal-header')
                     <div class="modal-body">
                         <div class="d-flex gap-2 form-group mb-3">
                             <div class="form-group col-8 d-flex align-items-center gap-3">
@@ -165,7 +152,7 @@
                                         <option value="{{ $visitor->id }}">{{ $visitor->first_name }}
                                             {{ $visitor->middle_name }}
                                             {{ $visitor->last_name }} -
-                                            {{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}
+                                            {{ \Carbon\Carbon::parse($visitor->created_at)->format('F j, Y') }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -173,12 +160,11 @@
                             <input type="hidden" name="cottage_area" id="cottage_area" class="form-control" required
                                 value="Cottage Fee">
                         </div>
-                        <div
-                            class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
+                        <div class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                             <i class="fa fa-book fa-2x"></i>
                             <h3 class="m-0">COTTAGE FEE</h3>
                         </div>
-                        <table class="table table-bordered border-dark" width="100%" cellspacing="0">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr class="bg-secondary text-light">
                                     <th class="bg-success text-light text-center" style="padding: 10px;">SELECT</th>
@@ -247,20 +233,7 @@
                 @method('PUT')
                 <input type="hidden" name="cottage_id" id="edit_cottage_id">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="col-12">
-                            <div class="text-end">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="d-flex align-items-center gap-2 justify-content-center">
-                                <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
-                                <div class="d-flex flex-column">
-                                    <b class="modal-title mt-2 text-bold">JPB Heritage Inland Resort</b>
-                                    <span>Progreso Street Illauod, Bugasong, Antique</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @include('layouts.modal-header')
                     <div class="modal-body">
                         <div class="d-flex gap-2 form-group mb-3">
                             <div class="form-group col-8 d-flex align-items-center gap-3">
@@ -272,7 +245,7 @@
                                         <option value="{{ $visitor->id }}">{{ $visitor->first_name }}
                                             {{ $visitor->middle_name }}
                                             {{ $visitor->last_name }} -
-                                            {{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}
+                                            {{ \Carbon\Carbon::parse($visitor->created_at)->format('F j, Y') }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -281,11 +254,11 @@
                                 required value="Cottage Fee">
                         </div>
                         <div
-                            class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
+                            class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                             <i class="fa fa-book fa-2x"></i>
                             <h3 class="m-0">COTTAGE FEE</h3>
                         </div>
-                        <table class="table table-bordered border-dark" width="100%" cellspacing="0">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr class="bg-secondary text-light">
                                     <th class="bg-success text-light text-center" style="padding: 10px;">SELECT</th>
@@ -486,7 +459,7 @@
 
                         // Find if this cottage type exists in the stored data
                         const cottageIndex = cottageTypes.findIndex(type => type
-                        .trim() === cottageName);
+                            .trim() === cottageName);
 
                         if (cottageIndex !== -1 && quantities[cottageIndex] &&
                             quantities[cottageIndex] > 0) {

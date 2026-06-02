@@ -63,7 +63,7 @@
                             </div>
                             <div class="d-flex justify-content-center align-items-center gap-2">
                                 <i class="fa fa-times-circle fa-2x text-light"></i>
-                                <div class="h3 mb-0 font-weight-bold text-light">{{ $unpaidBills }}</div>
+                                <div class="h3 mb-0 font-weight-bold text-light">{{ $visitorsWithUnpaidBills->count() }}</div>
                             </div>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                         </div>
                         <div class="d-flex justify-content-center align-items-center gap-2">
                             <i class="fa fa-check-circle fa-2x text-light"></i>
-                            <div class="h3 mb-0 font-weight-bold text-light">{{ $paidBills }}</div>
+                            <div class="h3 mb-0 font-weight-bold text-light">{{ $visitorsWithPaidBills->count() }}</div>
                         </div>
                     </div>
                 </div>
@@ -574,20 +574,7 @@
                 @csrf
                 @method('PUT')
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="col-12">
-                            <div class="text-end">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="d-flex align-items-center gap-2 justify-content-center">
-                                <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
-                                <div class="d-flex flex-column">
-                                    <b class="modal-title mt-2 text-bold">JPB Heritage Inland Resort</b>
-                                    <span>Progreso Street Illauod, Bugasong, Antique</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @include('layouts.modal-header')
                     <div class="modal-body">
                         <input type="hidden" name="edit_date_visit" value="{{ now()->toDateString() }}"
                             class="form-control" required />
@@ -1086,7 +1073,7 @@
                 datasets: [{
                     label: 'Total Visitors',
                     data: {!! json_encode($visitorsPerMonth) !!},
-                    backgroundColor: '#4e73df',
+                    backgroundColor: '#084D00',
                     borderRadius: 4,
                 }]
             },

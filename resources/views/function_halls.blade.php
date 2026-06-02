@@ -68,15 +68,15 @@
                     style="min-width:1400px;">
                     <thead>
                         <tr>
-                            <th class="bg-theme-primary text-light border-dark">NO.</th>
-                            <th class="bg-theme-primary text-light border-dark">NAME OF GUEST</th>
-                            {{-- <th class="bg-theme-primary text-light border-dark">MEMBERS</th> --}}
-                            <th class="bg-theme-primary text-light border-dark">FUNCTION CATEGORY</th>
-                            <th class="bg-theme-primary text-light border-dark">QTY</th>
-                            <th class="bg-theme-primary text-light border-dark">TOTAL FEE</th>
-                            <th class="bg-theme-primary text-light border-dark">STATUS</th>
-                            <th class="bg-theme-primary text-light border-dark">DATE CREATED</th>
-                            <th class="bg-theme-primary text-light border-dark sticky-action">ACTION</th>
+                            <th class="bg-theme-primary text-light">NO.</th>
+                            <th class="bg-theme-primary text-light">NAME OF GUEST</th>
+                            {{-- <th class="bg-theme-primary text-light">MEMBERS</th> --}}
+                            <th class="bg-theme-primary text-light">FUNCTION CATEGORY</th>
+                            <th class="bg-theme-primary text-light">QTY</th>
+                            <th class="bg-theme-primary text-light">TOTAL FEE</th>
+                            <th class="bg-theme-primary text-light">STATUS</th>
+                            <th class="bg-theme-primary text-light">DATE CREATED</th>
+                            <th class="bg-theme-primary text-light sticky-action">ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -153,20 +153,7 @@
             <form id="addAccommodationForm" action="{{ route('accommodation.store') }}" method="POST">
                 @csrf
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="col-12">
-                            <div class="text-end">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="d-flex align-items-center gap-2 justify-content-center">
-                                <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
-                                <div class="d-flex flex-column">
-                                    <b class="modal-title mt-2 text-bold">JPB Heritage Inland Resort</b>
-                                    <span>Progreso Street Illauod, Bugasong, Antique</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @include('layouts.modal-header')
                     <div class="modal-body">
                         <div class="form-group mb-3">
                             <div class="col-4 d-flex align-items-center gap-3">
@@ -178,7 +165,7 @@
                                         <option value="{{ $visitor->id }}">{{ $visitor->first_name }}
                                             {{ $visitor->middle_name }}
                                             {{ $visitor->last_name }} -
-                                            {{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}
+                                            {{ \Carbon\Carbon::parse($visitor->created_at)->format('F j, Y') }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -189,12 +176,12 @@
                             <!-- Room Accommodation Section -->
                             <div class="col-md-6">
                                 <div
-                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
+                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                                     <i class="fa fa-bed fa-2x"></i>
                                     <h3 class="m-0">ROOM ACCOMMODATION</h3>
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table table-bordered border-dark">
+                                    <table class="table table-bordered table table-bordered">
                                         <thead class="bg-success text-light">
                                             <tr>
                                                 <th class="bg-success text-light" width="5%">SELECT</th>
@@ -265,12 +252,12 @@
                             <!-- Function Hall Section -->
                             <div class="col-md-6">
                                 <div
-                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
+                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                                     <i class="fa fa-building-columns fa-2x"></i>
                                     <h3 class="m-0">FUNCTION HALL</h3>
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered border-dark">
+                                    <table class="table table-bordered">
                                         <thead class="bg-success text-light">
                                             <tr>
                                                 <th class="bg-success text-light" width="5%">SELECT</th>
@@ -357,20 +344,7 @@
                 @csrf
                 @method('PUT')
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="col-12">
-                            <div class="text-end">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="d-flex align-items-center gap-2 justify-content-center">
-                                <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
-                                <div class="d-flex flex-column">
-                                    <b class="modal-title mt-2 text-bold">JPB Heritage Inland Resort</b>
-                                    <span>Progreso Street Illauod, Bugasong, Antique</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @include('layouts.modal-header')
                     <div class="modal-body">
                         <input type="hidden" name="accommodation_id" id="edit_accommodation_id">
 
@@ -384,7 +358,7 @@
                                         <option value="{{ $visitor->id }}">{{ $visitor->first_name }}
                                             {{ $visitor->middle_name }}
                                             {{ $visitor->last_name }} -
-                                            {{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}
+                                            {{ \Carbon\Carbon::parse($visitor->created_at)->format('F j, Y') }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -395,12 +369,12 @@
                             <!-- Function Hall Section -->
                             <div class="col-md-12">
                                 <div
-                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
+                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                                     <i class="fa fa-building-columns fa-2x"></i>
                                     <h3 class="m-0">FUNCTION HALL</h3>
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered border-dark">
+                                    <table class="table table-bordered">
                                         <thead class="bg-success text-light">
                                             <th class="bg-success text-light" width="5%">SELECT</th>
                                             <th class="bg-success text-light">FUNCTION HALL</th>

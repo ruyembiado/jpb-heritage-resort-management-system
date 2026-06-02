@@ -16,7 +16,7 @@
     <!-- Content Row -->
     <div class="card shadow mb-4">
         <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-3 bg-theme-primary p-4">
                 <!-- Date Filter -->
                 <form method="GET" action="" id="dateRangeForm">
                     <div class="d-flex justify-content-center gap-2 align-items-center">
@@ -37,7 +37,7 @@
                 </form>
 
                 <div class="print-buttons d-flex gap-1">
-                    <button onclick="printReport()" class="btn btn-sm btn-success d-print-none bg-theme-primary">
+                    <button onclick="printReport()" class="btn btn-sm btn-secondary d-print-none text-light">
                         <i class="fas fa-print"></i> Print Report
                     </button>
                     <button onclick="exportExcel()" class="btn btn-sm btn-success d-print-none">
@@ -76,14 +76,14 @@
                     <table class="table table-bordered" id="" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th class="text-dark text-center">NO.</th>
-                                <th class="text-dark text-center">NAME OF GUEST</th>
-                                <th class="text-dark text-center">SEX</th>
-                                <th class="text-dark text-center">AGE</th>
-                                <th class="text-dark text-center">MEMBERS</th>
-                                <th class="text-dark text-center">ADDRESS</th>
-                                <th class="text-dark text-center">CONTACT NO.</th>
-                                <th class="text-dark text-center">CHECK-IN</th>
+                                <th class="text-center bg-theme-primary text-light">NO.</th>
+                                <th class="text-center bg-theme-primary text-light">NAME OF GUEST</th>
+                                <th class="text-center bg-theme-primary text-light">SEX</th>
+                                <th class="text-center bg-theme-primary text-light">AGE</th>
+                                <th class="text-center bg-theme-primary text-light">MEMBERS</th>
+                                <th class="text-center bg-theme-primary text-light">ADDRESS</th>
+                                <th class="text-center bg-theme-primary text-light">CONTACT NO.</th>
+                                <th class="text-center bg-theme-primary text-light">CHECK-IN</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -158,6 +158,12 @@
                             @endif
                         </tbody>
                     </table>
+                </div>
+                <div class="col-12 d-flex justify-content-end print-footer mt-4">
+                    <div class="d-flex flex-column justify-content-end align-items-center">
+                        <strong>JOEL P. BARCELO</strong>
+                        <span>JPB Oasis: Inland Resort Owner</span>
+                    </div>
                 </div>
             </div>
         </div>

@@ -36,7 +36,7 @@
                     @foreach ($visitors as $visitor)
                         <div class="card visitor-card col-4 px-1 py-2 shadow-sm mb-0"
                             data-date="{{ \Carbon\Carbon::parse($visitor->created_at)->format('Y-m-d') }}">
-                            <div class="col-12">
+                            <div class="col-12 bg-theme-primary py-3 text-light">
                                 <div class="d-flex align-items-center gap-2 justify-content-center">
                                     <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
                                     <div class="d-flex flex-column">

@@ -13,17 +13,17 @@
 
     <div class="card shadow mb-4">
         <div class="card-body">
-            <div class="d-flex justify-content-between align-items-start mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 bg-theme-primary p-4">
                 <form method="GET" action="{{ route('daily.report') }}" class="d-print-none">
                     <div class="d-flex flex-column align-items-start" style="width: auto;">
-                        <label for="date" class="mb-0">Select Date:</label>
+                        <label for="date" class="mb-0 text-light">Select Date:</label>
                         <input type="date" name="date" value="{{ $date }}"
                             class="form-control form-control-sm" style="width: auto;" onchange="this.form.submit()" />
                     </div>
                 </form>
 
                 <div class="print-buttons d-flex gap-1">
-                    <button onclick="printReport()" class="btn btn-sm btn-success d-print-none bg-theme-primary">
+                    <button onclick="printReport()" class="btn btn-sm btn-secondary d-print-none text-light">
                         <i class="fas fa-print"></i> Print Report
                     </button>
                     <button onclick="exportExcel()" class="btn btn-sm btn-success d-print-none">
@@ -68,17 +68,17 @@
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th rowspan="2" class="text-center align-middle">NO. OF VISITORS</th>
-                                <th colspan="6" class="text-center">SERVICES</th>
-                                <th rowspan="2" class="text-center align-middle">TOTAL BILL INCOME</th>
+                                <th rowspan="2" class="text-center bg-theme-primary text-light align-middle">NO. OF VISITORS</th>
+                                <th colspan="6" class="text-center bg-theme-primary text-light">SERVICES</th>
+                                <th rowspan="2" class="text-center bg-theme-primary text-light align-middle">TOTAL BILL INCOME</th>
                             </tr>
                             <tr>
-                                <th>ENTRANCE FEE</th>
-                                <th>COTTAGE FEE</th>
-                                <th>FUNCTION HALL</th>
-                                <th>ROOM ACCOMMODATION</th>
-                                <th>FOODS</th>
-                                <th>DRINKS</th>
+                                <th class="bg-success text-light">ENTRANCE FEE</th>
+                                <th class="bg-success text-light">COTTAGE FEE</th>
+                                <th class="bg-success text-light">FUNCTION HALL</th>
+                                <th class="bg-success text-light">ROOM ACCOMMODATION</th>
+                                <th class="bg-success text-light">FOODS</th>
+                                <th class="bg-success text-light">DRINKS</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -98,8 +98,8 @@
                                     <td class="text-center">₱{{ number_format($report['total'], 2) }}</td>
                                 </tr>
                                 <tr class="bg-light">
-                                    <td colspan="7" class="text-start h6 text-uppercase">Grand Total:</td>
-                                    <td class="h6 text-center">₱{{ number_format($report['total'], 2) }}</td>
+                                    <td colspan="7" class="text-start fw-bold text-uppercase">Grand Total:</td>
+                                    <td class="h6 text-center fw-bold">₱{{ number_format($report['total'], 2) }}</td>
                                 </tr>
                             @endif
                         </tbody>

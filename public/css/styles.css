@@ -327,8 +327,21 @@ h1.home-title {
         margin: 5mm;
     }
 
-    .report-table td, .report-table th {
+    .report-table td,
+    .report-table th {
         font-size: 1vw;
+    }
+
+    #print-section * {
+        color: #000 !important;
+    }
+
+    table#summary_report {
+        width: 100%;
+    }
+
+    table#summary_report th {
+        border: 1px solid #000 !important;
     }
 }
 
@@ -359,4 +372,54 @@ h1.home-title {
 
 .visitor-card {
     display: none;
+}
+
+#dataTable1 table th,
+table th {
+    padding: 9px !important;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+table th,
+table td {
+    text-align: center !important;
+}
+
+.fc .fc-button {
+    background-color: #093a0d !important;
+    border-color: #093a0d !important;
+    color: #fff !important;
+}
+
+.fc .fc-button:hover {
+    background-color: #062a0a !important;
+    border-color: #062a0a !important;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+    background-color: #062a0a !important;
+    border-color: #062a0a !important;
+}
+
+.fc .fc-today-button {
+    background-color: #093a0d !important;
+}
+
+.fc .fc-toolbar-title {
+    color: #093a0d !important;
+    font-weight: 600;
+}
+
+.fc .fc-daygrid-day-number {
+    color: #093a0d;
+}
+
+.fc a {
+    color: #093a0d;
+}
+
+.sticky-action div {
+    justify-content: center !important;
 }

@@ -15,11 +15,18 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $services = Service::orderBy('created_at', 'desc')->get();
+        $filter = $request->filter;
 
-        return view('services_setting', compact('services'));
+        $services = Service::when(
+            $filter && $filter !== 'all',
+            fn($query) => $query->where('service_type', $filter)
+        )
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('services_setting', compact('services', 'filter'));
     }
 
     public function add_service(Request $request)

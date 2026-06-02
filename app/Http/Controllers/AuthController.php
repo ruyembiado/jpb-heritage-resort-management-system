@@ -172,6 +172,65 @@ class AuthController extends Controller
 
         $entranceFees = Service::where('service_type', 'entrance_fee')->get();
 
+        $todayVisitors = Visitor::whereDate('date_visit', now())->get();
+        /*
+        |--------------------------------------------------------------------------
+        | VISITORS WITH UNPAID BILLS
+        |--------------------------------------------------------------------------
+        */
+        $visitorsWithUnpaidBills = $todayVisitors->filter(function ($visitor) {
+
+            $services = [
+                $visitor->entrance,
+                $visitor->accommodation,
+                $visitor->cottage,
+                $visitor->meal,
+                $visitor->beverage,
+                $visitor->functionHall,
+            ];
+
+            foreach ($services as $service) {
+                if ($service) {
+                    $status = $service->payment_status ?? $service->status ?? 'Unpaid';
+
+                    if ($status !== 'Paid') {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        });
+
+         /*
+        |--------------------------------------------------------------------------
+        | VISITORS WITH FULLY PAID BILLS
+        |--------------------------------------------------------------------------
+        */
+        $visitorsWithPaidBills = $todayVisitors->filter(function ($visitor) {
+            $services = [
+                $visitor->entrance,
+                $visitor->accommodation,
+                $visitor->cottage,
+                $visitor->meal,
+                $visitor->beverage,
+                $visitor->functionHall,
+            ];
+
+            foreach ($services as $service) {
+                if (!$service) {
+                    continue;
+                }
+
+                $status = $service->payment_status ?? $service->status ?? 'Unpaid';
+                if ($status !== 'Paid') {
+                    return false;
+                }
+            }
+            return true;
+        });
+
+
         return view('dashboard', [
             'visitorsToday' => $visitorsToday,
             'visitorsThisWeek' => $visitorsThisWeek,
@@ -186,9 +245,12 @@ class AuthController extends Controller
             'visitorsPerMonth' => $visitorsPerMonth,
             'months' => $months,
 
+            'visitorsWithUnpaidBills' => $visitorsWithUnpaidBills,
+            'visitorsWithPaidBills' => $visitorsWithPaidBills,
+
             'entrances' => $entrances,
             'selectedYear' => $selectedYear,
-            'visitorsWithUnpaidBills' => $visitorsWithUnpaidBills,
+            // 'visitorsWithUnpaidBills' => $visitorsWithUnpaidBills,
             'entranceFees' => $entranceFees
         ]);
     }

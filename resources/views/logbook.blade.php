@@ -59,7 +59,7 @@
                                 <td class="text-start">{{ $visitor->members }}</td>
                                 <td class="text-start">{{ $visitor->contact_number }}</td>
                                 <td>{{ $visitor->address }}</td>
-                                <td>{{ \Carbon\Carbon::parse($visitor->date_visit)->format('F j, Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($visitor->created_at)->format('F j, Y') }}</td>
                                 {{-- <td>{{ \Carbon\Carbon::parse($visitor->created_at)->format('F j, Y \a\t h:i A') }}</td> --}}
                                 <td>
                                     <div class="d-flex align-items-center justify-c gap-2">

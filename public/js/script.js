@@ -9,5 +9,9 @@ $(document).ready(function () {
     });
   }
 
-  $("#dataTable1").DataTable();
+  $("#dataTable1").DataTable({
+    scrollX: true,
+    autoWidth: false
+  }
+  );
 });

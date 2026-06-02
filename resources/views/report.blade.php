@@ -16,8 +16,8 @@
     <div class="row">
         <div class="card col-5 m-auto shadow mb-4 px-0">
             <div class="card-body">
-                <div class="d-flex align-items-center gap-2 justify-content-center">
-                    <img src="http://localhost/jpb-heritage/public/img/jbp-icon.jpg" width="70" alt="jbp-logo">
+                <div class="d-flex align-items-center gap-2 justify-content-center bg-theme-primary text-light p-2 mb-3">
+                    <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
                     <div class="d-flex flex-column">
                         <b class="modal-title mt-2 text-bold">JPB Heritage Inland
                             Resort</b>
@@ -30,7 +30,10 @@
                         <div class="form-group mb-2">
                             <div class="d-flex flex-column align-items-start gap-3">
                                 <label>Periodic Report Type:</label>
-                                <div class="col-12">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-theme-primary text-light">
+                                        <i class="fas fa-file-invoice-dollar"></i>
+                                    </span>
                                     <select name="report_type" class="form-control" id="report_type">
                                         <option value="daily">Daily</option>
                                         <option value="weekly">Weekly</option>
