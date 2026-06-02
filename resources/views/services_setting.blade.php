@@ -30,7 +30,7 @@
                             @endif
                             <th class="bg-theme-primary text-light">Fee</th>
                             <th class="bg-theme-primary text-light">Date Created</th>
-                            <th class="bg-theme-primary text-light">Action</th>
+                            <th class="bg-theme-primary text-light sticky-action">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,7 +45,7 @@
                                 @endif
                                 <td>₱{{ number_format($service->fee, 2) }}</td>
                                 <td>{{ $service->created_at->format('F j, Y') }}</td>
-                                <td class="d-flex gap-1">
+                                <td class="d-flex justify-content-center gap-1 sticky-action">
                                     <!-- Edit Button -->
                                     <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#editServiceModal{{ $service->id }}">
