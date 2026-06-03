@@ -340,62 +340,66 @@
                             <h3 class="m-0">ENTRANCE FEE</h3>
                         </div>
                         <b>GUEST INFORMATION</b>
-                        <div class="form-group mb-2">
-                            <div class="d-flex align-items-center gap-3">
-                                <label style="min-width: 120px;">Complete Name:</label>
-                                <div class="col-3">
-                                    <input type="text" name="edit_guest_first_name" class="form-control"
-                                        placeholder="First Name" required>
-                                </div>
-                                <div class="col-3">
-                                    <input type="text" name="edit_guest_middle_name" class="form-control"
-                                        placeholder="Middle Name">
-                                </div>
-                                <div class="col-3">
-                                    <input type="text" name="edit_guest_last_name" class="form-control"
-                                        placeholder="Last Name" required>
-                                </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <label>Complete Name</label>
+                                <input type="text" name="edit_guest_first_name" class="form-control"
+                                    placeholder="First Name" required>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>&nbsp;</label>
+                                <input type="text" name="edit_guest_middle_name" class="form-control"
+                                    placeholder="Middle Name">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>&nbsp;</label>
+                                <input type="text" name="edit_guest_last_name" class="form-control"
+                                    placeholder="Last Name" required>
                             </div>
                         </div>
-                        <div class="form-group mb-2">
-                            <div class="d-flex align-items-center gap-3">
-                                <label style="min-width: 120px;">Contact Number:</label>
-                                <div class="col-3">
-                                    <input type="text" name="edit_guest_contact_number" class="form-control" required>
-                                </div>
-                                <label>Age:</label>
-                                <div class="col-2">
-                                    <input type="number" name="edit_guest_age" id="edit_guest_age" class="form-control"
-                                        required onchange="calculateEditGuestFee()">
-                                </div>
-                                <label>Sex:</label>
-                                <div class="col-2">
-                                    <select name="edit_guest_gender" class="form-control" required>
-                                        <option value="">Select sex</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <label>Contact Number</label>
+                                <input type="text" name="edit_guest_contact_number" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>Age</label>
+                                <input type="number" name="edit_guest_age" id="edit_guest_age" class="form-control"
+                                    required onchange="calculateEditGuestFee()">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>Sex</label>
+                                <select name="edit_guest_gender" class="form-control" required>
+                                    <option value="">Select sex</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="form-group mb-2">
-                            <div class="d-flex align-items-center gap-3">
-                                <label style="min-width: 120px;">Address:</label>
-                                <div class="col-5">
-                                    <input type="text" name="edit_guest_address" class="form-control" required>
-                                </div>
-                                <label style="min-width: 50px;">is PWD?</label>
-                                <div class="col-1">
-                                    <input type="checkbox" name="edit_guest_is_pwd" id="edit_guest_is_pwd"
-                                        value="1" class="form-check-input" onchange="calculateEditGuestFee()">
-                                </div>
-                                <label>Guest Fee:</label>
-                                <div class="col-2">
-                                    <div class="d-flex">
-                                        <span class="input-group-text bg-theme-primary text-light">₱</span>
-                                        <input type="number" readonly name="edit_guest_fee" id="edit_guest_fee"
-                                            min="0" value="0" class="form-control" required>
-                                    </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <label>Address</label>
+                                <input type="text" name="edit_guest_address" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Is PWD?</label><br>
+                                <input type="checkbox" name="edit_guest_is_pwd" id="edit_guest_is_pwd" value="1"
+                                    class="form-check-input" onchange="calculateEditGuestFee()">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Guest Fee</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-theme-primary text-light">₱</span>
+                                    <input type="number" readonly name="edit_guest_fee" id="edit_guest_fee"
+                                        min="0" value="0" class="form-control" required>
                                 </div>
                             </div>
                         </div>

@@ -63,7 +63,8 @@
                             </div>
                             <div class="d-flex justify-content-center align-items-center gap-2">
                                 <i class="fa fa-times-circle fa-2x text-light"></i>
-                                <div class="h3 mb-0 font-weight-bold text-light">{{ $visitorsWithUnpaidBills->count() }}</div>
+                                <div class="h3 mb-0 font-weight-bold text-light">{{ $visitorsWithUnpaidBills->count() }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -72,22 +73,24 @@
         </div>
 
         <div class="col-xl-3 col-md-6 mb-0">
-            <div class="card shadow py-2 bg-success">
-                <div class="card-body">
-                    <div class="row align-items-center justify-content-between flex-column gap-3">
-                        <div class="d-flex flex-column text-center">
-                            <b class="text-xs font-weight-bold text-light text-uppercase">
-                                Paid Bills
-                            </b>
-                            <span class="text-center text-light">(Complete)</span>
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center gap-2">
-                            <i class="fa fa-check-circle fa-2x text-light"></i>
-                            <div class="h3 mb-0 font-weight-bold text-light">{{ $visitorsWithPaidBills->count() }}</div>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#completeBill">
+                <div class="card shadow py-2 bg-success">
+                    <div class="card-body">
+                        <div class="row align-items-center justify-content-between flex-column gap-3">
+                            <div class="d-flex flex-column text-center">
+                                <b class="text-xs font-weight-bold text-light text-uppercase">
+                                    Paid Bills
+                                </b>
+                                <span class="text-center text-light">(Complete)</span>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <i class="fa fa-check-circle fa-2x text-light"></i>
+                                <div class="h3 mb-0 font-weight-bold text-light">{{ $visitorsWithPaidBills->count() }}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <!-- Guests Statistics Modal -->
@@ -184,7 +187,7 @@
                         <div class="card mb-0">
                             <div class="card-body p-1">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered border-dark m-0" width="100%">
+                                    <table class="table table-bordered m-0" width="100%">
                                         <thead>
                                             <tr>
                                                 <th rowspan="3"
@@ -204,32 +207,32 @@
                                                     style="vertical-align: middle;">Total Fee</th>
                                             </tr>
                                             <tr>
-                                                <th class="bg-theme-primary text-light text-uppercase" colspan="2">
+                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">
                                                     Entrance Fee</th>
-                                                <th class="bg-theme-primary text-light text-uppercase" colspan="2">Room
+                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">Room
                                                     Accommodation</th>
-                                                <th class="bg-theme-primary text-light text-uppercase" colspan="2">
+                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">
                                                     Function Hall</th>
-                                                <th class="bg-theme-primary text-light text-uppercase" colspan="2">
+                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">
                                                     Cottage Fee</th>
-                                                <th class="bg-theme-primary text-light text-uppercase" colspan="2">
+                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">
                                                     Foods</th>
-                                                <th class="bg-theme-primary text-light text-uppercase" colspan="2">
+                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">
                                                     Drinks</th>
                                             </tr>
                                             <tr>
-                                                <th class="bg-success text-light">Fee</th>
-                                                <th class="bg-success text-light">Status</th>
-                                                <th class="bg-success text-light">Fee</th>
-                                                <th class="bg-success text-light">Status</th>
-                                                <th class="bg-success text-light">Fee</th>
-                                                <th class="bg-success text-light">Status</th>
-                                                <th class="bg-success text-light">Fee</th>
-                                                <th class="bg-success text-light">Status</th>
-                                                <th class="bg-success text-light">Fee</th>
-                                                <th class="bg-success text-light">Status</th>
-                                                <th class="bg-success text-light">Fee</th>
-                                                <th class="bg-success text-light">Status</th>
+                                                <th class="bg-green-tertiary text-light">Fee</th>
+                                                <th class="bg-green-tertiary text-light">Status</th>
+                                                <th class="bg-green-tertiary text-light">Fee</th>
+                                                <th class="bg-green-tertiary text-light">Status</th>
+                                                <th class="bg-green-tertiary text-light">Fee</th>
+                                                <th class="bg-green-tertiary text-light">Status</th>
+                                                <th class="bg-green-tertiary text-light">Fee</th>
+                                                <th class="bg-green-tertiary text-light">Status</th>
+                                                <th class="bg-green-tertiary text-light">Fee</th>
+                                                <th class="bg-green-tertiary text-light">Status</th>
+                                                <th class="bg-green-tertiary text-light">Fee</th>
+                                                <th class="bg-green-tertiary text-light">Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -333,7 +336,7 @@
                                                                 <span class="badge bg-secondary">N/A</span>
                                                             @endif
                                                         </td>
-                                                      
+
                                                         <!-- Grand Total -->
                                                         @php
                                                             $grand_total =
@@ -344,7 +347,8 @@
                                                                 ($visitor->meal->total_payment ?? 0) +
                                                                 ($visitor->beverage->total_payment ?? 0);
                                                         @endphp
-                                                        <td class="text-end fw-bold">₱{{ number_format($grand_total, 2) }}
+                                                        <td class="text-center fw-bold">
+                                                            ₱{{ number_format($grand_total, 2) }}
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -352,6 +356,198 @@
                                                 <tr>
                                                     <td colspan="20" class="text-center text-muted py-4">No visitors
                                                         with unpaid bills.</td>
+                                                </tr>
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="completeBill" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 1520px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Paid Bills</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                        <div class="card mb-0">
+                            <div class="card-body p-1">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered m-0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="3"
+                                                    class="align-middle bg-theme-primary text-light text-uppercase"
+                                                    style="vertical-align: middle;">No.</th>
+                                                <th rowspan="3"
+                                                    class="align-middle bg-theme-primary text-light text-uppercase"
+                                                    style="vertical-align: middle;">Name of Guest</th>
+                                                <th rowspan="3"
+                                                    class="align-middle bg-theme-primary text-light text-uppercase"
+                                                    style="vertical-align: middle;">Members</th>
+                                                <th colspan="12"
+                                                    class="text-center bg-theme-primary text-light text-uppercase">Availed
+                                                    Services</th>
+                                                <th rowspan="3"
+                                                    class="align-middle bg-theme-primary text-light text-uppercase"
+                                                    style="vertical-align: middle;">Total Fee</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">
+                                                    Entrance Fee</th>
+                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">Room
+                                                    Accommodation</th>
+                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">
+                                                    Function Hall</th>
+                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">
+                                                    Cottage Fee</th>
+                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">
+                                                    Foods</th>
+                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">
+                                                    Drinks</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-green-tertiary text-light">Fee</th>
+                                                <th class="bg-green-tertiary text-light">Status</th>
+                                                <th class="bg-green-tertiary text-light">Fee</th>
+                                                <th class="bg-green-tertiary text-light">Status</th>
+                                                <th class="bg-green-tertiary text-light">Fee</th>
+                                                <th class="bg-green-tertiary text-light">Status</th>
+                                                <th class="bg-green-tertiary text-light">Fee</th>
+                                                <th class="bg-green-tertiary text-light">Status</th>
+                                                <th class="bg-green-tertiary text-light">Fee</th>
+                                                <th class="bg-green-tertiary text-light">Status</th>
+                                                <th class="bg-green-tertiary text-light">Fee</th>
+                                                <th class="bg-green-tertiary text-light">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if ($visitorsWithPaidBills->isNotEmpty())
+                                                @foreach ($visitorsWithPaidBills as $visitor)
+                                                    <tr>
+                                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                                        <td>
+                                                            {{ $visitor->first_name }}
+                                                            {{ $visitor->middle_name ? $visitor->middle_name . ' ' : '' }}
+                                                            {{ $visitor->last_name }}
+                                                        </td>
+                                                        <td class="text-center">{{ $visitor->members ?? 'N/A' }}</td>
+
+                                                        <!-- Entrance Fee -->
+                                                        <td class="text-end">
+                                                            {{ $visitor->entrance ? '₱' . number_format($visitor->entrance->total_payment, 2) : '₱0.00' }}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @if (isset($visitor->entrance->status))
+                                                                <span
+                                                                    class="badge {{ $visitor->entrance->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
+                                                                    {{ $visitor->entrance->status }}
+                                                                </span>
+                                                            @else
+                                                                <span class="badge bg-secondary">N/A</span>
+                                                            @endif
+                                                        </td>
+
+                                                        <!-- Room Accommodation -->
+                                                        <td class="text-end">
+                                                            {{ $visitor->accommodation ? '₱' . number_format($visitor->accommodation->total_payment, 2) : '₱0.00' }}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @if (isset($visitor->accommodation->status))
+                                                                <span
+                                                                    class="badge {{ $visitor->accommodation->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
+                                                                    {{ $visitor->accommodation->status }}
+                                                                </span>
+                                                            @else
+                                                                <span class="badge bg-secondary">N/A</span>
+                                                            @endif
+                                                        </td>
+
+                                                        <!-- Function Hall -->
+                                                        <td class="text-end">
+                                                            {{ $visitor->functionHall ? '₱' . number_format($visitor->functionHall->total_payment, 2) : '₱0.00' }}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @if (isset($visitor->functionHall->status))
+                                                                <span
+                                                                    class="badge {{ $visitor->functionHall->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
+                                                                    {{ $visitor->functionHall->status }}
+                                                                </span>
+                                                            @else
+                                                                <span class="badge bg-secondary">N/A</span>
+                                                            @endif
+                                                        </td>
+
+                                                        <!-- Cottage Fee -->
+                                                        <td class="text-end">
+                                                            {{ $visitor->cottage ? '₱' . number_format($visitor->cottage->total_payment, 2) : '₱0.00' }}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @if (isset($visitor->cottage->status))
+                                                                <span
+                                                                    class="badge {{ $visitor->cottage->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
+                                                                    {{ $visitor->cottage->status }}
+                                                                </span>
+                                                            @else
+                                                                <span class="badge bg-secondary">N/A</span>
+                                                            @endif
+                                                        </td>
+
+                                                        <!-- Foods -->
+                                                        <td class="text-end">
+                                                            {{ $visitor->meal ? '₱' . number_format($visitor->meal->total_payment, 2) : '₱0.00' }}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @if (isset($visitor->meal->status))
+                                                                <span
+                                                                    class="badge {{ $visitor->meal->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
+                                                                    {{ $visitor->meal->status }}
+                                                                </span>
+                                                            @else
+                                                                <span class="badge bg-secondary">N/A</span>
+                                                            @endif
+                                                        </td>
+
+                                                        <!-- Drinks -->
+                                                        <td class="text-end">
+                                                            {{ $visitor->beverage ? '₱' . number_format($visitor->beverage->total_payment, 2) : '₱0.00' }}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @if (isset($visitor->beverage->status))
+                                                                <span
+                                                                    class="badge {{ $visitor->beverage->status === 'Paid' ? 'bg-success' : 'bg-danger' }}">
+                                                                    {{ $visitor->beverage->status }}
+                                                                </span>
+                                                            @else
+                                                                <span class="badge bg-secondary">N/A</span>
+                                                            @endif
+                                                        </td>
+
+                                                        <!-- Grand Total -->
+                                                        @php
+                                                            $grand_total =
+                                                                ($visitor->entrance->total_payment ?? 0) +
+                                                                ($visitor->accommodation->total_payment ?? 0) +
+                                                                ($visitor->functionHall->total_payment ?? 0) +
+                                                                ($visitor->cottage->total_payment ?? 0) +
+                                                                ($visitor->meal->total_payment ?? 0) +
+                                                                ($visitor->beverage->total_payment ?? 0);
+                                                        @endphp
+                                                        <td class="text-center fw-bold">
+                                                            ₱{{ number_format($grand_total, 2) }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td colspan="20" class="text-center text-muted py-4">No visitors
+                                                        with paid bills.</td>
                                                 </tr>
                                             @endif
                                         </tbody>
@@ -410,18 +606,18 @@
                             style="min-width:2000px;">
                             <thead>
                                 <tr>
-                                    <th class="bg-theme-primary text-light border-dark">NO.</th>
-                                    <th class="bg-theme-primary text-light border-dark">NAME OF GUEST</th>
-                                    <th class="bg-theme-primary text-light border-dark">SEX</th>
-                                    <th class="bg-theme-primary text-light border-dark">AGE</th>
-                                    <th class="bg-theme-primary text-light border-dark">MEMBERS</th>
-                                    <th class="bg-theme-primary text-light border-dark">TOTAL FEE</th>
-                                    <th class="bg-theme-primary text-light border-dark">STATUS</th>
-                                    <th class="bg-theme-primary text-light border-dark">CONTACT NO.</th>
-                                    <th class="bg-theme-primary text-light border-dark">ADDRESS</th>
-                                    <th class="bg-theme-primary text-light border-dark">CHECK-IN</th>
-                                    <th class="bg-theme-primary text-light border-dark">DATE CREATED</th>
-                                    <th class="bg-theme-primary text-light border-dark sticky-action">ACTION</th>
+                                    <th class="bg-theme-primary text-light">NO.</th>
+                                    <th class="bg-theme-primary text-light">NAME OF GUEST</th>
+                                    <th class="bg-theme-primary text-light">SEX</th>
+                                    <th class="bg-theme-primary text-light">AGE</th>
+                                    <th class="bg-theme-primary text-light">MEMBERS</th>
+                                    <th class="bg-theme-primary text-light">TOTAL FEE</th>
+                                    <th class="bg-theme-primary text-light">STATUS</th>
+                                    <th class="bg-theme-primary text-light">CONTACT NO.</th>
+                                    <th class="bg-theme-primary text-light">ADDRESS</th>
+                                    <th class="bg-theme-primary text-light">CHECK-IN</th>
+                                    <th class="bg-theme-primary text-light">DATE CREATED</th>
+                                    <th class="bg-theme-primary text-light sticky-action">ACTION</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -441,12 +637,12 @@
                                                 <table class="table table-bordered mt-2 mb-0">
                                                     <thead>
                                                         <tr>
-                                                            <th class="bg-success text-light">No.</th>
-                                                            <th class="bg-success text-light">Name</th>
-                                                            <th class="bg-success text-light">Category</th>
-                                                            <th class="bg-success text-light">Sex</th>
-                                                            <th class="bg-success text-light">Age</th>
-                                                            <th class="bg-success text-light">Address</th>
+                                                            <th class="bg-green-secondary text-light">No.</th>
+                                                            <th class="bg-green-secondary text-light">Name</th>
+                                                            <th class="bg-green-secondary text-light">Category</th>
+                                                            <th class="bg-green-secondary text-light">Sex</th>
+                                                            <th class="bg-green-secondary text-light">Age</th>
+                                                            <th class="bg-green-secondary text-light">Address</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -533,7 +729,7 @@
             </div>
         </div>
 
-        <div class="col-12">
+        <div class="col-12 mb-4">
             <div class="card shadow h-100 py-2">
                 <div class="card-body">
                     <div class="d-flex h-100 flex-column justify-content-between">
@@ -563,6 +759,37 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-12 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="d-flex h-100 flex-column justify-content-between">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col mr-2">
+                                <div class="text-dash font-weight-bold text-dark text-uppercase mb-1">
+                                    Monthly Bill Data Chart</div>
+                            </div>
+                            <div class="col-auto">
+                                <form method="GET" action="{{ route('dashboard') }}">
+                                    <select name="year" class="form-select" onchange="this.form.submit()">
+                                        @for ($year = 2025; $year <= now()->year; $year++)
+                                            <option value="{{ $year }}"
+                                                {{ $selectedYear == $year ? 'selected' : '' }}>
+                                                {{ $year }}
+                                            </option>
+                                        @endfor
+                                    </select>
+                                </form>
+                            </div>
+                            <canvas id="billsChart" height="100"></canvas>
+                            <div class="text-center mt-3">
+                                <p>Year {{ $selectedYear }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Edit Entrance Modal -->
@@ -579,67 +806,71 @@
                         <input type="hidden" name="edit_date_visit" value="{{ now()->toDateString() }}"
                             class="form-control" required />
                         <div
-                            class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
+                            class="bg-green-secondary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                             <i class="fa fa-book fa-2x"></i>
                             <h3 class="m-0">ENTRANCE FEE</h3>
                         </div>
                         <b>GUEST INFORMATION</b>
-                        <div class="form-group mb-2">
-                            <div class="d-flex align-items-center gap-3">
-                                <label style="min-width: 120px;">Complete Name:</label>
-                                <div class="col-3">
-                                    <input type="text" name="edit_guest_first_name" class="form-control"
-                                        placeholder="First Name" required>
-                                </div>
-                                <div class="col-3">
-                                    <input type="text" name="edit_guest_middle_name" class="form-control"
-                                        placeholder="Middle Name">
-                                </div>
-                                <div class="col-3">
-                                    <input type="text" name="edit_guest_last_name" class="form-control"
-                                        placeholder="Last Name" required>
-                                </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <label>Complete Name</label>
+                                <input type="text" name="edit_guest_first_name" class="form-control"
+                                    placeholder="First Name" required>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>&nbsp;</label>
+                                <input type="text" name="edit_guest_middle_name" class="form-control"
+                                    placeholder="Middle Name">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>&nbsp;</label>
+                                <input type="text" name="edit_guest_last_name" class="form-control"
+                                    placeholder="Last Name" required>
                             </div>
                         </div>
-                        <div class="form-group mb-2">
-                            <div class="d-flex align-items-center gap-3">
-                                <label style="min-width: 120px;">Contact Number:</label>
-                                <div class="col-3">
-                                    <input type="text" name="edit_guest_contact_number" class="form-control" required>
-                                </div>
-                                <label>Age:</label>
-                                <div class="col-2">
-                                    <input type="number" name="edit_guest_age" id="edit_guest_age" class="form-control"
-                                        required onchange="calculateEditGuestFee()">
-                                </div>
-                                <label>Sex:</label>
-                                <div class="col-2">
-                                    <select name="edit_guest_gender" class="form-control" required>
-                                        <option value="">Select sex</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <label>Contact Number</label>
+                                <input type="text" name="edit_guest_contact_number" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>Age</label>
+                                <input type="number" name="edit_guest_age" id="edit_guest_age" class="form-control"
+                                    required onchange="calculateEditGuestFee()">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>Sex</label>
+                                <select name="edit_guest_gender" class="form-control" required>
+                                    <option value="">Select sex</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="form-group mb-2">
-                            <div class="d-flex align-items-center gap-3">
-                                <label style="min-width: 120px;">Address:</label>
-                                <div class="col-5">
-                                    <input type="text" name="edit_guest_address" class="form-control" required>
-                                </div>
-                                <label style="min-width: 50px;">is PWD?</label>
-                                <div class="col-1">
-                                    <input type="checkbox" name="edit_guest_is_pwd" id="edit_guest_is_pwd"
-                                        value="1" class="form-check-input" onchange="calculateEditGuestFee()">
-                                </div>
-                                <label>Guest Fee:</label>
-                                <div class="col-2">
-                                    <div class="d-flex">
-                                        <span class="input-group-text bg-theme-primary text-light">₱</span>
-                                        <input type="number" readonly name="edit_guest_fee" id="edit_guest_fee"
-                                            min="0" value="0" class="form-control" required>
-                                    </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <label>Address</label>
+                                <input type="text" name="edit_guest_address" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Is PWD?</label><br>
+                                <input type="checkbox" name="edit_guest_is_pwd" id="edit_guest_is_pwd" value="1"
+                                    class="form-check-input" onchange="calculateEditGuestFee()">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Guest Fee</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-theme-primary text-light">₱</span>
+                                    <input type="number" readonly name="edit_guest_fee" id="edit_guest_fee"
+                                        min="0" value="0" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -654,17 +885,17 @@
                             </div>
                         </div>
 
-                        <table class="table table-bordered border-dark" width="100%" cellspacing="0">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th class="bg-success text-light">No.</th>
-                                    <th class="bg-success text-light">Name</th>
-                                    <th class="bg-success text-light">Sex</th>
-                                    <th class="bg-success text-light">Age</th>
-                                    <th class="bg-success text-light">is PWD?</th>
-                                    <th class="bg-success text-light">Address</th>
-                                    <th class="bg-success text-light">Fee</th>
-                                    <th class="bg-success text-light">Action</th>
+                                    <th class="bg-green-tertiary text-light">No.</th>
+                                    <th class="bg-green-tertiary text-light">Name</th>
+                                    <th class="bg-green-tertiary text-light">Sex</th>
+                                    <th class="bg-green-tertiary text-light">Age</th>
+                                    <th class="bg-green-tertiary text-light">is PWD?</th>
+                                    <th class="bg-green-tertiary text-light">Address</th>
+                                    <th class="bg-green-tertiary text-light">Fee</th>
+                                    <th class="bg-green-tertiary text-light">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="edit_companionsTableBody"></tbody>
@@ -1084,6 +1315,35 @@
                         beginAtZero: true,
                         ticks: {
                             stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+
+        const ctxBills = document.getElementById('billsChart')?.getContext('2d');
+        if (!ctxBills) return;
+
+        const billsChart = new Chart(ctxBills, {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode($months) !!},
+                datasets: [{
+                    label: 'Total Bills (₱)',
+                    data: {!! json_encode($billsPerMonth) !!},
+                    backgroundColor: '#084d00',
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '₱' + value;
+                            }
                         }
                     }
                 }

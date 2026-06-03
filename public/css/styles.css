@@ -185,7 +185,7 @@ a.sidebar-link:hover {
 }
 
 .bg-theme-primary {
-    background-color: #084D00 !important;
+    background-color: #093a0d !important;
 }
 
 .navbar-expand .navbar-collapse {
@@ -422,4 +422,16 @@ table td {
 
 .sticky-action div {
     justify-content: center !important;
+}
+
+.sidebar-link.active {
+    background-color: #2e7800;
+}
+
+.bg-green-secondary {
+    background-color: #084d00 !important;
+}
+
+.bg-green-tertiary {
+    background-color: #2e7800 !important;
 }

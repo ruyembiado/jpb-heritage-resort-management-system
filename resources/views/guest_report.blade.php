@@ -20,16 +20,9 @@
                 <!-- Date Filter -->
                 <form method="GET" action="" id="dateRangeForm">
                     <div class="d-flex justify-content-center gap-2 align-items-center">
-                        <div class="d-flex align-items-center">
-                            <label class="mb-0 me-0 p-1 bg-theme-primary text-light">From:</label>
+                        <div class="d-flex align-items-start flex-column">
+                            <label class="mb-0 me-0 p-1 bg-theme-primary text-light">Select Date:</label>
                             <input type="date" name="start_date" value="{{ request('start_date') }}"
-                                class="form-control form-control-sm rounded-0"
-                                onchange="document.getElementById('dateRangeForm').submit();">
-                        </div>
-
-                        <div class="d-flex align-items-center">
-                            <label class="mb-0 me-0 p-1 bg-theme-primary text-light">To:</label>
-                            <input type="date" name="end_date" value="{{ request('end_date') }}"
                                 class="form-control form-control-sm rounded-0"
                                 onchange="document.getElementById('dateRangeForm').submit();">
                         </div>

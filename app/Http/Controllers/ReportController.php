@@ -309,7 +309,7 @@ class ReportController extends Controller
                 $monthData['functionHall'] += (float) ($visitor->functionHall->total_payment ?? 0);
             }
 
-            $monthData['total'] = $monthData['entrance_fee'] + $monthData['accommodation'] + $monthData['rental'] + $monthData['meal'] + $monthData['beverage']+ $monthData['functionHall'];
+            $monthData['total'] = $monthData['entrance_fee'] + $monthData['accommodation'] + $monthData['rental'] + $monthData['meal'] + $monthData['beverage'] + $monthData['functionHall'];
 
             return $monthData;
         });
@@ -368,10 +368,15 @@ class ReportController extends Controller
         return redirect($route);
     }
 
+    public function guestReportIndex()
+    {
+        return view('guest_report_index');
+    }
+
     public function guestReport(Request $request)
     {
         $start_date = $request->start_date;
-        $end_date = $request->end_date;
+        $end_date = $request->start_date;
 
         if (!$end_date) {
             $end_date = Carbon::today()->toDateString();

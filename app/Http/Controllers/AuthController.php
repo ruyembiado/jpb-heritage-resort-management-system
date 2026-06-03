@@ -81,11 +81,11 @@ class AuthController extends Controller
 
             foreach ($services as $service) {
                 if ($service && isset($service->status) && $service->status == "Unpaid") {
-                    return true; 
+                    return true;
                 }
             }
 
-            return false; 
+            return false;
         });
 
         /*
@@ -202,7 +202,7 @@ class AuthController extends Controller
             return false;
         });
 
-         /*
+        /*
         |--------------------------------------------------------------------------
         | VISITORS WITH FULLY PAID BILLS
         |--------------------------------------------------------------------------
@@ -230,6 +230,36 @@ class AuthController extends Controller
             return true;
         });
 
+        $monthlyBills = Visitor::with([
+            'entrance',
+            'accommodation',
+            'cottage',
+            'meal',
+            'beverage',
+            'functionHall'
+        ])
+            ->whereYear('created_at', $selectedYear)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $billsPerMonth = array_fill(0, 12, 0);
+
+        foreach ($monthlyBills as $visitor) {
+
+            $monthIndex = (int) date('m', strtotime($visitor->created_at)) - 1;
+
+            $total = 0;
+
+            $total += optional($visitor->entrance)->total_payment ?? 0;
+            $total += optional($visitor->accommodation)->total_payment ?? 0;
+            $total += optional($visitor->cottage)->total_payment ?? 0;
+            $total += optional($visitor->meal)->total_payment ?? 0;
+            $total += optional($visitor->beverage)->total_payment ?? 0;
+            $total += optional($visitor->functionHall)->total_payment ?? 0;
+
+            $billsPerMonth[$monthIndex] += $total;
+        }
+
 
         return view('dashboard', [
             'visitorsToday' => $visitorsToday,
@@ -247,6 +277,7 @@ class AuthController extends Controller
 
             'visitorsWithUnpaidBills' => $visitorsWithUnpaidBills,
             'visitorsWithPaidBills' => $visitorsWithPaidBills,
+            'billsPerMonth' => $billsPerMonth,
 
             'entrances' => $entrances,
             'selectedYear' => $selectedYear,

@@ -77,21 +77,7 @@
             <form action="{{ route('service.store') }}" method="POST" id="addServiceForm">
                 @csrf
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="col-12">
-                            <div class="text-end">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="d-flex align-items-center gap-2 justify-content-center">
-                                <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70">
-                                <div class="d-flex flex-column">
-                                    <b class="modal-title mt-2 text-bold">JPB Heritage Inland Resort</b>
-                                    <span>Progreso Street Illauod, Bugasong, Antique</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    @include('layouts.modal-header')
                     <div class="modal-body">
                         <div
                             class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
@@ -186,22 +172,7 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="col-12">
-                                <div class="text-end">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="d-flex align-items-center gap-2 justify-content-center">
-                                    <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70">
-                                    <div class="d-flex flex-column">
-                                        <b class="modal-title mt-2 text-bold">JPB Heritage
-                                            Inland
-                                            Resort</b>
-                                        <span>Progreso Street Illauod, Bugasong, Antique</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @include('layouts.modal-header')
                         <div class="modal-body">
                             <div
                                 class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">

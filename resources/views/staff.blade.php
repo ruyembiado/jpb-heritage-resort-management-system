@@ -68,7 +68,7 @@
                                     @endphp
                                 </td> --}}
                                 <td>
-                                    <div class="d-flex align-items-center justify-c gap-1">
+                                    <div class="d-flex align-items-center justify-content-center gap-1">
                                         <a href="#" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#viewStaffModal" data-id="{{ $staff->id }}"
                                             data-status="{{ $staff->status }}" data-date_hired="{{ $staff->date_hired }}"

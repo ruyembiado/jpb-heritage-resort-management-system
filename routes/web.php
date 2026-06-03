@@ -47,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
     // ServiceController routes
     Route::get('/services', [ServiceController::class, 'index'])->name('services');
     Route::post('/add-service', [ServiceController::class, 'add_service'])->name('service.store');
-    Route::put('/update-service/{id}', [ServiceController::class,'update_service'])->name('service.update');
+    Route::put('/update-service/{id}', [ServiceController::class, 'update_service'])->name('service.update');
     Route::delete('/delete-service/{id}', [ServiceController::class, 'delete_service'])->name('service.destroy');
     // entrances
     Route::get('/availed-services', [ServiceController::class, 'availed_services'])->name('availed.services');
@@ -91,5 +91,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/weekly-report', [ReportController::class, 'weeklyReport'])->name('weekly.report');
     Route::get('/monthly-report', [ReportController::class, 'monthlyReport'])->name('monthly.report');
     Route::get('/yearly-report', [ReportController::class, 'yearlyReport'])->name('yearly.report');
-    Route::get('/guest-report', [ReportController::class, 'guestReport'])->name('guest.report');
+    Route::get('/guest-report', [ReportController::class, 'guestReportIndex'])->name('guest.report');
+    Route::get('/guest-report/date', [ReportController::class, 'guestReport'])->name('guestReportDate');
 });
