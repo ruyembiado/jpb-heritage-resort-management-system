@@ -24,10 +24,10 @@
             <nav class="navbar-expand bg-black px-4 py-1 shadow-sm">
                 <div class="col-11 m-auto d-flex justify-content-between flex-wrap align-items-center">
                     <div class="d-flex flex-wrap align-items-center">
-                        <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
+                        <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="50" alt="jbp-logo">
                         <h5 class="ms-2 mb-0 text-light">JPB OASIS: HERITAGE INLAND RESORT</h5>
                     </div>
-                    <div class="d-flex align-items-center gap-5">
+                    {{-- <div class="d-flex align-items-center gap-5">
                         @if (!auth()->check())
                             <div class="auth-buttons d-flex gap-3">
                                 <button class="btn btn-light" type="button" data-bs-toggle="modal"
@@ -46,7 +46,7 @@
                                         </a>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end rounded animated--fade-in">
-                                        {{-- <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="#">
                                             <i class="text-primary fas fa-user fa-sm fa-fw mr-2"></i>
                                             Profile
                                         </a>
@@ -54,7 +54,7 @@
                                             <i class="text-primary fas fa-cogs fa-sm fa-fw mr-2"></i>
                                             Settings
                                         </a>
-                                        <div class="dropdown-divider"></div> --}}
+                                        <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="" data-toggle="modal"
                                             data-target="#logoutModal">
                                             <i class="text-primary fas fa-sign-out-alt fa-sm fa-fw mr-2"></i>
@@ -64,7 +64,7 @@
                                 </li>
                             </ul>
                         @endif
-                    </div>
+                    </div> --}}
                 </div>
             </nav>
 
