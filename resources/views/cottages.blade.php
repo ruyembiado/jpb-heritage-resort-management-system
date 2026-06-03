@@ -167,9 +167,9 @@
                         <table class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr class="bg-secondary text-light">
-                                    <th class="bg-success text-light text-center" style="padding: 10px;">SELECT</th>
-                                    <th class="bg-success text-light" style="padding: 10px;">COTTAGE</th>
-                                    <th class="bg-success text-light" style="padding: 10px;">FEE</th>
+                                    <th class="bg-green-secondary text-light text-center" style="padding: 10px;">SELECT</th>
+                                    <th class="bg-green-secondary text-light" style="padding: 10px;">COTTAGE</th>
+                                    <th class="bg-green-secondary text-light" style="padding: 10px;">FEE</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -261,9 +261,9 @@
                         <table class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr class="bg-secondary text-light">
-                                    <th class="bg-success text-light text-center" style="padding: 10px;">SELECT</th>
-                                    <th class="bg-success text-light" style="padding: 10px;">COTTAGE</th>
-                                    <th class="bg-success text-light" style="padding: 10px;">FEE</th>
+                                    <th class="bg-green-secondary text-light text-center" style="padding: 10px;">SELECT</th>
+                                    <th class="bg-green-secondary text-light" style="padding: 10px;">COTTAGE</th>
+                                    <th class="bg-green-secondary text-light" style="padding: 10px;">FEE</th>
                                 </tr>
                             </thead>
                             <tbody>

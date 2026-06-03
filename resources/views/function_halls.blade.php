@@ -176,19 +176,19 @@
                             <!-- Room Accommodation Section -->
                             <div class="col-md-6">
                                 <div
-                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
+                                    class="bg-green-secondary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                                     <i class="fa fa-bed fa-2x"></i>
                                     <h3 class="m-0">ROOM ACCOMMODATION</h3>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table table-bordered">
-                                        <thead class="bg-success text-light">
+                                        <thead class="text-light">
                                             <tr>
-                                                <th class="bg-success text-light" width="5%">SELECT</th>
-                                                <th class="bg-success text-light">ROOM</th>
-                                                <th class="bg-success text-light" width="20%">NO. OF NIGHTS</th>
-                                                <th class="bg-success text-light" width="15%">FEE</th>
-                                                <th class="bg-success text-light" width="15%">SUB-TOTAL</th>
+                                                <th class="bg-green-tertiary text-light" width="5%">SELECT</th>
+                                                <th class="bg-green-tertiary text-light">ROOM</th>
+                                                <th class="bg-green-tertiary text-light" width="20%">NO. OF NIGHTS</th>
+                                                <th class="bg-green-tertiary text-light" width="15%">FEE</th>
+                                                <th class="bg-green-tertiary text-light" width="15%">SUB-TOTAL</th>
                                             </tr>
                                         </thead>
                                         <tbody id="accommodation-table-body">
@@ -252,19 +252,19 @@
                             <!-- Function Hall Section -->
                             <div class="col-md-6">
                                 <div
-                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
+                                    class="bg-green-secondary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                                     <i class="fa fa-building-columns fa-2x"></i>
                                     <h3 class="m-0">FUNCTION HALL</h3>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
-                                        <thead class="bg-success text-light">
+                                        <thead class="text-light">
                                             <tr>
-                                                <th class="bg-success text-light" width="5%">SELECT</th>
-                                                <th class="bg-success text-light">FUNCTION HALL</th>
-                                                <th class="bg-success text-light" width="20%">QTY</th>
-                                                <th class="bg-success text-light" width="15%">FEE</th>
-                                                <th class="bg-success text-light" width="15%">SUB-TOTAL</th>
+                                                <th class="bg-green-tertiary text-light" width="5%">SELECT</th>
+                                                <th class="bg-green-tertiary text-light">FUNCTION HALL</th>
+                                                <th class="bg-green-tertiary text-light" width="20%">QTY</th>
+                                                <th class="bg-green-tertiary text-light" width="15%">FEE</th>
+                                                <th class="bg-green-tertiary text-light" width="15%">SUB-TOTAL</th>
                                             </tr>
                                         </thead>
                                         <tbody id="functionhall-table-body">
@@ -369,18 +369,18 @@
                             <!-- Function Hall Section -->
                             <div class="col-md-12">
                                 <div
-                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
+                                    class="bg-green-secondary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                                     <i class="fa fa-building-columns fa-2x"></i>
                                     <h3 class="m-0">FUNCTION HALL</h3>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
-                                        <thead class="bg-success text-light">
-                                            <th class="bg-success text-light" width="5%">SELECT</th>
-                                            <th class="bg-success text-light">FUNCTION HALL</th>
-                                            <th class="bg-success text-light" width="20%">QTY</th>
-                                            <th class="bg-success text-light" width="15%">FEE</th>
-                                            <th class="bg-success text-light" width="15%">SUB-TOTAL</th>
+                                        <thead class="text-light">
+                                            <th class="bg-green-tertiary text-light" width="5%">SELECT</th>
+                                            <th class="bg-green-tertiary text-light">FUNCTION HALL</th>
+                                            <th class="bg-green-tertiary text-light" width="20%">QTY</th>
+                                            <th class="bg-green-tertiary text-light" width="15%">FEE</th>
+                                            <th class="bg-green-tertiary text-light" width="15%">SUB-TOTAL</th>
                                             </tr>
                                         </thead>
                                         <tbody>

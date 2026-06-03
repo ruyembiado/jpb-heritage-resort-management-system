@@ -127,24 +127,24 @@
                                             <thead>
                                                 <tr>
                                                     <th rowspan="2"
-                                                        class="align-middle text-center bg-success text-light"
+                                                        class="align-middle text-center bg-green-secondary text-light"
                                                         style="padding:5px;">Item</th>
-                                                    <th colspan="2" class="text-center bg-success text-light"
+                                                    <th colspan="2" class="text-center bg-green-secondary text-light"
                                                         style="padding:5px;">Price</th>
-                                                    <th colspan="2" class="text-center bg-success text-light"
+                                                    <th colspan="2" class="text-center bg-green-secondary text-light"
                                                         style="padding:5px;">Qty</th>
                                                     <th rowspan="2"
-                                                        class="align-middle text-center bg-success text-light"
+                                                        class="align-middle text-center bg-green-secondary text-light"
                                                         style="padding:5px;">Subtotal</th>
                                                 </tr>
                                                 <tr>
-                                                    <th class="text-center bg-success text-light" style="padding:5px;">Solo
+                                                    <th class="text-center bg-green-tertiary text-light" style="padding:5px;">Solo
                                                     </th>
-                                                    <th class="text-center bg-success text-light" style="padding:5px;">Group
+                                                    <th class="text-center bg-green-tertiary text-light" style="padding:5px;">Group
                                                     </th>
-                                                    <th class="text-center bg-success text-light" style="padding:5px;">Solo
+                                                    <th class="text-center bg-green-tertiary text-light" style="padding:5px;">Solo
                                                     </th>
-                                                    <th class="text-center bg-success text-light" style="padding:5px;">Group
+                                                    <th class="text-center bg-green-tertiary text-light" style="padding:5px;">Group
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -256,7 +256,7 @@
                             <!-- Foods Section -->
                             <div class="col-md-6">
                                 <div
-                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
+                                    class="bg-green-secondary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                                     <i class="fa fa-bowl-food fa-2x"></i>
                                     <h3 class="m-0">FOODS</h3>
                                 </div>
@@ -270,24 +270,24 @@
                                     @endphp
 
                                     <table class="table table-bordered">
-                                        <thead class="bg-success text-light">
+                                        <thead class="text-light">
                                             <tr>
-                                                <th rowspan="2" class="align-middle text-center bg-success text-light">
+                                                <th rowspan="2" class="align-middle text-center bg-green-secondary text-light">
                                                     CATEGORY</th>
-                                                <th rowspan="2" width="30%"
-                                                    class="align-middle text-center bg-success text-light">MENU</th>
-                                                <th colspan="2" class="text-center bg-success text-light">PRICE
+                                                <th rowspan="2" width="25%"
+                                                    class="align-middle text-center bg-green-secondary text-light">MENU</th>
+                                                <th colspan="2" class="text-center bg-green-secondary text-light">PRICE
                                                 </th>
-                                                <th colspan="2" class="text-center bg-success text-light">QUANTITY
+                                                <th colspan="2" class="text-center bg-green-secondary text-light">QUANTITY
                                                 </th>
-                                                <th rowspan="2" class="align-middle text-center bg-success text-light">
+                                                <th rowspan="2" class="align-middle text-center bg-green-secondary text-light">
                                                     SUB TOTAL</th>
                                             </tr>
                                             <tr>
-                                                <th class="text-center bg-success text-light">SOLO</th>
-                                                <th class="text-center bg-success text-light">GROUP</th>
-                                                <th class="text-center bg-success text-light">SOLO</th>
-                                                <th class="text-center bg-success text-light">GROUP</th>
+                                                <th class="text-center bg-green-tertiary text-light">SOLO</th>
+                                                <th class="text-center bg-green-tertiary text-light">GROUP</th>
+                                                <th class="text-center bg-green-tertiary text-light">SOLO</th>
+                                                <th class="text-center bg-green-tertiary text-light">GROUP</th>
                                             </tr>
                                         </thead>
 
@@ -393,7 +393,7 @@
                             <!-- Drinks Section -->
                             <div class="col-md-6">
                                 <div
-                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
+                                    class="bg-green-secondary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                                     <i class="fa fa-bottle-water fa-2x"></i>
                                     <h3 class="m-0">DRINKS</h3>
                                 </div>
@@ -405,22 +405,22 @@
                                     @endphp
 
                                     <table class="table table-bordered">
-                                        <thead class="bg-success text-light">
+                                        <thead class="text-light">
                                             <tr>
                                                 <th rowspan="2" width="30%"
-                                                    class="align-middle text-center bg-success text-light">DRINK</th>
-                                                <th colspan="2" class="text-center bg-success text-light">PRICE
+                                                    class="align-middle text-center bg-green-secondary text-light">DRINK</th>
+                                                <th colspan="2" class="text-center bg-green-secondary text-light">PRICE
                                                 </th>
-                                                <th colspan="2" class="text-center bg-success text-light">QUANTITY
+                                                <th colspan="2" class="text-center bg-green-secondary text-light">QUANTITY
                                                 </th>
-                                                <th rowspan="2" class="align-middletext-center bg-success text-light">
+                                                <th rowspan="2" class="align-middletext-center bg-green-secondary text-light">
                                                     SUB TOTAL</th>
                                             </tr>
                                             <tr>
-                                                <th class="text-center bg-success text-light">SOLO</th>
-                                                <th class="text-center bg-success text-light">GROUP</th>
-                                                <th class="text-center bg-success text-light">SOLO</th>
-                                                <th class="text-center bg-success text-light">GROUP</th>
+                                                <th class="text-center bg-green-tertiary text-light">SOLO</th>
+                                                <th class="text-center bg-green-tertiary text-light">GROUP</th>
+                                                <th class="text-center bg-green-tertiary text-light">SOLO</th>
+                                                <th class="text-center bg-green-tertiary text-light">GROUP</th>
                                             </tr>
                                         </thead>
 
@@ -554,7 +554,7 @@
                             <!-- Drinks Section -->
                             <div class="">
                                 <div
-                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
+                                    class="bg-green-secondary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                                     <i class="fa fa-bottle-water fa-2x"></i>
                                     <h3 class="m-0">DRINKS</h3>
                                 </div>
@@ -566,24 +566,24 @@
                                     @endphp
 
                                     <table class="table table-bordered">
-                                        <thead class="bg-success text-light">
+                                        <thead class="text-light">
                                             <tr>
                                                 <th rowspan="2" width="30%"
-                                                    class="align-middle text-center bg-success text-light">DRINK
+                                                    class="align-middle text-center bg-green-secondary text-light">DRINK
                                                 </th>
-                                                <th colspan="2" class="text-center bg-success text-light">PRICE
+                                                <th colspan="2" class="text-center bg-green-secondary text-light">PRICE
                                                 </th>
-                                                <th colspan="2" class="text-center bg-success text-light">
+                                                <th colspan="2" class="text-center bg-green-secondary text-light">
                                                     QUANTITY
                                                 </th>
-                                                <th rowspan="2" class="align-middletext-center bg-success text-light">
+                                                <th rowspan="2" class="align-middletext-center bg-green-secondary text-light">
                                                     SUB TOTAL</th>
                                             </tr>
                                             <tr>
-                                                <th class="text-center bg-success text-light">SOLO</th>
-                                                <th class="text-center bg-success text-light">GROUP</th>
-                                                <th class="text-center bg-success text-light">SOLO</th>
-                                                <th class="text-center bg-success text-light">GROUP</th>
+                                                <th class="text-center bg-green-tertiary text-light">SOLO</th>
+                                                <th class="text-center bg-green-tertiary text-light">GROUP</th>
+                                                <th class="text-center bg-green-tertiary text-light">SOLO</th>
+                                                <th class="text-center bg-green-tertiary text-light">GROUP</th>
                                             </tr>
                                         </thead>
 

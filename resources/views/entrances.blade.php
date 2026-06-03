@@ -92,12 +92,12 @@
                                         <table class="table table-bordered border-none mt-2 mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th class="bg-success text-light">No.</th>
-                                                    <th class="bg-success text-light">Name</th>
-                                                    <th class="bg-success text-light">Category</th>
-                                                    <th class="bg-success text-light">Sex</th>
-                                                    <th class="bg-success text-light">Age</th>
-                                                    <th class="bg-success text-light">Address</th>
+                                                    <th class="bg-green-secondary text-light">No.</th>
+                                                    <th class="bg-green-secondary text-light">Name</th>
+                                                    <th class="bg-green-secondary text-light">Category</th>
+                                                    <th class="bg-green-secondary text-light">Sex</th>
+                                                    <th class="bg-green-secondary text-light">Age</th>
+                                                    <th class="bg-green-secondary text-light">Address</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -195,7 +195,7 @@
                         <input type="hidden" name="date_visit" value="{{ now()->toDateString() }}"
                             class="form-control" required />
                         <div
-                            class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
+                            class="bg-green-secondary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                             <i class="fa fa-book fa-2x"></i>
                             <h3 class="m-0">ENTRANCE FEE</h3>
                         </div>
@@ -278,14 +278,14 @@
                         <table class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th class="bg-success text-light">No.</th>
-                                    <th class="bg-success text-light">Name</th>
-                                    <th class="bg-success text-light">Sex</th>
-                                    <th class="bg-success text-light">Age</th>
-                                    <th class="bg-success text-light">is PWD?</th>
-                                    <th class="bg-success text-light">Address</th>
-                                    <th class="bg-success text-light">Fee</th>
-                                    <th class="bg-success text-light">Action</th>
+                                    <th class="bg-green-tertiary text-light">No.</th>
+                                    <th class="bg-green-tertiary text-light">Name</th>
+                                    <th class="bg-green-tertiary text-light">Sex</th>
+                                    <th class="bg-green-tertiary text-light">Age</th>
+                                    <th class="bg-green-tertiary text-light">is PWD?</th>
+                                    <th class="bg-green-tertiary text-light">Address</th>
+                                    <th class="bg-green-tertiary text-light">Fee</th>
+                                    <th class="bg-green-tertiary text-light">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="add_companionsTableBody"></tbody>
@@ -335,7 +335,7 @@
                         <input type="hidden" id="edit_date_visit" name="edit_date_visit" value=""
                             class="form-control" required />
                         <div
-                            class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
+                            class="bg-green-secondary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                             <i class="fa fa-book fa-2x"></i>
                             <h3 class="m-0">ENTRANCE FEE</h3>
                         </div>
@@ -414,17 +414,17 @@
                             </div>
                         </div>
 
-                        <table class="table table-bordered border-dark" width="100%" cellspacing="0">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th class="bg-success text-light">No.</th>
-                                    <th class="bg-success text-light">Name</th>
-                                    <th class="bg-success text-light">Sex</th>
-                                    <th class="bg-success text-light">Age</th>
-                                    <th class="bg-success text-light">is PWD?</th>
-                                    <th class="bg-success text-light">Address</th>
-                                    <th class="bg-success text-light">Fee</th>
-                                    <th class="bg-success text-light">Action</th>
+                                    <th class="bg-green-tertiary text-light">No.</th>
+                                    <th class="bg-green-tertiary text-light">Name</th>
+                                    <th class="bg-green-tertiary text-light">Sex</th>
+                                    <th class="bg-green-tertiary text-light">Age</th>
+                                    <th class="bg-green-tertiary text-light">is PWD?</th>
+                                    <th class="bg-green-tertiary text-light">Address</th>
+                                    <th class="bg-green-tertiary text-light">Fee</th>
+                                    <th class="bg-green-tertiary text-light">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="edit_companionsTableBody"></tbody>

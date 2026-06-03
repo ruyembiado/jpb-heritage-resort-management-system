@@ -261,7 +261,7 @@
                 @include('layouts.modal-header')
                 <div class="modal-body">
                     <div
-                        class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
+                        class="bg-green-secondary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                         <i class="fa fa-eye fa-2x"></i>
                         <h3 class="m-0">VIEW STAFF</h3>
                     </div>
@@ -398,7 +398,7 @@
                     @include('layouts.modal-header')
                     <div class="modal-body">
                         <div
-                            class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
+                            class="bg-green-secondary d-flex align-items-center gap-2 justify-content-center text-light p-2 mb-3">
                             <i class="fa fa-edit fa-2x"></i>
                             <h3 class="m-0">EDIT STAFF</h3>
                         </div>

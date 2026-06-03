@@ -205,11 +205,15 @@
                                                 <th rowspan="3"
                                                     class="align-middle bg-theme-primary text-light text-uppercase"
                                                     style="vertical-align: middle;">Total Fee</th>
+                                                <th rowspan="3"
+                                                    class="align-middle bg-theme-primary text-light text-uppercase"
+                                                    style="vertical-align: middle;">Action</th>
                                             </tr>
                                             <tr>
                                                 <th class="bg-green-secondary text-light text-uppercase" colspan="2">
                                                     Entrance Fee</th>
-                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">Room
+                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">
+                                                    Room
                                                     Accommodation</th>
                                                 <th class="bg-green-secondary text-light text-uppercase" colspan="2">
                                                     Function Hall</th>
@@ -350,6 +354,14 @@
                                                         <td class="text-center fw-bold">
                                                             ₱{{ number_format($grand_total, 2) }}
                                                         </td>
+                                                        <td class="text-center">
+                                                            <a href="#" class="btn btn-secondary btn-sm"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#viewBillModal_{{ $visitor->id }}"
+                                                                data-visitor="{{ $visitor->id }}">
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
+                                                        </td>
                                                     </tr>
                                                 @endforeach
                                             @else
@@ -367,6 +379,117 @@
                 </div>
             </div>
         </div>
+
+        @foreach ($visitorsWithUnpaidBills as $visitor)
+            <!-- View Bill Modal -->
+            <div class="modal fade" id="viewBillModal_{{ $visitor->id }}" tabindex="-1" role="dialog"
+                aria-labelledby="viewBillModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-md" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header p-1">
+                            <div class="col-12 bg-theme-primary p-3">
+                                <div class="text-end">
+                                    <button type="button" class="btn-close btn-close-white"
+                                        data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 justify-content-center">
+                                    <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
+                                    <div class="d-flex flex-column text-light">
+                                        <b class="modal-title mt-2 text-bold">JPB Heritage Inland
+                                            Resort</b>
+                                        <span>Progreso Street Illauod, Bugasong, Antique</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div
+                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
+                                    <h3 class="m-0">BILL RECEIPT</h3>
+                                </div>
+                                <div class="visitor-name my-2 d-flex align-items-center gap-2">
+                                    <label class="col-3" for="visitorName">Visitor Name:</label>
+                                    <input type="text" class="form-control" id="visitorName"
+                                        value="{{ $visitor->first_name . ' ' . $visitor->middle_name . ' ' . $visitor->last_name }}"
+                                        readonly>
+                                </div>
+                                <div class="table-responsive p-0">
+                                    <table class="table table-bordered border-none m-0">
+                                        <thead class="bg-success text-light">
+                                            <tr>
+                                                <th style="border-width: 0px" class="text-center bg-success text-light">
+                                                    AVAILED SERVICES</th>
+                                                <th style="border-width: 0px" class="text-center bg-success text-light">
+                                                    AMOUNT
+                                                    FEE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if ($visitor->entrance)
+                                                <tr>
+                                                    <td style="border-width: 0px">Entrance Fee</td>
+                                                    <td style="border-width: 0px" class="text-center">
+                                                        ₱{{ number_format($visitor->entrance->total_payment, 2) }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if ($visitor->cottage)
+                                                <tr>
+                                                    <td style="border-width: 0px">Cottage Fee</td>
+                                                    <td style="border-width: 0px" class="text-center">
+                                                        ₱{{ number_format($visitor->cottage->total_payment, 2) }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if ($visitor->accommodation)
+                                                <tr>
+                                                    <td style="border-width: 0px">Room Accommodation
+                                                    </td>
+                                                    <td style="border-width: 0px" class="text-center">
+                                                        ₱{{ number_format($visitor->accommodation->total_payment, 2) }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if ($visitor->functionHall)
+                                                <tr>
+                                                    <td style="border-width: 0px">Function Hall
+                                                    </td>
+                                                    <td style="border-width: 0px" class="text-center">
+                                                        ₱{{ number_format($visitor->functionHall->total_payment, 2) }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if ($visitor->meal)
+                                                <tr>
+                                                    <td style="border-width: 0px">Foods</td>
+                                                    <td style="border-width: 0px" class="text-center">
+                                                        ₱{{ number_format($visitor->meal->total_payment, 2) }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if ($visitor->beverage)
+                                                <tr>
+                                                    <td style="border-width: 0px">Drinks</td>
+                                                    <td style="border-width: 0px" class="text-center">
+                                                        ₱{{ number_format($visitor->beverage->total_payment, 2) }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            <tr class="bg-dark text-light">
+                                                <td style="border-width: 0px"></td>
+                                                <td style="border-width: 0px" class="fw-semibold text-center">
+                                                    ₱{{ number_format($grand_total, 2) }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
         <div id="completeBill" class="modal fade" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered" style="max-width: 1520px;">
@@ -397,11 +520,15 @@
                                                 <th rowspan="3"
                                                     class="align-middle bg-theme-primary text-light text-uppercase"
                                                     style="vertical-align: middle;">Total Fee</th>
+                                                <th rowspan="3"
+                                                    class="align-middle bg-theme-primary text-light text-uppercase"
+                                                    style="vertical-align: middle;">Action</th>
                                             </tr>
                                             <tr>
                                                 <th class="bg-green-secondary text-light text-uppercase" colspan="2">
                                                     Entrance Fee</th>
-                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">Room
+                                                <th class="bg-green-secondary text-light text-uppercase" colspan="2">
+                                                    Room
                                                     Accommodation</th>
                                                 <th class="bg-green-secondary text-light text-uppercase" colspan="2">
                                                     Function Hall</th>
@@ -542,6 +669,14 @@
                                                         <td class="text-center fw-bold">
                                                             ₱{{ number_format($grand_total, 2) }}
                                                         </td>
+                                                        <td class="text-center">
+                                                            <a href="#" class="btn btn-secondary btn-sm"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#viewBillModal_{{ $visitor->id }}"
+                                                                data-visitor="{{ $visitor->id }}">
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
+                                                        </td>
                                                     </tr>
                                                 @endforeach
                                             @else
@@ -559,6 +694,117 @@
                 </div>
             </div>
         </div>
+
+        @foreach ($visitorsWithPaidBills as $visitor)
+            <!-- View Bill Modal -->
+            <div class="modal fade" id="viewBillModal_{{ $visitor->id }}" tabindex="-1" role="dialog"
+                aria-labelledby="viewBillModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-md" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header p-1">
+                            <div class="col-12 bg-theme-primary p-3">
+                                <div class="text-end">
+                                    <button type="button" class="btn-close btn-close-white"
+                                        data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 justify-content-center">
+                                    <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
+                                    <div class="d-flex flex-column text-light">
+                                        <b class="modal-title mt-2 text-bold">JPB Heritage Inland
+                                            Resort</b>
+                                        <span>Progreso Street Illauod, Bugasong, Antique</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div
+                                    class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
+                                    <h3 class="m-0">BILL RECEIPT</h3>
+                                </div>
+                                <div class="visitor-name my-2 d-flex align-items-center gap-2">
+                                    <label class="col-3" for="visitorName">Visitor Name:</label>
+                                    <input type="text" class="form-control" id="visitorName"
+                                        value="{{ $visitor->first_name . ' ' . $visitor->middle_name . ' ' . $visitor->last_name }}"
+                                        readonly>
+                                </div>
+                                <div class="table-responsive p-0">
+                                    <table class="table table-bordered border-none m-0">
+                                        <thead class="bg-success text-light">
+                                            <tr>
+                                                <th style="border-width: 0px" class="text-center bg-success text-light">
+                                                    AVAILED SERVICES</th>
+                                                <th style="border-width: 0px" class="text-center bg-success text-light">
+                                                    AMOUNT
+                                                    FEE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if ($visitor->entrance)
+                                                <tr>
+                                                    <td style="border-width: 0px">Entrance Fee</td>
+                                                    <td style="border-width: 0px" class="text-center">
+                                                        ₱{{ number_format($visitor->entrance->total_payment, 2) }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if ($visitor->cottage)
+                                                <tr>
+                                                    <td style="border-width: 0px">Cottage Fee</td>
+                                                    <td style="border-width: 0px" class="text-center">
+                                                        ₱{{ number_format($visitor->cottage->total_payment, 2) }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if ($visitor->accommodation)
+                                                <tr>
+                                                    <td style="border-width: 0px">Room Accommodation
+                                                    </td>
+                                                    <td style="border-width: 0px" class="text-center">
+                                                        ₱{{ number_format($visitor->accommodation->total_payment, 2) }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if ($visitor->functionHall)
+                                                <tr>
+                                                    <td style="border-width: 0px">Function Hall
+                                                    </td>
+                                                    <td style="border-width: 0px" class="text-center">
+                                                        ₱{{ number_format($visitor->functionHall->total_payment, 2) }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if ($visitor->meal)
+                                                <tr>
+                                                    <td style="border-width: 0px">Foods</td>
+                                                    <td style="border-width: 0px" class="text-center">
+                                                        ₱{{ number_format($visitor->meal->total_payment, 2) }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if ($visitor->beverage)
+                                                <tr>
+                                                    <td style="border-width: 0px">Drinks</td>
+                                                    <td style="border-width: 0px" class="text-center">
+                                                        ₱{{ number_format($visitor->beverage->total_payment, 2) }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            <tr class="bg-dark text-light">
+                                                <td style="border-width: 0px"></td>
+                                                <td style="border-width: 0px" class="fw-semibold text-center">
+                                                    ₱{{ number_format($grand_total, 2) }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
         <div class="col-12 mb-4">
             <div class="card shadow mb-0">

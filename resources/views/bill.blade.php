@@ -67,7 +67,7 @@
                             <th class="bg-theme-primary text-light">DRINKS</th>
                             <th class="bg-theme-primary text-light">DATE CREATED</th>
                             <th class="bg-theme-primary text-light">TOTAL PAYMENT</th>
-                            <th class="bg-theme-primary text-light ">ACTIONS</th>
+                            <th class="bg-theme-primary text-light sticky-action">ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -146,7 +146,7 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <div
-                                        class="bg-theme-primary d-flex align-items-center gap-2 justify-content-center text-light p-2">
+                                        class="bg-green-secondary d-flex align-items-center gap-2 justify-content-center text-light p-2">
                                         <h3 class="m-0">BILL RECEIPT</h3>
                                     </div>
                                     <div class="visitor-name my-2 d-flex align-items-center gap-2">
@@ -157,11 +157,11 @@
                                     </div>
                                     <div class="table-responsive p-0">
                                         <table class="table table-bordered border-none m-0">
-                                            <thead class="bg-success text-light">
+                                            <thead class="text-light">
                                                 <tr>
-                                                    <th style="border-width: 0px" class="text-center bg-success text-light">
+                                                    <th style="border-width: 0px" class="text-center bg-green-tertiary text-light">
                                                         AVAILED SERVICES</th>
-                                                    <th style="border-width: 0px" class="text-center bg-success text-light">
+                                                    <th style="border-width: 0px" class="text-center bg-green-tertiary text-light">
                                                         AMOUNT
                                                         FEE</th>
                                                 </tr>
