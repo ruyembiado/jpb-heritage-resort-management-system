@@ -101,12 +101,12 @@
                                                 <table class="table table-bordered border-none mt-2 mb-0">
                                                     <thead>
                                                         <tr>
-                                                            <th class="text-dark text-center">No.</th>
-                                                            <th class="text-dark text-center">Name</th>
-                                                            <th class="text-dark text-center">Category</th>
-                                                            <th class="text-dark text-center">Sex</th>
-                                                            <th class="text-dark text-center">Age</th>
-                                                            <th class="text-dark text-center">Address</th>
+                                                            <th class="text-light bg-green-secondary text-center">No.</th>
+                                                            <th class="text-light bg-green-secondary text-center">Name</th>
+                                                            <th class="text-light bg-green-secondary text-center">Category</th>
+                                                            <th class="text-light bg-green-secondary text-center">Sex</th>
+                                                            <th class="text-light bg-green-secondary text-center">Age</th>
+                                                            <th class="text-light bg-green-secondary text-center">Address</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>

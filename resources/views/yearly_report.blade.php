@@ -81,12 +81,12 @@
                                 <th class="text-center align-middle bg-theme-primary text-light" rowspan="2">TOTAL BILL INCOME</th>
                             </tr>
                             <tr>
-                                <th class="text-center bg-success text-light">ENTRANCE FEE</th>
-                                <th class="text-center bg-success text-light">COTTAGE FEE</th>
-                                <th class="text-center bg-success text-light">FUNCTION HALL</th>
-                                <th class="text-center bg-success text-light">ROOM ACCOMMODATION</th>
-                                <th class="text-center bg-success text-light">FOODS</th>
-                                <th class="text-center bg-success text-light">DRINKS</th>
+                                <th class="text-center bg-green-secondary text-light">ENTRANCE FEE</th>
+                                <th class="text-center bg-green-secondary text-light">COTTAGE FEE</th>
+                                <th class="text-center bg-green-secondary text-light">FUNCTION HALL</th>
+                                <th class="text-center bg-green-secondary text-light">ROOM ACCOMMODATION</th>
+                                <th class="text-center bg-green-secondary text-light">FOODS</th>
+                                <th class="text-center bg-green-secondary text-light">DRINKS</th>
                             </tr>
                         </thead>
                         <tbody>
