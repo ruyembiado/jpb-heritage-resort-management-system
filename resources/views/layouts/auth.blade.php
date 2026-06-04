@@ -139,8 +139,7 @@
             </main>
             <footer class="footer bg-dark py-3 shadow text-center">
                 <div class="d-flex justify-content-center px-3">
-                    <div class="text-light">© {{ date('Y') }}. Developed by IS-FLUTTERTECH INFINITY. All rights
-                        reserved.</div>
+                    <div class="text-light">© {{ date('Y') }}. Developed by IS-FLUTTERTECH INFINITY. All Rights Reserved.</div>
                 </div>
             </footer>
         </div>
