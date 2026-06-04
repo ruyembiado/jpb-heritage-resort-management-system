@@ -177,11 +177,11 @@ a.sidebar-link:hover {
 
 .navbar {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    background-color: #fffbb0;
+    background-color: #dee3a5;
 }
 
 .bg-theme-secondary {
-    background-color: #fffbb0;
+    background-color: #dee3a5;
 }
 
 .bg-theme-primary {
@@ -434,4 +434,12 @@ table td {
 
 .bg-green-tertiary {
     background-color: #2e7800 !important;
+}
+
+.bg-theme-dark {
+    background-color: #313131 !important;
+}
+
+.bg-theme-gray {
+    background-color: #b4b4b4 !important;
 }

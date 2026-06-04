@@ -91,7 +91,7 @@
             </ul>
         </aside>
         <div class="main bg-gradient">
-            <nav class="navbar navbar-expand px-4 py-3 bg-dark">
+            <nav class="navbar navbar-expand px-4 py-3 bg-theme-dark">
                 <div class="navbar-collapse collapse">
                     <button class="toggle-btn" type="button">
                         <i class="fa-solid text-light fa fa-bars fs-5"></i>

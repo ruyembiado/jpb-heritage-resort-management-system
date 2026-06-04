@@ -23,7 +23,7 @@
                     </div>
                     <div class="d-flex flex-column gap-5 mt-5">
                         <div class="home-description text-center text-light">
-                            <span>Management Information System</span><br>
+                            <span>Management Information System for JPB Inland Resort</span><br>
                             <span>Progreso Street Illauod, Bugasong, Antique</span>
                         </div>
                     </div>
