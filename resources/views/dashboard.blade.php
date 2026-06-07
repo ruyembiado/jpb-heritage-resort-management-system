@@ -16,7 +16,7 @@
                     <div class="card-body">
                         <div class="row align-items-center justify-content-between flex-column gap-3">
                             <div class="d-flex flex-column text-center">
-                                <b class="text-xs font-weight-bold text-light text-uppercase">
+                                <b class="fs-2 font-weight-bold text-light text-uppercase">
                                     Total Guest
                                 </b>
                                 <span class="text-center text-light">({{ date('Y') }})</span>
@@ -36,7 +36,7 @@
                 <div class="card-body">
                     <div class="row align-items-center justify-content-between flex-column gap-3">
                         <div class="d-flex flex-column text-center">
-                            <b class="text-xs font-weight-bold text-light text-uppercase">
+                            <b class="fs-2 font-weight-bold text-light text-uppercase">
                                 Total Bill
                             </b>
                             <span class="text-center text-light">({{ date('Y') }})</span>
@@ -56,7 +56,7 @@
                     <div class="card-body">
                         <div class="row align-items-center justify-content-between flex-column gap-3">
                             <div class="d-flex flex-column text-center">
-                                <b class="text-xs font-weight-bold text-light text-uppercase">
+                                <b class="fs-2 font-weight-bold text-light text-uppercase">
                                     Unpaid Bills
                                 </b>
                                 <span class="text-center text-light">(Incomplete)</span>
@@ -74,11 +74,11 @@
 
         <div class="col-xl-3 col-md-6 mb-0">
             <a href="#" data-bs-toggle="modal" data-bs-target="#completeBill">
-                <div class="card shadow py-2 bg-success">
+                <div class="card shadow py-2 bg-green-secondary">
                     <div class="card-body">
                         <div class="row align-items-center justify-content-between flex-column gap-3">
                             <div class="d-flex flex-column text-center">
-                                <b class="text-xs font-weight-bold text-light text-uppercase">
+                                <b class="fs-2 font-weight-bold text-light text-uppercase">
                                     Paid Bills
                                 </b>
                                 <span class="text-center text-light">(Complete)</span>
@@ -108,7 +108,7 @@
                                     <div class="card-body">
                                         <div
                                             class="d-flex flex-column justify-content-between p-3 border border-2 rounded border-primary">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase">
+                                            <div class="fs-2 font-weight-bold text-primary text-uppercase">
                                                 <i class="fa fa-calendar fa-2x text-primary"></i>
                                                 <b class="ms-2 pb-2">DAY</b>
                                             </div>
@@ -125,7 +125,7 @@
                                     <div class="card-body">
                                         <div
                                             class="d-flex flex-column justify-content-between p-3 border border-2 rounded border-success">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase">
+                                            <div class="fs-2 font-weight-bold text-success text-uppercase">
                                                 <i class="fa fa-calendar fa-2x text-success"></i>
                                                 <b class="ms-2 pb-2">WEEK</b>
                                             </div>
@@ -142,7 +142,7 @@
                                     <div class="card-body">
                                         <div
                                             class="d-flex flex-column justify-content-between p-3 border border-2 rounded border-brown">
-                                            <div class="text-xs font-weight-bold text-brown text-uppercase">
+                                            <div class="fs-2 font-weight-bold text-brown text-uppercase">
                                                 <i class="fa fa-calendar fa-2x text-brown"></i>
                                                 <b class="ms-2 pb-2">MONTH</b>
                                             </div>
@@ -159,7 +159,7 @@
                                     <div class="card-body">
                                         <div
                                             class="d-flex flex-column justify-content-between p-3 border border-2 rounded border-danger">
-                                            <div class="text-xs font-weight-bold text-danger text-uppercase">
+                                            <div class="fs-2 font-weight-bold text-danger text-uppercase">
                                                 <i class="fa fa-calendar fa-2x text-danger"></i>
                                                 <b class="ms-2 pb-2">YEAR</b>
                                             </div>
@@ -477,8 +477,8 @@
                                                 </tr>
                                             @endif
                                             <tr class="bg-dark text-light">
-                                                <td style="border-width: 0px"></td>
-                                                <td style="border-width: 0px" class="fw-semibold text-center">
+                                                <td class="fw-bold" style="border-width: 0px">TOTAL BILL</td>
+                                                <td class="fw-bold text-center" style="border-width: 0px">
                                                     ₱{{ number_format($grand_total, 2) }}</td>
                                             </tr>
                                         </tbody>
@@ -792,8 +792,8 @@
                                                 </tr>
                                             @endif
                                             <tr class="bg-dark text-light">
-                                                <td style="border-width: 0px"></td>
-                                                <td style="border-width: 0px" class="fw-semibold text-center">
+                                                <td class="fw-bold" style="border-width: 0px">TOTAL BILL</td>
+                                                <td class="fw-bold text-center" style="border-width: 0px">
                                                     ₱{{ number_format($grand_total, 2) }}</td>
                                             </tr>
                                         </tbody>
@@ -1169,7 +1169,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-theme-primary text-light">Update</button>
+                        <button type="submit" class="btn bg-green-secondary text-light">Update</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>

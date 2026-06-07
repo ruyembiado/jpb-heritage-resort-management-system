@@ -25,7 +25,7 @@ class StaffController extends Controller
             'middle_name' => 'nullable|string|max:255',
             'last_name' => 'required|string|max:255',
             'contact_number' => 'required|string|max:20',
-            'email' => 'required|email|unique:staffs,email',
+            'email' => 'required|email',
             'gender' => 'required|in:Male,Female',
             'address' => 'required|string',
             'birthdate' => 'required|date',

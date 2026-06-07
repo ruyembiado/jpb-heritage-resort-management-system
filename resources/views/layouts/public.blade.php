@@ -21,7 +21,7 @@
 <body>
     <div class="wrapper">
         <div class="main">
-            <nav class="navbar-expand bg-black px-4 py-1 shadow-sm">
+            <nav class="navbar-expand bg-theme-dark px-4 py-1 shadow-sm">
                 <div class="col-11 m-auto d-flex justify-content-between flex-wrap align-items-center">
                     <div class="d-flex flex-wrap align-items-center">
                         <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="50" alt="jbp-logo">

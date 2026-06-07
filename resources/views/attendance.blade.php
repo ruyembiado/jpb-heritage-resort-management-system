@@ -37,8 +37,8 @@
                             <th rowspan="2" class="text-light bg-theme-primary align-middle text-center">ACTION</th>
                         </tr>
                         <tr>
-                            <th class="text-light bg-theme-primary align-middle text-center">8:00 AM</th>
-                            <th class="text-light bg-theme-primary align-middle text-center">5:00 PM</th>
+                            <th class="text-light bg-green-secondary align-middle text-center">8:00 AM</th>
+                            <th class="text-light bg-green-secondary align-middle text-center">5:00 PM</th>
                         </tr>
                     </thead>
                     <tbody>

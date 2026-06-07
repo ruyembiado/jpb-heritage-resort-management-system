@@ -21,16 +21,23 @@
                 <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th class="bg-theme-primary text-light">No.</th>
-                            <th class="bg-theme-primary text-light">Name</th>
-                            <th class="bg-theme-primary text-light">Service Type</th>
-                            @if (($filter ?? '') == 'foods' || $filter == 'drinks')
-                                <th class="bg-theme-primary text-light">Food Category</th>
-                                <th class="bg-theme-primary text-light">Food/Drink Type</th>
+                            <th class="bg-theme-primary text-uppercase text-light">No.</th>
+                            <th class="bg-theme-primary text-uppercase text-light">Name</th>
+                            <th class="bg-theme-primary text-uppercase text-light">Service Type</th>
+                            @if (!$filter)
+                                <th class="bg-theme-primary text-uppercase text-light">Food Category</th>
+                                <th class="bg-theme-primary text-uppercase text-light">Food/Drink Type</th>
                             @endif
-                            <th class="bg-theme-primary text-light">Fee</th>
-                            <th class="bg-theme-primary text-light">Date Created</th>
-                            <th class="bg-theme-primary text-light sticky-action">Action</th>
+                            @if ($filter == 'foods')
+                                <th class="bg-theme-primary text-uppercase text-light">Food Category</th>
+                                <th class="bg-theme-primary text-uppercase text-light">Food Type</th>
+                            @endif
+                            @if ($filter == 'drinks')
+                                <th class="bg-theme-primary text-uppercase text-light">Drink Type</th>
+                            @endif
+                            <th class="bg-theme-primary text-uppercase text-light">Fee</th>
+                            <th class="bg-theme-primary text-uppercase text-light">Date Created</th>
+                            <th class="bg-theme-primary text-uppercase text-light sticky-action">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,8 +46,15 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $service->service_name }}</td>
                                 <td>{{ ucwords(str_replace('_', ' ', $service->service_type)) }}</td>
-                                @if (($filter ?? '') == 'foods' || $filter == 'drinks')
+                                @if (!$filter)
                                     <td>{{ $service->food_category ? ucfirst($service->food_category) : 'N/A' }}</td>
+                                    <td>{{ $service->food_type ? ucfirst($service->food_type) : 'N/A' }}</td>
+                                @endif
+                                @if ($filter == 'foods')
+                                    <td>{{ $service->food_category ? ucfirst($service->food_category) : 'N/A' }}</td>
+                                    <td>{{ $service->food_type ? ucfirst($service->food_type) : 'N/A' }}</td>
+                                @endif
+                                @if ($filter == 'drinks')
                                     <td>{{ $service->food_type ? ucfirst($service->food_type) : 'N/A' }}</td>
                                 @endif
                                 <td>₱{{ number_format($service->fee, 2) }}</td>
@@ -87,15 +101,21 @@
 
                         @include('layouts.note')
 
-                        <div class="form-group mb-2">
-                            <div class="d-flex align-items-center gap-3">
-                                <label>Name:</label>
-                                <div class="col-4">
+                        <div class="row g-3">
+
+                            <!-- NAME -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Name:</label>
                                     <input type="text" name="service_name" class="form-control" placeholder="Name"
                                         required>
                                 </div>
-                                <label>Service Type:</label>
-                                <div class="col-3">
+                            </div>
+
+                            <!-- SERVICE TYPE -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Service Type:</label>
                                     <select name="service_type" id="service_type" class="form-control" required>
                                         <option value="">Select type</option>
                                         <option value="entrance_fee">Entrance Fee</option>
@@ -107,56 +127,60 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Food Fields -->
-                        <div class="form-group mb-2">
-                            <div class="d-flex flex-wrap align-items-center gap-2">
-                                <div class="col-12" id="foodFields" style="display:none;">
-                                    <div class="d-flex flex-wrap align-items-center gap-3">
+                            <!-- FOOD FIELDS -->
+                            <div class="col-md-12" id="foodFields" style="display:none;">
+                                <div class="row g-3">
+
+                                    <div class="col-md-6">
                                         <label>Food Category:</label>
-                                        <div class="col-4">
-                                            <select name="food_category" class="form-control" disabled>
-                                                <option value="">Select Category</option>
-                                                <option value="noodles">Noodles</option>
-                                                <option value="soup">Soup</option>
-                                                <option value="main">Main</option>
-                                                <option value="rice">Rice</option>
-                                            </select>
-                                        </div>
+                                        <select name="food_category" class="form-control" disabled>
+                                            <option value="">Select Category</option>
+                                            <option value="noodles">Noodles</option>
+                                            <option value="soup">Soup</option>
+                                            <option value="main">Main</option>
+                                            <option value="rice">Rice</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6">
                                         <label>Food Type:</label>
-                                        <div class="col-4">
-                                            <select name="food_type" class="form-control" disabled>
-                                                <option value="">Select Type</option>
-                                                <option value="solo">Solo</option>
-                                                <option value="group">Group</option>
-                                            </select>
-                                        </div>
+                                        <select name="food_type" class="form-control" disabled>
+                                            <option value="">Select Type</option>
+                                            <option value="solo">Solo</option>
+                                            <option value="group">Group</option>
+                                        </select>
                                     </div>
+
                                 </div>
-                                <div class="col-5" id="drinkFields" style="display:none;">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <label>Drink Type:</label>
-                                        <div class="col-8">
-                                            <select name="food_type" class="form-control" disabled>
-                                                <option value="">Select Type</option>
-                                                <option value="solo">Solo</option>
-                                                <option value="group">Group</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                            </div>
+
+                            <!-- DRINK FIELDS -->
+                            <div class="col-md-6" id="drinkFields" style="display:none;">
+                                <div class="form-group">
+                                    <label>Drink Type:</label>
+                                    <select name="food_type" class="form-control" disabled>
+                                        <option value="">Select Type</option>
+                                        <option value="solo">Solo</option>
+                                        <option value="group">Group</option>
+                                    </select>
                                 </div>
-                                <label>Fee:</label>
-                                <div class="col-2">
+                            </div>
+
+                            <!-- FEE -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Fee:</label>
                                     <input type="number" name="fee" class="form-control" min="0"
                                         placeholder="Amount" required>
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-theme-primary text-light">Save</button>
+                        <button type="submit" class="btn bg-green-secondary text-light">Save</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -192,17 +216,24 @@
                                 <input type="hidden" name="service_type" value="{{ $filter ?? '' }}">
                             @endif
 
-                            <!-- Name + Service Type -->
-                            <div class="form-group mb-2">
-                                <div class="d-flex align-items-center gap-3">
-                                    <label>Name:</label>
-                                    <div class="col-4">
+                            <div class="row g-3">
+
+                                <!-- Name -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name:</label>
                                         <input type="text" name="service_name" class="form-control"
                                             value="{{ $service->service_name }}" required>
                                     </div>
-                                    <label>Service Type:</label>
-                                    <div class="col-3">
+                                </div>
+
+                                <!-- Service Type -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Service Type:</label>
+
                                         <input type="hidden" name="service_type" value="{{ $service->service_type }}">
+
                                         <select disabled name="service_type" class="form-control edit_service_type"
                                             data-id="{{ $service->id }}" required>
                                             <option value="entrance_fee"
@@ -232,78 +263,85 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Food/Drink Fields -->
-                            <div class="form-group mb-2">
-                                <div class="d-flex flex-wrap align-items-center gap-2">
-                                    <!-- Foods: Category + Type -->
-                                    <div class="col-12" id="editFoodFields{{ $service->id }}"
-                                        style="{{ $service->service_type == 'foods' ? '' : 'display:none;' }}">
-                                        <div class="d-flex flex-wrap align-items-center gap-3">
+                                <!-- Food Fields -->
+                                <div class="col-md-12" id="editFoodFields{{ $service->id }}"
+                                    style="{{ $service->service_type == 'foods' ? '' : 'display:none;' }}">
+
+                                    <div class="row g-3">
+
+                                        <div class="col-md-6">
                                             <label>Food Category:</label>
-                                            <div class="col-4">
-                                                <select name="food_category" class="form-control">
-                                                    <option value="">Select Category
-                                                    </option>
-                                                    <option value="noodles"
-                                                        {{ $service->food_category == 'noodles' ? 'selected' : '' }}>
-                                                        Noodles</option>
-                                                    <option value="soup"
-                                                        {{ $service->food_category == 'soup' ? 'selected' : '' }}>
-                                                        Soup</option>
-                                                    <option value="main"
-                                                        {{ $service->food_category == 'main' ? 'selected' : '' }}>
-                                                        Main</option>
-                                                    <option value="rice"
-                                                        {{ $service->food_category == 'rice' ? 'selected' : '' }}>
-                                                        Rice</option>
-                                                </select>
-                                            </div>
+                                            <select name="food_category" class="form-control">
+                                                <option value="">Select Category</option>
+                                                <option value="noodles"
+                                                    {{ $service->food_category == 'noodles' ? 'selected' : '' }}>
+                                                    Noodles
+                                                </option>
+                                                <option value="soup"
+                                                    {{ $service->food_category == 'soup' ? 'selected' : '' }}>
+                                                    Soup
+                                                </option>
+                                                <option value="main"
+                                                    {{ $service->food_category == 'main' ? 'selected' : '' }}>
+                                                    Main
+                                                </option>
+                                                <option value="rice"
+                                                    {{ $service->food_category == 'rice' ? 'selected' : '' }}>
+                                                    Rice
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6">
                                             <label>Food Type:</label>
-                                            <div class="col-4">
-                                                <select name="food_type" class="form-control">
-                                                    <option value="">Select Type</option>
-                                                    <option value="solo"
-                                                        {{ $service->food_type == 'solo' ? 'selected' : '' }}>
-                                                        Solo</option>
-                                                    <option value="group"
-                                                        {{ $service->food_type == 'group' ? 'selected' : '' }}>
-                                                        Group</option>
-                                                </select>
-                                            </div>
+                                            <select name="food_type" class="form-control">
+                                                <option value="">Select Type</option>
+                                                <option value="solo"
+                                                    {{ $service->food_type == 'solo' ? 'selected' : '' }}>
+                                                    Solo
+                                                </option>
+                                                <option value="group"
+                                                    {{ $service->food_type == 'group' ? 'selected' : '' }}>
+                                                    Group
+                                                </option>
+                                            </select>
                                         </div>
-                                    </div>
 
-                                    <!-- Drinks: Only Type -->
-                                    <div class="col-5" id="editDrinkFields{{ $service->id }}"
-                                        style="{{ $service->service_type == 'drinks' ? '' : 'display:none;' }}">
-                                        <div class="d-flex align-items-center gap-3">
-                                            <label>Drink Type:</label>
-                                            <div class="col-8">
-                                                <select name="drink_type" class="form-control">
-                                                    <option value="">Select Type</option>
-                                                    <option value="solo"
-                                                        {{ $service->food_type == 'solo' ? 'selected' : '' }}>
-                                                        Solo</option>
-                                                    <option value="group"
-                                                        {{ $service->food_type == 'group' ? 'selected' : '' }}>
-                                                        Group</option>
-                                                </select>
-                                            </div>
-                                        </div>
                                     </div>
+                                </div>
 
-                                    <label>Fee:</label>
-                                    <div class="col-2">
+                                <!-- Drink Fields -->
+                                <div class="col-md-6" id="editDrinkFields{{ $service->id }}"
+                                    style="{{ $service->service_type == 'drinks' ? '' : 'display:none;' }}">
+
+                                    <div class="form-group">
+                                        <label>Drink Type:</label>
+                                        <select name="drink_type" class="form-control">
+                                            <option value="">Select Type</option>
+                                            <option value="solo" {{ $service->food_type == 'solo' ? 'selected' : '' }}>
+                                                Solo
+                                            </option>
+                                            <option value="group" {{ $service->food_type == 'group' ? 'selected' : '' }}>
+                                                Group
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Fee -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Fee:</label>
                                         <input type="number" name="fee" class="form-control"
                                             value="{{ $service->fee }}" min="0" required>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn bg-theme-primary text-light">Update</button>
+                            <button type="submit" class="btn bg-green-secondary text-light">Update</button>
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                         </div>
                     </div>

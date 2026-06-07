@@ -33,7 +33,7 @@
                     <button onclick="printReport()" class="btn btn-sm btn-secondary d-print-none text-light">
                         <i class="fas fa-print"></i> Print Report
                     </button>
-                    <button onclick="exportExcel()" class="btn btn-sm btn-success d-print-none">
+                    <button onclick="exportExcel()" class="btn btn-sm bg-green-tertiary text-light d-print-none">
                         <i class="fas fa-file-excel"></i> Export Excel
                     </button>
                 </div>
@@ -103,10 +103,12 @@
                                                         <tr>
                                                             <th class="text-light bg-green-secondary text-center">No.</th>
                                                             <th class="text-light bg-green-secondary text-center">Name</th>
-                                                            <th class="text-light bg-green-secondary text-center">Category</th>
+                                                            <th class="text-light bg-green-secondary text-center">Category
+                                                            </th>
                                                             <th class="text-light bg-green-secondary text-center">Sex</th>
                                                             <th class="text-light bg-green-secondary text-center">Age</th>
-                                                            <th class="text-light bg-green-secondary text-center">Address</th>
+                                                            <th class="text-light bg-green-secondary text-center">Address
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -146,6 +148,14 @@
                                         <td class="text-center">
                                             {{ \Carbon\Carbon::parse($entrance->visitor->created_at)->format('h:i A') }}
                                         </td>
+                                    </tr>
+                                    @php
+                                        $totalVisitors = $entrances->sum(fn($e) => ($e->visitor->members ?? 0) + 1);
+                                    @endphp
+                                    <tr class="bg-light">
+                                        <td colspan="4" class="text-center fw-bold">GRAND TOTAL</td>
+                                        <td class="text-center fw-bold">{{ $totalVisitors }}</td>
+                                        <td colspan="4"></td>
                                     </tr>
                                 @endforeach
                             @endif

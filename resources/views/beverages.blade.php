@@ -15,7 +15,7 @@
 
     <!-- Content Row -->
     @include('layouts.services-navigation')
-    <div class="card shadow mb-4">  
+    <div class="card shadow mb-4">
         <div class="card-body">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
@@ -57,7 +57,8 @@
                         <i class="fa-solid fa-bowl-food"></i>
                         Foods
                     </a>
-                    <a href="{{ url('beverages') }}" class="btn btn-success d-flex align-items-center gap-2">
+                    <a href="{{ url('beverages') }}"
+                        class="btn bg-green-tertiary text-light d-flex align-items-center gap-2">
                         <i class="fa-solid fa-bottle-water"></i>
                         Drinks
                     </a>
@@ -120,6 +121,10 @@
                                                 $groupedItems[$item]['group_qty'] = $quantity[$index] ?? 0;
                                             }
                                         }
+
+                                        $groupedItems = array_filter($groupedItems, function ($item) {
+                                            return $item['solo_qty'] + $item['group_qty'] > 0;
+                                        });
                                     @endphp
 
                                     <td class="p-0">
@@ -138,19 +143,27 @@
                                                         style="padding:5px;">Subtotal</th>
                                                 </tr>
                                                 <tr>
-                                                    <th class="text-center bg-green-tertiary text-light" style="padding:5px;">Solo
+                                                    <th class="text-center bg-green-tertiary text-light"
+                                                        style="padding:5px;">Solo
                                                     </th>
-                                                    <th class="text-center bg-green-tertiary text-light" style="padding:5px;">Group
+                                                    <th class="text-center bg-green-tertiary text-light"
+                                                        style="padding:5px;">Group
                                                     </th>
-                                                    <th class="text-center bg-green-tertiary text-light" style="padding:5px;">Solo
+                                                    <th class="text-center bg-green-tertiary text-light"
+                                                        style="padding:5px;">Solo
                                                     </th>
-                                                    <th class="text-center bg-green-tertiary text-light" style="padding:5px;">Group
+                                                    <th class="text-center bg-green-tertiary text-light"
+                                                        style="padding:5px;">Group
                                                     </th>
                                                 </tr>
                                             </thead>
 
                                             <tbody>
                                                 @foreach ($groupedItems as $name => $data)
+                                                    @if ($data['solo_qty'] + $data['group_qty'] == 0)
+                                                        @continue
+                                                    @endif
+
                                                     @php
                                                         $subtotal =
                                                             $data['solo_fee'] * $data['solo_qty'] +
@@ -272,15 +285,19 @@
                                     <table class="table table-bordered">
                                         <thead class="text-light">
                                             <tr>
-                                                <th rowspan="2" class="align-middle text-center bg-green-secondary text-light">
+                                                <th rowspan="2"
+                                                    class="align-middle text-center bg-green-secondary text-light">
                                                     CATEGORY</th>
                                                 <th rowspan="2" width="25%"
-                                                    class="align-middle text-center bg-green-secondary text-light">MENU</th>
+                                                    class="align-middle text-center bg-green-secondary text-light">MENU
+                                                </th>
                                                 <th colspan="2" class="text-center bg-green-secondary text-light">PRICE
                                                 </th>
-                                                <th colspan="2" class="text-center bg-green-secondary text-light">QUANTITY
+                                                <th colspan="2" class="text-center bg-green-secondary text-light">
+                                                    QUANTITY
                                                 </th>
-                                                <th rowspan="2" class="align-middle text-center bg-green-secondary text-light">
+                                                <th rowspan="2"
+                                                    class="align-middle text-center bg-green-secondary text-light">
                                                     SUB TOTAL</th>
                                             </tr>
                                             <tr>
@@ -317,8 +334,7 @@
                                                             <input type="hidden"
                                                                 name="meal_items[{{ $mealIndex }}][category]"
                                                                 value="{{ $category }}">
-                                                            <input type="text" class="form-control"
-                                                                value="{{ $name }}" readonly>
+                                                            <textarea class="form-control text-center" cols="30" rows="1" readonly>{{ $name }}</textarea>
                                                         </td>
 
                                                         <!-- PRICE -->
@@ -408,12 +424,15 @@
                                         <thead class="text-light">
                                             <tr>
                                                 <th rowspan="2" width="30%"
-                                                    class="align-middle text-center bg-green-secondary text-light">DRINK</th>
+                                                    class="align-middle text-center bg-green-secondary text-light">DRINK
+                                                </th>
                                                 <th colspan="2" class="text-center bg-green-secondary text-light">PRICE
                                                 </th>
-                                                <th colspan="2" class="text-center bg-green-secondary text-light">QUANTITY
+                                                <th colspan="2" class="text-center bg-green-secondary text-light">
+                                                    QUANTITY
                                                 </th>
-                                                <th rowspan="2" class="align-middletext-center bg-green-secondary text-light">
+                                                <th rowspan="2"
+                                                    class="align-middletext-center bg-green-secondary text-light">
                                                     SUB TOTAL</th>
                                             </tr>
                                             <tr>
@@ -437,8 +456,7 @@
                                                         <input type="hidden"
                                                             name="drink_items[{{ $drinkIndex }}][name]"
                                                             value="{{ $name }}">
-                                                        <input type="text" class="form-control"
-                                                            value="{{ $name }}" readonly>
+                                                        <textarea class="form-control text-center" cols="30" rows="1" readonly>{{ $name }}</textarea>
                                                     </td>
 
                                                     <!-- PRICE -->
@@ -512,7 +530,7 @@
                         <input type="hidden" name="grand_total" id="grand_total" value="0.00">
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-theme-primary text-light">Save</button>
+                        <button type="submit" class="btn bg-green-secondary text-light">Save</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -576,7 +594,8 @@
                                                 <th colspan="2" class="text-center bg-green-secondary text-light">
                                                     QUANTITY
                                                 </th>
-                                                <th rowspan="2" class="align-middletext-center bg-green-secondary text-light">
+                                                <th rowspan="2"
+                                                    class="align-middletext-center bg-green-secondary text-light">
                                                     SUB TOTAL</th>
                                             </tr>
                                             <tr>
@@ -674,7 +693,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-theme-primary text-light">Update</button>
+                        <button type="submit" class="btn bg-green-secondary text-light">Update</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>

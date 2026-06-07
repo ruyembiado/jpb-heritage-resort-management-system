@@ -53,7 +53,7 @@
                 </form>
             </div>
             <div class="d-flex gap-2">
-                <a href="{{ url('accommodations') }}" class="btn btn-success d-flex align-items-center gap-2">
+                <a href="{{ url('accommodations') }}" class="btn bg-green-tertiary text-light d-flex align-items-center gap-2">
                     <i class="fa-solid fa-bed"></i>
                     Room Accommodation
                 </a>
@@ -329,7 +329,7 @@
                         <input type="hidden" name="grand_total" id="grand_total" value="0.00">
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-theme-primary text-light">Save</button>
+                        <button type="submit" class="btn bg-green-secondary text-light">Save</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -444,7 +444,7 @@
                         <input type="hidden" name="grand_total" id="edit_grand_total" value="0.00">
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-theme-primary text-light">Update</button>
+                        <button type="submit" class="btn bg-green-secondary text-light">Update</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>

@@ -65,6 +65,7 @@
                             <th class="bg-theme-primary text-light">COTTAGE FEE</th>
                             <th class="bg-theme-primary text-light">FOODS</th>
                             <th class="bg-theme-primary text-light">DRINKS</th>
+                            <th class="bg-theme-primary text-light">STATUS</th>
                             <th class="bg-theme-primary text-light">DATE CREATED</th>
                             <th class="bg-theme-primary text-light">TOTAL PAYMENT</th>
                             <th class="bg-theme-primary text-light sticky-action">ACTIONS</th>
@@ -95,6 +96,31 @@
                                 </td>
                                 <td>
                                     {{ $visitor->beverage ? '₱' . number_format($visitor->beverage->total_payment, 2) : 'N/A' }}
+                                </td>
+                                @php
+                                    $statuses = [
+                                        optional($visitor->entrance)->payment_status,
+                                        optional($visitor->functionHall)->payment_status,
+                                        optional($visitor->cottage)->payment_status,
+                                        optional($visitor->meal)->payment_status,
+                                        optional($visitor->beverage)->payment_status,
+                                        optional($visitor->accommodation)->payment_status,
+                                    ];
+                                    $filtered = array_filter($statuses);
+                                    $finalStatus = 'Paid';
+                                    foreach ($filtered as $status) {
+                                        if ($status === 'Unpaid') {
+                                            $finalStatus = 'Unpaid';
+                                            break;
+                                        }
+                                    }
+                                @endphp
+                                <td>
+                                    @if ($finalStatus === 'Unpaid')
+                                        <span class="badge bg-danger">Unpaid</span>
+                                    @else
+                                        <span class="badge bg-success">Paid</span>
+                                    @endif
                                 </td>
                                 <td>
                                     {{ $visitor->created_at->format('M d, Y') }}
@@ -131,7 +157,8 @@
                             <div class="modal-header p-1">
                                 <div class="col-12 bg-theme-primary p-3">
                                     <div class="text-end">
-                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                        <button type="button" class="btn-close btn-close-white"
+                                            data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="d-flex align-items-center gap-2 justify-content-center">
                                         <img src="{{ asset('public/img/jbp-icon.jpg') }}" width="70" alt="jbp-logo">
@@ -159,9 +186,11 @@
                                         <table class="table table-bordered border-none m-0">
                                             <thead class="text-light">
                                                 <tr>
-                                                    <th style="border-width: 0px" class="text-center bg-green-tertiary text-light">
+                                                    <th style="border-width: 0px"
+                                                        class="text-center bg-green-tertiary text-light">
                                                         AVAILED SERVICES</th>
-                                                    <th style="border-width: 0px" class="text-center bg-green-tertiary text-light">
+                                                    <th style="border-width: 0px"
+                                                        class="text-center bg-green-tertiary text-light">
                                                         AMOUNT
                                                         FEE</th>
                                                 </tr>
@@ -218,8 +247,8 @@
                                                     </tr>
                                                 @endif
                                                 <tr class="bg-dark text-light">
-                                                    <td style="border-width: 0px"></td>
-                                                    <td style="border-width: 0px" class="fw-semibold text-center">
+                                                    <td class="fw-bold" style="border-width: 0px">TOTAL BILL</td>
+                                                    <td class="fw-bold text-center" style="border-width: 0px">
                                                         ₱{{ number_format($grand_total, 2) }}</td>
                                                 </tr>
                                             </tbody>

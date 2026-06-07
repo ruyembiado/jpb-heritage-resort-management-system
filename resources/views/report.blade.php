@@ -41,7 +41,7 @@
                                         <option value="yearly">Yearly</option>
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-success bg-theme-primary w-100">View Report</button>
+                                <button type="submit" class="btn btn-success bg-green-secondary w-100">View Report</button>
                             </div>
                         </div>
                     </form>

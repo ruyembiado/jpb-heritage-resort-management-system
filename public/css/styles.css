@@ -300,7 +300,7 @@ nav {
 
 h1.home-title {
     color: #fff;
-    font-size: 70px;
+    font-size: 35px;
     text-shadow: 1px 1px 1px #252525;
 }
 
@@ -442,4 +442,52 @@ table td {
 
 .bg-theme-gray {
     background-color: #b4b4b4 !important;
+}
+
+table input {
+    text-align: center;
+}
+
+table td {
+    vertical-align: middle !important;
+}
+
+.fc .fc-daygrid-day-top {
+    justify-content: center;
+}
+
+tr.fc-scrollgrid-section.fc-scrollgrid-section-header th {
+    padding: 0 !important;
+}
+
+.btn-danger {
+    background-color: #7f0000 !important;
+    border-color: #7f0000 !important;
+}
+
+.btn-primary {
+    background-color: #001893 !important;
+    border-color: #001893 !important;
+}
+
+.bg-primary {
+    background-color: #001893 !important;
+}
+
+.bg-danger {
+    background-color: #7f0000 !important;
+}
+
+.bg-success {
+    background-color: #084d00 !important;
+}
+
+.btn-warning {
+    background-color: #b35100 !important;
+    border-color: #b35100 !important;
+    color: #fff !important;
+}
+
+#report-filter select {
+    text-align: center;
 }

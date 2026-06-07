@@ -136,102 +136,93 @@
                             <i class="fa fa-user-circle text-secondary" style="font-size: 80px"></i>
                         </div>
 
-                        <div class="form-group mb-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <label for="">Name: </label>
-                                <div class="col-4 first-name">
-                                    <input type="text" name="first_name" class="form-control" placeholder="First Name"
-                                        required>
-                                </div>
-                                <div class="col-3 middle-name">
-                                    <input type="text" name="middle_name" placeholder="Middle Name"
-                                        class="form-control">
-                                </div>
-                                <div class="col-3 last-name">
-                                    <input type="text" name="last_name" class="form-control" placeholder="Last Name"
-                                        required>
-                                </div>
+                        <div class="row g-3">
+                            <!-- First Name -->
+                            <div class="col-md-4">
+                                <label>First Name</label>
+                                <input type="text" name="first_name" class="form-control" placeholder="First Name"
+                                    required>
                             </div>
-                        </div>
 
-                        <div class="form-group mb-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <label for="staff-id">Staff ID:</label>
-                                <div class="col-6 staff-id">
-                                    <input type="text" name="staff_id" class="form-control" required>
-                                </div>
-                                <label for="gender">Sex:</label>
-                                <div class="gender col-3">
-                                    <select name="gender" class="form-control" id="gender" required>
-                                        <option value="">Select gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                </div>
+                            <!-- Middle Name -->
+                            <div class="col-md-4">
+                                <label>Middle Name</label>
+                                <input type="text" name="middle_name" class="form-control" placeholder="Middle Name">
                             </div>
-                        </div>
 
-                        <div class="form-group mb-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <label for="address">Address:</label>
-                                <div class="col-10 address">
-                                    <textarea rows="1" name="address" class="form-control" required></textarea>
-                                </div>
+                            <!-- Last Name -->
+                            <div class="col-md-4">
+                                <label>Last Name</label>
+                                <input type="text" name="last_name" class="form-control" placeholder="Last Name"
+                                    required>
                             </div>
-                        </div>
 
-                        <div class="form-group mb-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <label for="contact_number">Contact:</label>
-                                <div class="contact_number col-10">
-                                    <input type="text" name="contact_number" class="form-control" required>
-                                </div>
+                            <!-- Staff ID -->
+                            <div class="col-md-4">
+                                <label>Staff ID</label>
+                                <input type="text" name="staff_id" class="form-control" required>
                             </div>
-                        </div>
 
-                        <div class="form-group mb-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <label for="email">Email:</label>
-                                <div class="email col-10">
-                                    <input type="email" name="email" class="form-control" required>
-                                </div>
+                            <!-- Sex -->
+                            <div class="col-md-4">
+                                <label>Sex</label>
+                                <select name="gender" class="form-control" required>
+                                    <option value="">Select gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
                             </div>
-                        </div>
 
-                        <div class="form-group mb-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <label for="birthdate">Birthdate</label>
-                                <input type="date" name="birthdate" value="" class="form-control" required />
-                                <label for="status">Status:</label>
-                                <select name="status" class="form-control" id="" required>
+                            <!-- Status -->
+                            <div class="col-md-4">
+                                <label>Status</label>
+                                <select name="status" class="form-control" required>
                                     <option value="">Select Status</option>
                                     <option value="Hired">Hired</option>
                                     <option value="Resigned">Resigned</option>
                                 </select>
                             </div>
-                        </div>
 
-                        <div class="form-group mb-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <label for="date_hired">Date Hired:</label>
-                                <div class="form-group">
-                                    <input type="date" name="date_hired" value="" class="form-control"
-                                        required />
-                                </div>
-                                <div class="form-group col-6" id="add_date_resigned_wrapper">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <label for="date_resigned" class="w-75">Date Resigned:</label>
-                                        <input type="date" name="date_resigned" value=""
-                                            class="form-control" />
-                                    </div>
-                                </div>
+                            <!-- Address -->
+                            <div class="col-md-12">
+                                <label>Address</label>
+                                <textarea rows="2" name="address" class="form-control" required></textarea>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <div class="d-flex gap-3 align-items-center col-6">
-                                <label for="designation">Designation:</label>
-                                <select name="designation" class="form-control" id="" required>
+                            <!-- Contact -->
+                            <div class="col-md-4">
+                                <label>Contact</label>
+                                <input type="text" name="contact_number" class="form-control" required>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-4">
+                                <label>Email</label>
+                                <input type="email" name="email" class="form-control" required>
+                            </div>
+
+                            <!-- Birthdate -->
+                            <div class="col-md-4">
+                                <label>Birthdate</label>
+                                <input type="date" name="birthdate" class="form-control" required>
+                            </div>
+
+                            <!-- Date Hired -->
+                            <div class="col-md-4">
+                                <label>Date Hired</label>
+                                <input type="date" name="date_hired" class="form-control" required>
+                            </div>
+
+                            <!-- Date Resigned -->
+                            <div class="col-md-4" id="add_date_resigned_wrapper">
+                                <label>Date Resigned</label>
+                                <input type="date" name="date_resigned" class="form-control">
+                            </div>
+
+                            <!-- Designation -->
+                            <div class="col-md-4">
+                                <label>Designation</label>
+                                <select name="designation" class="form-control" required>
                                     <option value="">Select designation</option>
                                     <option value="Front Desk">Front Desk</option>
                                     <option value="Support Staff">Support Staff</option>
@@ -243,7 +234,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-theme-primary text-light">Save</button>
+                        <button type="submit" class="btn bg-green-secondary text-light">Save</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -270,106 +261,100 @@
                         <i class="fa fa-user-circle text-secondary" style="font-size: 80px"></i>
                     </div>
 
-                    <!-- NAME -->
-                    <div class="form-group mb-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <label>Name:</label>
-                            <div class="col-4">
-                                <input readonly type="text" id="view_first_name" class="form-control">
-                            </div>
-                            <div class="col-3">
-                                <input readonly type="text" id="view_middle_name" class="form-control">
-                            </div>
-                            <div class="col-3">
-                                <input readonly type="text" id="view_last_name" class="form-control">
-                            </div>
+                    <div class="row g-3">
+
+                        <!-- Name -->
+                        <div class="col-md-4">
+                            <label>First Name</label>
+                            <input readonly type="text" id="view_first_name" class="form-control">
                         </div>
-                    </div>
 
-                    <!-- STAFF ID + GENDER -->
-                    <div class="form-group mb-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <label>Staff ID:</label>
-                            <div class="col-6">
-                                <input readonly type="text" id="view_staff_id_field" class="form-control">
-                            </div>
-
-                            <label>Sex:</label>
-                            <div class="col-3">
-                                <select disabled id="view_gender" class="form-control">
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                </select>
-                            </div>
+                        <div class="col-md-4">
+                            <label>Middle Name</label>
+                            <input readonly type="text" id="view_middle_name" class="form-control">
                         </div>
-                    </div>
 
-                    <!-- ADDRESS -->
-                    <div class="form-group mb-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <label>Address:</label>
-                            <div class="col-10">
-                                <textarea readonly id="view_address" class="form-control" rows="1"></textarea>
-                            </div>
+                        <div class="col-md-4">
+                            <label>Last Name</label>
+                            <input readonly type="text" id="view_last_name" class="form-control">
                         </div>
-                    </div>
 
-                    <!-- CONTACT -->
-                    <div class="form-group mb-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <label>Contact:</label>
-                            <div class="col-10">
-                                <input readonly type="text" id="view_contact_number" class="form-control">
-                            </div>
+                        <!-- Staff ID -->
+                        <div class="col-md-4">
+                            <label>Staff ID</label>
+                            <input readonly type="text" id="view_staff_id_field" class="form-control">
                         </div>
-                    </div>
 
-                    <!-- EMAIL -->
-                    <div class="form-group mb-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <label>Email:</label>
-                            <div class="col-10">
-                                <input readonly type="email" id="view_email" class="form-control">
-                            </div>
+                        <!-- Sex -->
+                        <div class="col-md-4">
+                            <label>Sex</label>
+                            <select disabled id="view_gender" class="form-control">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
                         </div>
-                    </div>
 
-                    <!-- BIRTHDATE + STATUS -->
-                    <div class="form-group mb-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <label>Birthdate:</label>
-                            <input readonly type="date" id="view_birthdate" class="form-control">
-                            <label>Age</label>
-                            <input readonly type="number" id="view_age" class="form-control">
-                            <label>Status:</label>
+                        <!-- Status -->
+                        <div class="col-md-4">
+                            <label>Status</label>
                             <select disabled id="view_status" class="form-control">
                                 <option value="Hired">Hired</option>
                                 <option value="Resigned">Resigned</option>
                             </select>
                         </div>
-                    </div>
 
-                    <div class="form-group mb-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <label>Date Hired:</label>
-                            <div class="form-group">
-                                <input readonly type="date" id="view_date_hired" class="form-control">
-                            </div>
-                            <div class="col-6 d-flex align-items-center gap-2">
-                                <label class="w-75">Date Resigned:</label>
-                                <input readonly type="date" id="view_date_resigned" class="form-control">
-                            </div>
+                        <!-- Address -->
+                        <div class="col-md-12">
+                            <label>Address</label>
+                            <textarea readonly id="view_address" class="form-control" rows="2"></textarea>
                         </div>
-                    </div>
 
-                    <!-- DESIGNATION -->
-                    <div class="form-group mb-3">
-                        <div class="d-flex align-items-center gap-2 flex-nowrap">
-                            <label class="mb-0">Service Duration:</label>
-                            <input readonly type="text" id="view_service_duration" class="form-control w-auto"
-                                style="min-width: 150px;">
-                            <label class="mb-0">Designation:</label>
-                            <select disabled id="view_designation" class="form-control w-auto" style="min-width: 180px;">
+                        <!-- Contact -->
+                        <div class="col-md-4">
+                            <label>Contact</label>
+                            <input readonly type="text" id="view_contact_number" class="form-control">
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-md-4">
+                            <label>Email</label>
+                            <input readonly type="email" id="view_email" class="form-control">
+                        </div>
+
+                        <!-- Birthdate -->
+                        <div class="col-md-4">
+                            <label>Birthdate</label>
+                            <input readonly type="date" id="view_birthdate" class="form-control">
+                        </div>
+
+                        <!-- Age -->
+                        <div class="col-md-4">
+                            <label>Age</label>
+                            <input readonly type="number" id="view_age" class="form-control">
+                        </div>
+
+                        <!-- Date Hired -->
+                        <div class="col-md-4">
+                            <label>Date Hired</label>
+                            <input readonly type="date" id="view_date_hired" class="form-control">
+                        </div>
+
+                        <!-- Date Resigned -->
+                        <div class="col-md-4">
+                            <label>Date Resigned</label>
+                            <input readonly type="date" id="view_date_resigned" class="form-control">
+                        </div>
+
+                        <!-- Service Duration -->
+                        <div class="col-md-4">
+                            <label>Service Duration</label>
+                            <input readonly type="text" id="view_service_duration" class="form-control">
+                        </div>
+
+                        <!-- Designation -->
+                        <div class="col-md-4">
+                            <label>Designation</label>
+                            <select disabled id="view_designation" class="form-control">
                                 <option value="Front Desk">Front Desk</option>
                                 <option value="Support Staff">Support Staff</option>
                                 <option value="Maintenance">Maintenance</option>
@@ -407,111 +392,95 @@
                             <i class="fa fa-user-circle text-secondary" style="font-size: 80px"></i>
                         </div>
 
-                        <!-- NAME -->
-                        <div class="form-group mb-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <label>Name:</label>
-                                <div class="col-4">
-                                    <input type="text" name="first_name" id="edit_first_name" class="form-control"
-                                        required>
-                                </div>
-                                <div class="col-3">
-                                    <input type="text" name="middle_name" id="edit_middle_name" class="form-control">
-                                </div>
-                                <div class="col-3">
-                                    <input type="text" name="last_name" id="edit_last_name" class="form-control"
-                                        required>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="row g-3">
 
-                        <!-- STAFF ID + GENDER -->
-                        <div class="form-group mb-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <label>Staff ID:</label>
-                                <div class="col-6">
-                                    <input type="text" name="staff_id" id="edit_staff_id_field" class="form-control"
-                                        required>
-                                </div>
-
-                                <label>Sex:</label>
-                                <div class="col-3">
-                                    <select name="gender" id="edit_gender" class="form-control" required>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- ADDRESS -->
-                        <div class="form-group mb-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <label>Address:</label>
-                                <div class="col-10">
-                                    <textarea name="address" id="edit_address" class="form-control" rows="1" required></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CONTACT -->
-                        <div class="form-group mb-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <label>Contact:</label>
-                                <div class="col-10">
-                                    <input type="text" name="contact_number" id="edit_contact_number"
-                                        class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- EMAIL -->
-                        <div class="form-group mb-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <label>Email:</label>
-                                <div class="col-10">
-                                    <input type="email" name="email" id="edit_email" class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- BIRTHDATE + STATUS -->
-                        <div class="form-group mb-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <label>Birthdate:</label>
-                                <input type="date" name="birthdate" id="edit_birthdate" class="form-control"
+                            <!-- First Name -->
+                            <div class="col-md-4">
+                                <label>First Name</label>
+                                <input type="text" name="first_name" id="edit_first_name" class="form-control"
                                     required>
+                            </div>
 
-                                <label>Status:</label>
+                            <!-- Middle Name -->
+                            <div class="col-md-4">
+                                <label>Middle Name</label>
+                                <input type="text" name="middle_name" id="edit_middle_name" class="form-control">
+                            </div>
+
+                            <!-- Last Name -->
+                            <div class="col-md-4">
+                                <label>Last Name</label>
+                                <input type="text" name="last_name" id="edit_last_name" class="form-control"
+                                    required>
+                            </div>
+
+                            <!-- Staff ID -->
+                            <div class="col-md-4">
+                                <label>Staff ID</label>
+                                <input type="text" name="staff_id" id="edit_staff_id_field" class="form-control"
+                                    required>
+                            </div>
+
+                            <!-- Sex -->
+                            <div class="col-md-4">
+                                <label>Sex</label>
+                                <select name="gender" id="edit_gender" class="form-control" required>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+
+                            <!-- Status -->
+                            <div class="col-md-4">
+                                <label>Status</label>
                                 <select name="status" id="edit_status" class="form-control" required>
                                     <option value="Hired">Hired</option>
                                     <option value="Resigned">Resigned</option>
                                 </select>
                             </div>
-                        </div>
 
-                        <!-- DATES -->
-                        <div class="form-group mb-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <label for="date_hired">Date Hired:</label>
-                                <div class="form-group">
-                                    <input type="date" name="date_hired" id="edit_date_hired" value=""
-                                        class="form-control" required />
-                                </div>
-                                <div class="form-group col-6" id="edit_date_resigned_wrapper">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <label for="date_resigned" class="w-75">Date Resigned:</label>
-                                        <input type="date" name="date_resigned" id="edit_date_resigned"
-                                            value="" class="form-control" />
-                                    </div>
-                                </div>
+                            <!-- Address -->
+                            <div class="col-md-12">
+                                <label>Address</label>
+                                <textarea name="address" id="edit_address" class="form-control" rows="2" required></textarea>
                             </div>
-                        </div>
 
-                        <!-- DESIGNATION -->
-                        <div class="form-group">
-                            <div class="d-flex align-items-center gap-3 col-6">
-                                <label>Designation:</label>
+                            <!-- Contact -->
+                            <div class="col-md-4">
+                                <label>Contact</label>
+                                <input type="text" name="contact_number" id="edit_contact_number"
+                                    class="form-control" required>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-4">
+                                <label>Email</label>
+                                <input type="email" name="email" id="edit_email" class="form-control" required>
+                            </div>
+
+                            <!-- Birthdate -->
+                            <div class="col-md-4">
+                                <label>Birthdate</label>
+                                <input type="date" name="birthdate" id="edit_birthdate" class="form-control"
+                                    required>
+                            </div>
+
+                            <!-- Date Hired -->
+                            <div class="col-md-4">
+                                <label>Date Hired</label>
+                                <input type="date" name="date_hired" id="edit_date_hired" class="form-control"
+                                    required>
+                            </div>
+
+                            <!-- Date Resigned -->
+                            <div class="col-md-4" id="edit_date_resigned_wrapper">
+                                <label>Date Resigned</label>
+                                <input type="date" name="date_resigned" id="edit_date_resigned" class="form-control">
+                            </div>
+
+                            <!-- Designation -->
+                            <div class="col-md-4">
+                                <label>Designation</label>
                                 <select name="designation" id="edit_designation" class="form-control" required>
                                     <option value="Front Desk">Front Desk</option>
                                     <option value="Support Staff">Support Staff</option>
@@ -520,11 +489,12 @@
                                     <option value="Event Coordinator">Event Coordinator</option>
                                 </select>
                             </div>
+
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-theme-primary text-light">Update</button>
+                        <button type="submit" class="btn bg-green-secondary text-light">Update</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>

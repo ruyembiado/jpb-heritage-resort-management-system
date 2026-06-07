@@ -313,7 +313,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-theme-primary text-light">Save</button>
+                        <button type="submit" class="btn bg-green-secondary text-light">Save</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -452,7 +452,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-theme-primary text-light">Update</button>
+                        <button type="submit" class="btn bg-green-secondary text-light">Update</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>

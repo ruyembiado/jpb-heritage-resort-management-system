@@ -52,7 +52,7 @@
                 </form>
             </div>
             <div class="d-flex gap-2">
-                <a href="{{ url('meals') }}" class="btn btn-success d-flex align-items-center gap-2">
+                <a href="{{ url('meals') }}" class="btn bg-green-tertiary text-light d-flex align-items-center gap-2">
                     <i class="fa-solid fa-bowl-food"></i>
                     Foods
                 </a>
@@ -102,7 +102,6 @@
                                         $itemQty = $quantity[$index] ?? 0;
 
                                         if (!isset($groupedItems[$item])) {
-                                            // Initialize both types
                                             $groupedItems[$item] = [
                                                 'solo_fee' => 0,
                                                 'group_fee' => 0,
@@ -111,7 +110,6 @@
                                             ];
                                         }
 
-                                        // Assign fee if not already set for that type
                                         if ($currentType === 'solo') {
                                             if ($groupedItems[$item]['solo_fee'] == 0) {
                                                 $groupedItems[$item]['solo_fee'] = $itemFee;
@@ -126,21 +124,23 @@
                                             $groupedItems[$item]['group_qty'] += $itemQty;
                                         }
                                     }
+                                    $groupedItems = array_filter($groupedItems, function ($item) {
+                                        return $item['solo_qty'] + $item['group_qty'] > 0;
+                                    });
                                 @endphp
 
                                 <td class="p-0">
-                                    <table class="table table-bordered m-0" cellspacing="0"
-                                        style="width: 100%;">
+                                    <table class="table table-bordered m-0" cellspacing="0" style="width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th class="align-middle text-center bg-green-secondary text-light" rowspan="2"
-                                                    style="padding:5px;">Item</th>
-                                                <th class="align-middle text-center bg-green-secondary text-light" colspan="2"
-                                                    style="padding:5px;">Price</th>
-                                                <th class="align-middle text-center bg-green-secondary text-light" colspan="2"
-                                                    style="padding:5px;">Qty</th>
-                                                <th class="align-middle text-center bg-green-secondary text-light" rowspan="2"
-                                                    style="padding:5px;">Subtotal</th>
+                                                <th class="align-middle text-center bg-green-secondary text-light"
+                                                    rowspan="2" style="padding:5px;">Item</th>
+                                                <th class="align-middle text-center bg-green-secondary text-light"
+                                                    colspan="2" style="padding:5px;">Price</th>
+                                                <th class="align-middle text-center bg-green-secondary text-light"
+                                                    colspan="2" style="padding:5px;">Qty</th>
+                                                <th class="align-middle text-center bg-green-secondary text-light"
+                                                    rowspan="2" style="padding:5px;">Subtotal</th>
                                             </tr>
                                             <tr>
                                                 <th class="align-middle text-center bg-green-tertiary text-light"
@@ -155,6 +155,9 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($groupedItems as $name => $data)
+                                                @if ($data['solo_qty'] + $data['group_qty'] == 0)
+                                                    @continue
+                                                @endif
                                                 @php
                                                     $subtotal =
                                                         $data['solo_fee'] * $data['solo_qty'] +
@@ -263,13 +266,18 @@
                                     <table class="table table-bordered">
                                         <thead class="text-light">
                                             <tr>
-                                                <th rowspan="2" class="align-middle text-center bg-green-secondary text-light">
+                                                <th rowspan="2"
+                                                    class="align-middle text-center bg-green-secondary text-light">
                                                     CATEGORY</th>
                                                 <th rowspan="2" width="25%"
-                                                    class="align-middle text-center bg-green-secondary text-light">MENU</th>
-                                                <th colspan="2" class="text-center bg-green-secondary text-light">PRICE</th>
-                                                <th colspan="2" class="text-center bg-green-secondary text-light">QUANTITY</th>
-                                                <th rowspan="2" class="align-middle text-center bg-green-secondary text-light">
+                                                    class="align-middle text-center bg-green-secondary text-light">MENU
+                                                </th>
+                                                <th colspan="2" class="text-center bg-green-secondary text-light">PRICE
+                                                </th>
+                                                <th colspan="2" class="text-center bg-green-secondary text-light">
+                                                    QUANTITY</th>
+                                                <th rowspan="2"
+                                                    class="align-middle text-center bg-green-secondary text-light">
                                                     SUB TOTAL</th>
                                             </tr>
                                             <tr>
@@ -306,8 +314,7 @@
                                                             <input type="hidden"
                                                                 name="meal_items[{{ $mealIndex }}][category]"
                                                                 value="{{ $category }}">
-                                                            <input type="text" class="form-control"
-                                                                value="{{ $name }}" readonly>
+                                                            <textarea class="form-control text-center" cols="30" rows="1" readonly>{{ $name }}</textarea>
                                                         </td>
 
                                                         <!-- PRICE -->
@@ -397,10 +404,14 @@
                                         <thead class="text-light">
                                             <tr>
                                                 <th rowspan="2" width="30%"
-                                                    class="align-middle text-center bg-green-secondary text-light">DRINK</th>
-                                                <th colspan="2" class="text-center bg-green-secondary text-light">PRICE</th>
-                                                <th colspan="2" class="text-center bg-green-secondary text-light">QUANTITY</th>
-                                                <th rowspan="2" class="align-middletext-center bg-green-secondary text-light">
+                                                    class="align-middle text-center bg-green-secondary text-light">DRINK
+                                                </th>
+                                                <th colspan="2" class="text-center bg-green-secondary text-light">PRICE
+                                                </th>
+                                                <th colspan="2" class="text-center bg-green-secondary text-light">
+                                                    QUANTITY</th>
+                                                <th rowspan="2"
+                                                    class="align-middletext-center bg-green-secondary text-light">
                                                     SUB TOTAL</th>
                                             </tr>
                                             <tr>
@@ -424,8 +435,7 @@
                                                         <input type="hidden"
                                                             name="drink_items[{{ $drinkIndex }}][name]"
                                                             value="{{ $name }}">
-                                                        <input type="text" class="form-control"
-                                                            value="{{ $name }}" readonly>
+                                                        <textarea class="form-control text-center" cols="30" rows="1" readonly>{{ $name }}</textarea>
                                                     </td>
 
                                                     <!-- PRICE -->
@@ -498,7 +508,7 @@
                         <input type="hidden" name="grand_total" id="grand_total" value="0.00">
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-theme-primary text-light">Save</button>
+                        <button type="submit" class="btn bg-green-secondary text-light">Save</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -509,7 +519,7 @@
     <!-- Edit Meals Modal -->
     <div class="modal fade" id="editMealsModal" tabindex="-1" role="dialog" aria-labelledby="editMealsModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <form action="{{ route('meal.update') }}" method="POST">
                 @csrf
                 @method('PUT')
@@ -546,12 +556,18 @@
                                     <table class="table table-bordered">
                                         <thead class="text-light">
                                             <tr>
-                                                <th rowspan="2" class="text-center bg-green-secondary text-light align-middle">Category</th>
+                                                <th rowspan="2"
+                                                    class="text-center bg-green-secondary text-light align-middle">Category
+                                                </th>
                                                 <th rowspan="2" width="30%"
-                                                    class="text-center bg-green-secondary text-light align-middle">ITEM</th>
-                                                <th colspan="2" class="text-center bg-green-secondary text-light">PRICE</th>
-                                                <th colspan="2" class="text-center bg-green-secondary text-light">QUANTITY</th>
-                                                <th rowspan="2" class="text-center bg-green-secondary text-light align-middle">
+                                                    class="text-center bg-green-secondary text-light align-middle">ITEM
+                                                </th>
+                                                <th colspan="2" class="text-center bg-green-secondary text-light">PRICE
+                                                </th>
+                                                <th colspan="2" class="text-center bg-green-secondary text-light">
+                                                    QUANTITY</th>
+                                                <th rowspan="2"
+                                                    class="text-center bg-green-secondary text-light align-middle">
                                                     SUBTOTAL</th>
                                             </tr>
                                             <tr>
@@ -671,7 +687,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-theme-primary text-light">Update</button>
+                        <button type="submit" class="btn bg-green-secondary text-light">Update</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>

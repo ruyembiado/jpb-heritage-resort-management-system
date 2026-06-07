@@ -21,7 +21,7 @@
                         <img src="{{ asset('public/img/jbp-icon.jpg') }}" class="img-fluid" width="20%" alt="jpb-logo">
                         <h1 class="text-light home-title m-0 text-uppercase mt-4">JPB Oasis: Heritage Inland Resort</h1>
                     </div>
-                    <div class="d-flex flex-column gap-5 mt-5">
+                    <div class="d-flex flex-column gap-5 mt-3">
                         <div class="home-description text-center text-light">
                             <span>Management Information System for JPB Inland Resort</span><br>
                             <span>Progreso Street Illauod, Bugasong, Antique</span>

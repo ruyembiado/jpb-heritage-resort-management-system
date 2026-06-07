@@ -128,8 +128,8 @@
                                                 ($visitor->beverage->total_payment ?? 0);
                                         @endphp
                                         <tr class="bg-dark text-light">
-                                            <td style="border-width: 0px"></td>
-                                            <td style="border-width: 0px" class="fw-semibold text-center">
+                                            <td class="fw-bold" style="border-width: 0px">TOTAL BILL</td>
+                                            <td class="fw-bold text-center" style="border-width: 0px">
                                                 ₱{{ number_format($grand_total, 2) }}</td>
                                         </tr>
                                     </tbody>

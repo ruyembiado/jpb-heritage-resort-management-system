@@ -13,7 +13,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center mb-4 bg-theme-primary p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 bg-theme-primary p-4" id="report-filter">
                 <form method="GET" action="{{ route('monthly.report') }}" class="d-print-none col-md-3">
                     <div class="row g-2 align-items-center">
                         <div class="d-flex flex-column col-md-6">
@@ -49,7 +49,7 @@
                     <button onclick="printReport()" class="btn btn-sm btn-secondary d-print-none text-light">
                         <i class="fas fa-print"></i> Print Report
                     </button>
-                    <button onclick="exportExcel()" class="btn btn-sm btn-success d-print-none">
+                    <button onclick="exportExcel()" class="btn btn-sm bg-green-tertiary text-light d-print-none">
                         <i class="fas fa-file-excel"></i> Export Excel
                     </button>
                 </div>
