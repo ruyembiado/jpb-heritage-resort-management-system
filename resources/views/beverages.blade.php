@@ -38,13 +38,13 @@
                         <!-- A-Z Filter -->
                         <div class="d-flex flex-wrap gap-1 mb-3">
                             <a href="{{ request()->fullUrlWithQuery(['letter' => null]) }}"
-                                class="btn btn-sm rounded-circle {{ request('letter') ? 'btn-dark' : 'btn-success' }}">
+                                class="btn btn-sm rounded-circle {{ request('letter') ? 'btn-dark' : 'bg-green-tertiary text-light' }}">
                                 All
                             </a>
                             @foreach (range('A', 'Z') as $letter)
                                 <a href="{{ request()->fullUrlWithQuery(['letter' => $letter]) }}"
                                     class="btn btn-sm rounded-circle 
-                                    {{ request('letter') == $letter ? 'btn-success' : 'btn-dark' }}"
+                                    {{ request('letter') == $letter ? 'bg-green-tertiary text-light' : 'btn-dark' }}"
                                     style="width:32px;height:32px;line-height:22px;">
                                     {{ $letter }}
                                 </a>
