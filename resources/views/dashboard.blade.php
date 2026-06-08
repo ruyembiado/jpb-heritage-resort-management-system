@@ -16,7 +16,7 @@
                     <div class="card-body">
                         <div class="row align-items-center justify-content-between flex-column gap-3">
                             <div class="d-flex flex-column text-center">
-                                <b class="fs-2 font-weight-bold text-light text-uppercase">
+                                <b class="fs-4 font-weight-bold text-light text-uppercase">
                                     Total Guest
                                 </b>
                                 <span class="text-center text-light">({{ date('Y') }})</span>
@@ -36,7 +36,7 @@
                 <div class="card-body">
                     <div class="row align-items-center justify-content-between flex-column gap-3">
                         <div class="d-flex flex-column text-center">
-                            <b class="fs-2 font-weight-bold text-light text-uppercase">
+                            <b class="fs-4 font-weight-bold text-light text-uppercase">
                                 Total Bill
                             </b>
                             <span class="text-center text-light">({{ date('Y') }})</span>
@@ -56,7 +56,7 @@
                     <div class="card-body">
                         <div class="row align-items-center justify-content-between flex-column gap-3">
                             <div class="d-flex flex-column text-center">
-                                <b class="fs-2 font-weight-bold text-light text-uppercase">
+                                <b class="fs-4 font-weight-bold text-light text-uppercase">
                                     Unpaid Bills
                                 </b>
                                 <span class="text-center text-light">(Incomplete)</span>
@@ -78,7 +78,7 @@
                     <div class="card-body">
                         <div class="row align-items-center justify-content-between flex-column gap-3">
                             <div class="d-flex flex-column text-center">
-                                <b class="fs-2 font-weight-bold text-light text-uppercase">
+                                <b class="fs-4 font-weight-bold text-light text-uppercase">
                                     Paid Bills
                                 </b>
                                 <span class="text-center text-light">(Complete)</span>
