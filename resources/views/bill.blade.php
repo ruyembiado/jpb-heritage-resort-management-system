@@ -239,6 +239,15 @@
                                                         </tr>
                                                     @endif
                                                 @endforeach
+                                                @php
+                                                    $grand_total =
+                                                        ($visitor->entrance->total_payment ?? 0) +
+                                                        ($visitor->accommodation->total_payment ?? 0) +
+                                                        ($visitor->functionHall->total_payment ?? 0) +
+                                                        ($visitor->cottage->total_payment ?? 0) +
+                                                        ($visitor->meal->total_payment ?? 0) +
+                                                        ($visitor->beverage->total_payment ?? 0);
+                                                @endphp
                                                 <tr class="bg-dark text-light">
                                                     <td class="fw-bold" style="border-width: 0px">TOTAL BILL</td>
                                                     <td class="border-0"></td>
