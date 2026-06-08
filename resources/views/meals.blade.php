@@ -559,7 +559,7 @@
                                                 <th rowspan="2"
                                                     class="text-center bg-green-secondary text-light align-middle">Category
                                                 </th>
-                                                <th rowspan="2" width="30%"
+                                                <th rowspan="2" width="25%"
                                                     class="text-center bg-green-secondary text-light align-middle">ITEM
                                                 </th>
                                                 <th colspan="2" class="text-center bg-green-secondary text-light">PRICE
