@@ -70,7 +70,7 @@
 
             @yield('content')
 
-            <footer class="footer py-2 shadow text-center bg-black text-light">
+            <footer class="footer py-2 shadow text-center bg-theme-dark text-light">
                 <div class="m-auto">
                     <div class="">© {{ date('Y') }}. Developed by IS-FLUTTERTECH INFINITY. All Rights Reserved.</div>
                 </div>
