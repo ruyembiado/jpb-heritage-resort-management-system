@@ -99,12 +99,12 @@
                                 </td>
                                 @php
                                     $statuses = [
-                                        optional($visitor->entrance)->payment_status,
-                                        optional($visitor->functionHall)->payment_status,
-                                        optional($visitor->cottage)->payment_status,
-                                        optional($visitor->meal)->payment_status,
-                                        optional($visitor->beverage)->payment_status,
-                                        optional($visitor->accommodation)->payment_status,
+                                        optional($visitor->entrance)->status,
+                                        optional($visitor->status)->status,
+                                        optional($visitor->cottage)->status,
+                                        optional($visitor->meal)->status,
+                                        optional($visitor->beverage)->status,
+                                        optional($visitor->accommodation)->status,
                                     ];
                                     $filtered = array_filter($statuses);
                                     $finalStatus = 'Paid';
@@ -191,63 +191,57 @@
                                                         AVAILED SERVICES</th>
                                                     <th style="border-width: 0px"
                                                         class="text-center bg-green-tertiary text-light">
+                                                        FEE STATUS</th>
+                                                    <th style="border-width: 0px"
+                                                        class="text-center bg-green-tertiary text-light">
                                                         AMOUNT
                                                         FEE</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @if ($visitor->entrance)
-                                                    <tr>
-                                                        <td style="border-width: 0px">Entrance Fee</td>
-                                                        <td style="border-width: 0px" class="text-center">
-                                                            ₱{{ number_format($visitor->entrance->total_payment, 2) }}
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                                @if ($visitor->cottage)
-                                                    <tr>
-                                                        <td style="border-width: 0px">Cottage Fee</td>
-                                                        <td style="border-width: 0px" class="text-center">
-                                                            ₱{{ number_format($visitor->cottage->total_payment, 2) }}
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                                @if ($visitor->accommodation)
-                                                    <tr>
-                                                        <td style="border-width: 0px">Room Accommodation
-                                                        </td>
-                                                        <td style="border-width: 0px" class="text-center">
-                                                            ₱{{ number_format($visitor->accommodation->total_payment, 2) }}
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                                @if ($visitor->functionHall)
-                                                    <tr>
-                                                        <td style="border-width: 0px">Function Hall
-                                                        </td>
-                                                        <td style="border-width: 0px" class="text-center">
-                                                            ₱{{ number_format($visitor->functionHall->total_payment, 2) }}
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                                @if ($visitor->meal)
-                                                    <tr>
-                                                        <td style="border-width: 0px">Foods</td>
-                                                        <td style="border-width: 0px" class="text-center">
-                                                            ₱{{ number_format($visitor->meal->total_payment, 2) }}
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                                @if ($visitor->beverage)
-                                                    <tr>
-                                                        <td style="border-width: 0px">Drinks</td>
-                                                        <td style="border-width: 0px" class="text-center">
-                                                            ₱{{ number_format($visitor->beverage->total_payment, 2) }}
-                                                        </td>
-                                                    </tr>
-                                                @endif
+                                                @php
+                                                    $services = [
+                                                        'entrance' => 'Entrance Fee',
+                                                        'cottage' => 'Cottage Fee',
+                                                        'accommodation' => 'Room Accommodation',
+                                                        'functionHall' => 'Function Hall',
+                                                        'meal' => 'Foods',
+                                                        'beverage' => 'Drinks',
+                                                    ];
+                                                    $modal_total = 0;
+                                                @endphp
+                                                @foreach ($services as $key => $label)
+                                                    @if ($visitor->$key)
+                                                        @php $modal_total += $visitor->$key->total_payment; @endphp
+
+                                                        @php
+                                                            $status =
+                                                                $visitor->$key->payment_status ??
+                                                                ($visitor->$key->status ?? 'Unpaid');
+                                                        @endphp
+
+                                                        <tr>
+                                                            <td style="border-width: 0px"
+                                                                class="{{ $status == 'Unpaid' ? 'text-danger' : 'text-dark' }}">
+                                                                {{ $label }}
+                                                            </td>
+
+                                                            <td style="border-width: 0px" class="text-center">
+                                                                <span
+                                                                    class="badge {{ $status == 'Unpaid' ? 'bg-danger' : 'bg-success' }}">
+                                                                    {{ $status }}
+                                                                </span>
+                                                            </td>
+
+                                                            <td style="border-width: 0px" class="text-center">
+                                                                ₱{{ number_format($visitor->$key->total_payment, 2) }}
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
                                                 <tr class="bg-dark text-light">
                                                     <td class="fw-bold" style="border-width: 0px">TOTAL BILL</td>
+                                                    <td class="border-0"></td>
                                                     <td class="fw-bold text-center" style="border-width: 0px">
                                                         ₱{{ number_format($grand_total, 2) }}</td>
                                                 </tr>
