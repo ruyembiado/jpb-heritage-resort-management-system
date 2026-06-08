@@ -448,9 +448,9 @@ table input {
     text-align: center;
 }
 
-table td {
+/* table td {
     vertical-align: middle !important;
-}
+} */
 
 .fc .fc-daygrid-day-top {
     justify-content: center;

@@ -149,15 +149,15 @@
                                             {{ \Carbon\Carbon::parse($entrance->visitor->created_at)->format('h:i A') }}
                                         </td>
                                     </tr>
-                                    @php
-                                        $totalVisitors = $entrances->sum(fn($e) => ($e->visitor->members ?? 0) + 1);
-                                    @endphp
-                                    <tr class="bg-light">
-                                        <td colspan="4" class="text-center fw-bold">GRAND TOTAL</td>
-                                        <td class="text-center fw-bold">{{ $totalVisitors }}</td>
-                                        <td colspan="4"></td>
-                                    </tr>
                                 @endforeach
+                                @php
+                                    $totalVisitors = $entrances->sum(fn($e) => ($e->visitor->members ?? 0) + 1);
+                                @endphp
+                                <tr class="bg-light">
+                                    <td colspan="4" class="text-center fw-bold">GRAND TOTAL</td>
+                                    <td class="text-center fw-bold">{{ $totalVisitors }}</td>
+                                    <td colspan="4"></td>
+                                </tr>
                             @endif
                         </tbody>
                     </table>

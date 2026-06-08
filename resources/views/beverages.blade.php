@@ -327,14 +327,14 @@
                                                         @endif
 
                                                         <!-- MENU -->
-                                                        <td>
+                                                        <td class="align-middle text-center">
                                                             <input type="hidden"
                                                                 name="meal_items[{{ $mealIndex }}][name]"
                                                                 value="{{ $name }}">
                                                             <input type="hidden"
                                                                 name="meal_items[{{ $mealIndex }}][category]"
                                                                 value="{{ $category }}">
-                                                            <textarea class="form-control text-center" cols="30" rows="1" readonly>{{ $name }}</textarea>
+                                                            {{ $name }}
                                                         </td>
 
                                                         <!-- PRICE -->
@@ -452,11 +452,11 @@
 
                                                 <tr>
                                                     <!-- NAME -->
-                                                    <td>
+                                                    <td class="align-middle text-center">
                                                         <input type="hidden"
                                                             name="drink_items[{{ $drinkIndex }}][name]"
                                                             value="{{ $name }}">
-                                                        <textarea class="form-control text-center" cols="30" rows="1" readonly>{{ $name }}</textarea>
+                                                        {{ $name }}
                                                     </td>
 
                                                     <!-- PRICE -->
@@ -615,12 +615,11 @@
 
                                                 <tr>
                                                     <!-- NAME -->
-                                                    <td>
+                                                    <td class="align-middle text-center">
                                                         <input type="hidden"
                                                             name="drink_items[{{ $drinkIndex }}][name]"
                                                             value="{{ $name }}">
-                                                        <input type="text" class="form-control"
-                                                            value="{{ $name }}" readonly>
+                                                        {{ $name }}
                                                     </td>
 
                                                     <!-- PRICE -->
