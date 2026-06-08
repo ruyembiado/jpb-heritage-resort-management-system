@@ -588,6 +588,7 @@
                                             @endphp
 
                                             @foreach ($grouped as $category => $menus)
+                                                @php $rowspan = count($menus); @endphp
                                                 @foreach ($menus as $name => $types)
                                                     @php
                                                         $solo = $types->firstWhere('food_type', 'solo');
