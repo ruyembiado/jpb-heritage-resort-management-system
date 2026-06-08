@@ -60,10 +60,10 @@ class AuthController extends Controller
         $startOfYear = Carbon::now()->startOfYear();
         // $currentYear = Carbon::now()->year;
 
-        $visitorsToday = Visitor::whereDate('created_at', $today)->count();
-        $visitorsThisWeek = Visitor::where('created_at', '>=', $startOfWeek)->count();
-        $visitorsThisMonth = Visitor::where('created_at', '>=', $startOfMonth)->count();
-        $visitorsThisYear = Visitor::where('created_at', '>=', $startOfYear)->count();
+        $visitorsToday = Visitor::whereDate('created_at', $today)->sum(DB::raw('1 + members'));
+        $visitorsThisWeek = Visitor::where('created_at', '>=', $startOfWeek)->sum(DB::raw('1 + members'));
+        $visitorsThisMonth = Visitor::where('created_at', '>=', $startOfMonth)->sum(DB::raw('1 + members'));
+        $visitorsThisYear = Visitor::where('created_at', '>=', $startOfYear)->sum(DB::raw('1 + members'));
 
         // Visitors table
         $visitorsMonth = Visitor::orderBy('created_at', 'desc')
