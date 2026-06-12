@@ -71,7 +71,7 @@
                 <li class="sidebar-item">
                     <a href="{{ url('/report') }}" class="sidebar-link {{ Request::is('report*') ? 'active' : '' }}">
                         <i class="fa fa-money-bill"></i>
-                        <span>Bill Income</span>
+                        <span>Income</span>
                     </a>
                 </li>
                 <li class="sidebar-item">

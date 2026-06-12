@@ -37,7 +37,7 @@
                     <div class="row align-items-center justify-content-between flex-column gap-3">
                         <div class="d-flex flex-column text-center">
                             <b class="fs-4 font-weight-bold text-light text-uppercase">
-                                Total Bill
+                                Total Income
                             </b>
                             <span class="text-center text-light">({{ date('Y') }})</span>
                         </div>
@@ -1561,7 +1561,7 @@
             data: {
                 labels: {!! json_encode($months) !!},
                 datasets: [{
-                    label: 'Total Bills (₱)',
+                    label: 'Total Income (₱)',
                     data: {!! json_encode($billsPerMonth) !!},
                     backgroundColor: '#084d00',
                     borderRadius: 4,
