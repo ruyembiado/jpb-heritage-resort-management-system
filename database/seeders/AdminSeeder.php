@@ -14,15 +14,17 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
-            'name' => 'JPB HERITAGE ADMIN',
-            'username' => 'admin',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('admin'), 
-            'usertype' => 'admin',
-            'email_verified_at' => now(),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        DB::table('users')->updateOrInsert(
+            ['email' => 'admin@gmail.com'],
+            [
+                'name' => 'JPB HERITAGE ADMIN',
+                'username' => 'admin',
+                'password' => Hash::make('admin'),
+                'usertype' => 'admin',
+                'email_verified_at' => now(),
+                'updated_at' => now(),
+                'created_at' => now(),
+            ]
+        );
     }
 }
